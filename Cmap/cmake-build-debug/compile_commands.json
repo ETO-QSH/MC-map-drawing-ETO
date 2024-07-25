@@ -1,0 +1,32 @@
+[
+{
+  "directory": "D:/Desktop/Desktop/KDTree-2.0.1/cmake-build-debug",
+  "command": "\"D:\\Program Files\\CLion 2024.1.4\\bin\\mingw\\bin\\g++.exe\" -DKDTree_EXPORTS -ID:/Desktop/Desktop/KDTree-2.0.1/. -Wall -Wextra -Werror -std=c++17 -g -fdiagnostics-color=always -o CMakeFiles\\KDTree.dir\\KDTree.cpp.obj -c D:\\Desktop\\Desktop\\KDTree-2.0.1\\KDTree.cpp",
+  "file": "D:\\Desktop\\Desktop\\KDTree-2.0.1\\KDTree.cpp",
+  "output": "CMakeFiles\\KDTree.dir\\KDTree.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Desktop/KDTree-2.0.1/cmake-build-debug",
+  "command": "\"D:\\Program Files\\CLion 2024.1.4\\bin\\mingw\\bin\\g++.exe\" -ID:/Desktop/Desktop/KDTree-2.0.1/. -Wall -Wextra -Werror -std=c++17 -g -fdiagnostics-color=always -o tests\\CMakeFiles\\construction_time.dir\\construction_time.cpp.obj -c D:\\Desktop\\Desktop\\KDTree-2.0.1\\tests\\construction_time.cpp",
+  "file": "D:\\Desktop\\Desktop\\KDTree-2.0.1\\tests\\construction_time.cpp",
+  "output": "tests\\CMakeFiles\\construction_time.dir\\construction_time.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Desktop/KDTree-2.0.1/cmake-build-debug",
+  "command": "\"D:\\Program Files\\CLion 2024.1.4\\bin\\mingw\\bin\\g++.exe\" -ID:/Desktop/Desktop/KDTree-2.0.1/. -Wall -Wextra -Werror -std=c++17 -g -fdiagnostics-color=always -o tests\\CMakeFiles\\error_test.dir\\error_test.cpp.obj -c D:\\Desktop\\Desktop\\KDTree-2.0.1\\tests\\error_test.cpp",
+  "file": "D:\\Desktop\\Desktop\\KDTree-2.0.1\\tests\\error_test.cpp",
+  "output": "tests\\CMakeFiles\\error_test.dir\\error_test.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Desktop/KDTree-2.0.1/cmake-build-debug",
+  "command": "\"D:\\Program Files\\CLion 2024.1.4\\bin\\mingw\\bin\\g++.exe\" -ID:/Desktop/Desktop/KDTree-2.0.1/. -Wall -Wextra -Werror -std=c++17 -g -fdiagnostics-color=always -o tests\\CMakeFiles\\knn_error_test.dir\\knn_error_test.cpp.obj -c D:\\Desktop\\Desktop\\KDTree-2.0.1\\tests\\knn_error_test.cpp",
+  "file": "D:\\Desktop\\Desktop\\KDTree-2.0.1\\tests\\knn_error_test.cpp",
+  "output": "tests\\CMakeFiles\\knn_error_test.dir\\knn_error_test.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Desktop/KDTree-2.0.1/cmake-build-debug",
+  "command": "\"D:\\Program Files\\CLion 2024.1.4\\bin\\mingw\\bin\\g++.exe\" -ID:/Desktop/Desktop/KDTree-2.0.1/. -Wall -Wextra -Werror -std=c++17 -g -fdiagnostics-color=always -o tests\\CMakeFiles\\toy_test.dir\\toy_test.cpp.obj -c D:\\Desktop\\Desktop\\KDTree-2.0.1\\tests\\toy_test.cpp",
+  "file": "D:\\Desktop\\Desktop\\KDTree-2.0.1\\tests\\toy_test.cpp",
+  "output": "tests\\CMakeFiles\\toy_test.dir\\toy_test.cpp.obj"
+}
+]
