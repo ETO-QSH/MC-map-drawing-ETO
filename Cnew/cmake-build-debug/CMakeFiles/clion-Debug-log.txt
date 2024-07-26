@@ -1,0 +1,22 @@
+"D:\Program Files\CLion 2024.1.4\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=D:/Program Files/CLion 2024.1.4/bin/ninja/win/x64/ninja.exe" -G Ninja -S "D:\Work Files\Cnew" -B "D:\Work Files\Cnew\cmake-build-debug"
+-- boost root dir: :
+-- Found Boost 1.85.0 at D:/CodeVenv/boost_1_85_0/lib/cmake/Boost-1.85.0
+--   Requested configuration: QUIET REQUIRED COMPONENTS container
+-- BoostConfig: find_package(boost_headers 1.85.0 EXACT CONFIG REQUIRED QUIET HINTS D:/CodeVenv/boost_1_85_0/lib/cmake)
+-- Found boost_headers 1.85.0 at D:/CodeVenv/boost_1_85_0/lib/cmake/boost_headers-1.85.0
+-- BoostConfig: find_package(boost_container 1.85.0 EXACT CONFIG REQUIRED QUIET HINTS D:/CodeVenv/boost_1_85_0/lib/cmake)
+-- Found boost_container 1.85.0 at D:/CodeVenv/boost_1_85_0/lib/cmake/boost_container-1.85.0
+-- Boost toolset is mgw13 (GNU 13.1.0)
+-- Scanning D:/CodeVenv/boost_1_85_0/lib/cmake/boost_container-1.85.0/libboost_container-variant*.cmake
+--   Including D:/CodeVenv/boost_1_85_0/lib/cmake/boost_container-1.85.0/libboost_container-variant-mgw13-mt-d-x64-1_85-shared.cmake
+--   [ ] libboost_container-mgw13-mt-d-x64-1_85.dll.a
+--   Including D:/CodeVenv/boost_1_85_0/lib/cmake/boost_container-1.85.0/libboost_container-variant-mgw13-mt-d-x64-1_85-static.cmake
+--   [x] libboost_container-mgw13-mt-d-x64-1_85.a
+--   Including D:/CodeVenv/boost_1_85_0/lib/cmake/boost_container-1.85.0/libboost_container-variant-mgw13-mt-x64-1_85-shared.cmake
+--   [ ] libboost_container-mgw13-mt-x64-1_85.dll.a
+--   Including D:/CodeVenv/boost_1_85_0/lib/cmake/boost_container-1.85.0/libboost_container-variant-mgw13-mt-x64-1_85-static.cmake
+--   [x] libboost_container-mgw13-mt-x64-1_85.a
+-- Adding boost_container dependencies: headers
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: D:/Work Files/Cnew/cmake-build-debug
