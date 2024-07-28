@@ -16,9 +16,9 @@ std::vector<double> rgb_to_lab(const cv::Vec3b& rgb_color) {
 
     // 将cv::Vec3b类型的RGB颜色转换为colorutil::RGB类型
     colorutil::RGB srgb_color;
-    srgb_color(0) = rgb_color[2] / 255.0; // OpenCV中B通道在前
-    srgb_color(1) = rgb_color[1] / 255.0; // OpenCV中G通道在中间
-    srgb_color(2) = rgb_color[0] / 255.0; // OpenCV中R通道在后
+    srgb_color(0) = rgb_color[0] / 255.0;
+    srgb_color(1) = rgb_color[1] / 255.0;
+    srgb_color(2) = rgb_color[2] / 255.0;
 
     // 转换为CIEXYZ
     colorutil::XYZ xyz_color = colorutil::convert_RGB_to_XYZ(srgb_color);
@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
              // 获取当前像素的RGB值
              cv::Vec3b rgb_color = img.at<cv::Vec3b>(y, x);
              // 插入到set中，自动去重
-             unique_colors.insert(rgb_color);
+             unique_colors.insert(cv::Vec3b(rgb_color[2], rgb_color[1], rgb_color[0]));
          }
      }
 
@@ -167,8 +167,8 @@ int main(int argc, char** argv) {
         // 用找到的最近颜色替换原图的像素
         for (int y = 0; y < img.rows; ++y) {
             for (int x = 0; x < img.cols; ++x) {
-                if (img.at<cv::Vec3b>(y, x) == color) {
-                    img.at<cv::Vec3b>(y, x) = nearest_color;
+                if (img.at<cv::Vec3b>(y, x) == cv::Vec3b(color[2], color[1], color[0])) {
+                    img.at<cv::Vec3b>(y, x) = cv::Vec3b(nearest_color[2], nearest_color[1], nearest_color[0]);
                 }
             }
         }
