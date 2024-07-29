@@ -1,4 +1,5 @@
 #include <opencv2/opencv.hpp>
+#include "json.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -312,11 +313,11 @@ int main(int argc, char** argv) {
             }
 
             // 创建一个新的二维列表来存储键值对
-            std::vector<std::vector<std::string>> key_value_list;
+            std::vector<std::vector<std::pair<std::string, int>>> key_value_list;
 
             // 遍历transformed_list二维列表
             for (int row = 0; row < transformed_list.size(); ++row) {
-                std::vector<std::string> key_value_row;
+                std::vector<std::pair<std::string, int>> key_value_row;
                 std::vector<int> new_lst = hlist(lst[row], longest(lst[row]));
                 for (int col = 0; col < transformed_list[row].size(); ++col) {
                     // 遍历字典中的每个键值对--将[col][row]颠倒一下
@@ -330,8 +331,8 @@ int main(int argc, char** argv) {
                         } else if (mode==4) {
                             zvalue = -1;
                         }
-                        // 将键和值转换为字符串形式并添加到当前行的列表中
-                        std::string key_value_str = "{" + pair.first + ": " + std::to_string(zvalue) + "}";
+                        // 将键和值转换为字典形式并添加到当前行的列表中
+                        std::pair<std::string, int> key_value_str = {pair.first, zvalue};
                         key_value_row.push_back(key_value_str);
                     }
                 }
@@ -339,31 +340,35 @@ int main(int argc, char** argv) {
                 key_value_list.push_back(key_value_row);
             }
 
-            // 将key_value_list写入到文本文件中
-            std::ofstream nfile(key_value_list_txt);
-            if (!nfile.is_open()) {
+            // 创建一个JSON对象
+            nlohmann::json json_obj;
+
+            json_obj["u-d"] = nlohmann::json::array({upon, down});
+            json_obj["blocks"] = nlohmann::json::array();
+
+            for (size_t i = 0; i < key_value_list.size(); ++i) {
+                // 为每个中间层创建一个空数组
+                json_obj["blocks"].push_back(nlohmann::json::array());
+                for (size_t j = 0; j < key_value_list[i].size(); ++j) {
+                    // 获取键和值
+                    const std::string& key = key_value_list[i][j].first;
+                    const int& value = key_value_list[i][j].second;
+                    // 将值添加到对应键的对象中
+                    json_obj["blocks"][i][j] = nlohmann::json::array();
+                    json_obj["blocks"][i][j].push_back(std::stoi(key));
+                    json_obj["blocks"][i][j].push_back(value);
+                }
+            }
+
+            // 将JSON对象转换为字符串并写入json
+            std::string json_str = json_obj.dump();
+            std::ofstream cfile(key_value_list_txt);
+            if (!cfile.is_open()) {
                 std::cerr << "无法打开文件" << std::endl;
                 return 1;
             }
-
-            // 构建txt字符串
-            nfile << "{u-d: [";
-            nfile << upon << ", " << down << "], blocks: [";
-            for (size_t i = 0; i < key_value_list.size(); ++i) {
-                if (i > 0) {
-                    nfile << ", ";
-                }
-                nfile << "[";
-                for (size_t j = 0; j < key_value_list[i].size(); ++j) {
-                    if (j > 0) {
-                        nfile << ", ";
-                    }
-                    nfile << key_value_list[i][j];
-                }
-                nfile << "]";
-            }
-            nfile << "]}";
-            nfile.close();
+            cfile << json_str;
+            cfile.close();
         }
 
         return 0;
