@@ -3,7 +3,7 @@ import random
 
 upon, down = 0, 0
 
-lst = [[random.randint(0, 2) for i in range(128)] for i in range(128)]
+lst = [[random.randint(0, 2) for i in range(16)] for i in range(16)]
 
 def longest(lst):
     turn = None
@@ -47,6 +47,15 @@ def hlist(lst, ags):
     newlst = []
     [first_length, max_length] = ags
     first = first_length if first_length > 0 else -first_length
+    if max_length == first + 1:
+        if lst[0] == 1:
+            u = d = 0
+        elif lst[0] == 0:
+            u = 0
+            d = first_length
+        elif lst[0] == 2:
+            d = 0
+            u = first_length
     for i in lst:
         if f == True:
             if i == 1:
@@ -69,8 +78,6 @@ def hlist(lst, ags):
             newlst.append(h)
         else:
             if f == False:
-                if h == 0:
-                    d = u = h
                 if h < 0:
                     d = h
                     u = h + max_length - 1
@@ -108,6 +115,8 @@ def hlist(lst, ags):
     if d < down:
         down = d
     return newlst
+
+lst = [[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 print(lst)
 
