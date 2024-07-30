@@ -8,7 +8,7 @@
         },
         {
             "color": 1,
-            "id": "minecraft:grass_block[snowy=false]",
+            "id": "minecraft:grass_block",
             "name": "草方块",
             "icon": "grass_block.png"
         },
@@ -44,13 +44,13 @@
         },
         {
             "color": 2,
-            "id": "minecraft:ochre_froglight[axis=y]",
+            "id": "minecraft:ochre_froglight",
             "name": "赭黄蛙明灯",
             "icon": "ochre_froglight_top.png"
         },
         {
             "color": 3,
-            "id": "minecraft:mushroom_stem[east=true,west=true,north=true,south=true,up=true,down=true]",
+            "id": "minecraft:mushroom_stem",
             "name": "蘑菇柄",
             "icon": "mushroom_stem.png"
         },
@@ -134,7 +134,7 @@
         },
         {
             "color": 10,
-            "id": "minecraft:brown_mushroom_block[east=true,west=true,north=true,south=true,up=true,down=true]",
+            "id": "minecraft:brown_mushroom_block",
             "name": "棕色蘑菇方块",
             "icon": "brown_mushroom_block.png"
         },
@@ -164,7 +164,7 @@
         },
         {
             "color": 12,
-            "id": "minecraft:water[level=0]",
+            "id": "minecraft:water",
             "name": "水",
             "icon": "water.png"
         },
@@ -188,7 +188,7 @@
         },
         {
             "color": 14,
-            "id": "minecraft:target[power=0]",
+            "id": "minecraft:target",
             "name": "标靶",
             "icon": "target.png"
         },
@@ -308,7 +308,7 @@
         },
         {
             "color": 18,
-            "id": "minecraft:hay_block[axis=y]",
+            "id": "minecraft:hay_block",
             "name": "干草捆",
             "icon": "hay_block.png"
         },
@@ -356,7 +356,7 @@
         },
         {
             "color": 20,
-            "id": "minecraft:pearlescent_froglight[axis=y]",
+            "id": "minecraft:pearlescent_froglight",
             "name": "珠光蛙明灯",
             "icon": "pearlescent_froglight_top.png"
         },
@@ -548,7 +548,7 @@
         },
         {
             "color": 28,
-            "id": "minecraft:red_mushroom_block[east=true,west=true,north=true,south=true,up=true,down=true]",
+            "id": "minecraft:red_mushroom_block",
             "name": "红色蘑菇方块",
             "icon": "red_mushroom_block.png"
         },
@@ -602,7 +602,7 @@
         },
         {
             "color": 29,
-            "id": "minecraft:polished_basalt[axis=y]",
+            "id": "minecraft:polished_basalt",
             "name": "磨制玄武岩",
             "icon": "polished_basalt.png"
         },
@@ -650,7 +650,7 @@
         },
         {
             "color": 34,
-            "id": "minecraft:podzol[snowy=false]",
+            "id": "minecraft:podzol",
             "name": "灰化土",
             "icon": "podzol.png"
         },
@@ -734,7 +734,7 @@
         },
         {
             "color": 42,
-            "id": "minecraft:stripped_cherry_wood[axis=y]",
+            "id": "minecraft:stripped_cherry_wood",
             "name": "去皮樱花木头",
             "icon": "stripped_cherry_log.png"
         },
@@ -818,13 +818,13 @@
         },
         {
             "color": 53,
-            "id": "minecraft:stripped_crimson_stem[axis=y]",
+            "id": "minecraft:stripped_crimson_stem",
             "name": "去皮绯红菌柄",
             "icon": "stripped_crimson_stem.png"
         },
         {
             "color": 54,
-            "id": "minecraft:stripped_crimson_hyphae[axis=y]",
+            "id": "minecraft:stripped_crimson_hyphae",
             "name": "去皮绯红菌核",
             "icon": "stripped_crimson_hyphae.png"
         },
@@ -842,7 +842,7 @@
         },
         {
             "color": 56,
-            "id": "minecraft:stripped_warped_stem[axis=y]",
+            "id": "minecraft:stripped_warped_stem",
             "name": "去皮诡异菌柄",
             "icon": "stripped_warped_stem.png"
         },
@@ -854,7 +854,7 @@
         },
         {
             "color": 57,
-            "id": "minecraft:stripped_warped_hyphae[axis=y]",
+            "id": "minecraft:stripped_warped_hyphae",
             "name": "去皮诡异菌核",
             "icon": "stripped_warped_hyphae.png"
         },
@@ -878,7 +878,7 @@
         },
         {
             "color": 61,
-            "id": "minecraft:verdant_froglight[axis=y]",
+            "id": "minecraft:verdant_froglight",
             "name": "青翠蛙明灯",
             "icon": "verdant_froglight_top.png"
         }
