@@ -146,9 +146,9 @@ int main(int argc, char** argv) {
                     std::string random_str = random_string_from_list(new_json, bkey);
 
                     // 计算数组中每个元素的值
-                    int first_value = (xchunk + 1) * 16 - col;
+                    int first_value = (xchunk + 1) * 16 - row;
                     int second_value = flat + bvar;
-                    int third_value = (zchunk + 1) * 16 - row;
+                    int third_value = (zchunk + 1) * 16 - col;
 
                     // 将计算结果添加到数据中
                     generated_blocks.emplace_back(random_str, first_value, second_value, third_value);
