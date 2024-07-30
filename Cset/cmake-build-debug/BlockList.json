@@ -1,0 +1,886 @@
+{
+    "BlockList": [
+        {
+            "color": 0,
+            "id": "minecraft:glass",
+            "name": "玻璃",
+            "icon": "glass.png"
+        },
+        {
+            "color": 1,
+            "id": "minecraft:grass_block",
+            "name": "草方块",
+            "icon": "grass_block.png"
+        },
+        {
+            "color": 1,
+            "id": "minecraft:slime_block",
+            "name": "黏液块",
+            "icon": "slime_block.png"
+        },
+        {
+            "color": 2,
+            "id": "minecraft:birch_planks",
+            "name": "白桦木板",
+            "icon": "birch_planks.png"
+        },
+        {
+            "color": 2,
+            "id": "minecraft:smooth_sandstone",
+            "name": "平滑砂岩",
+            "icon": "smooth_sandstone.png"
+        },
+        {
+            "color": 2,
+            "id": "minecraft:glowstone",
+            "name": "荧石",
+            "icon": "glowstone.png"
+        },
+        {
+            "color": 2,
+            "id": "minecraft:end_stone",
+            "name": "末地石",
+            "icon": "end_stone.png"
+        },
+        {
+            "color": 2,
+            "id": "minecraft:ochre_froglight",
+            "name": "赭黄蛙明灯",
+            "icon": "ochre_froglight_top.png"
+        },
+        {
+            "color": 3,
+            "id": "minecraft:mushroom_stem",
+            "name": "蘑菇柄",
+            "icon": "mushroom_stem.png"
+        },
+        {
+            "color": 4,
+            "id": "minecraft:redstone_block",
+            "name": "红石块",
+            "icon": "redstone_block.png"
+        },
+        {
+            "color": 5,
+            "id": "minecraft:ice",
+            "name": "冰",
+            "icon": "ice.png"
+        },
+        {
+            "color": 5,
+            "id": "minecraft:blue_ice",
+            "name": "蓝冰",
+            "icon": "blue_ice.png"
+        },
+        {
+            "color": 6,
+            "id": "minecraft:iron_block",
+            "name": "铁块",
+            "icon": "iron_block.png"
+        },
+        {
+            "color": 7,
+            "id": "minecraft:enderman_holdable",
+            "name": "仙人掌",
+            "icon": "enderman_holdable.png"
+        },
+        {
+            "color": 8,
+            "id": "minecraft:white_concrete",
+            "name": "白色混凝土",
+            "icon": "white_concrete.png"
+        },
+        {
+            "color": 8,
+            "id": "minecraft:white_wool",
+            "name": "白色羊毛",
+            "icon": "white_wool.png"
+        },
+        {
+            "color": 8,
+            "id": "minecraft:white_stained_glass",
+            "name": "白色染色玻璃",
+            "icon": "white_stained_glass.png"
+        },
+        {
+            "color": 8,
+            "id": "minecraft:snow_block",
+            "name": "雪块",
+            "icon": "snow_block.png"
+        },
+        {
+            "color": 9,
+            "id": "minecraft:clay",
+            "name": "黏土块",
+            "icon": "clay.png"
+        },
+        {
+            "color": 10,
+            "id": "minecraft:coarse_dirt",
+            "name": "砂土",
+            "icon": "coarse_dirt.png"
+        },
+        {
+            "color": 10,
+            "id": "minecraft:polished_granite",
+            "name": "磨制花岗岩",
+            "icon": "polished_granite.png"
+        },
+        {
+            "color": 10,
+            "id": "minecraft:jungle_planks",
+            "name": "丛林木板",
+            "icon": "jungle_planks.png"
+        },
+        {
+            "color": 10,
+            "id": "minecraft:brown_mushroom_block",
+            "name": "棕色蘑菇方块",
+            "icon": "brown_mushroom_block.png"
+        },
+        {
+            "color": 10,
+            "id": "minecraft:dirt",
+            "name": "泥土",
+            "icon": "dirt.png"
+        },
+        {
+            "color": 10,
+            "id": "minecraft:packed_mud",
+            "name": "泥坯",
+            "icon": "packed_mud.png"
+        },
+        {
+            "color": 11,
+            "id": "minecraft:polished_andesite",
+            "name": "磨制安山岩",
+            "icon": "polished_andesite.png"
+        },
+        {
+            "color": 11,
+            "id": "minecraft:smooth_stone",
+            "name": "平滑石头",
+            "icon": "smooth_stone.png"
+        },
+        {
+            "color": 12,
+            "id": "minecraft:water",
+            "name": "水",
+            "icon": "water.png"
+        },
+        {
+            "color": 13,
+            "id": "minecraft:oak_planks",
+            "name": "橡木木板",
+            "icon": "oak_planks.png"
+        },
+        {
+            "color": 14,
+            "id": "minecraft:quartz_block",
+            "name": "石英块",
+            "icon": "quartz_block.png"
+        },
+        {
+            "color": 14,
+            "id": "minecraft:sea_lantern",
+            "name": "海晶灯",
+            "icon": "sea_lantern.png"
+        },
+        {
+            "color": 14,
+            "id": "minecraft:target",
+            "name": "标靶",
+            "icon": "target.png"
+        },
+        {
+            "color": 15,
+            "id": "minecraft:orange_concrete",
+            "name": "橙色混凝土",
+            "icon": "orange_concrete.png"
+        },
+        {
+            "color": 15,
+            "id": "minecraft:orange_wool",
+            "name": "橙色羊毛",
+            "icon": "orange_wool.png"
+        },
+        {
+            "color": 15,
+            "id": "minecraft:orange_stained_glass",
+            "name": "橙色染色玻璃",
+            "icon": "orange_stained_glass.png"
+        },
+        {
+            "color": 15,
+            "id": "minecraft:acacia_planks",
+            "name": "金合欢木板",
+            "icon": "acacia_planks.png"
+        },
+        {
+            "color": 15,
+            "id": "minecraft:pumpkin",
+            "name": "南瓜",
+            "icon": "pumpkin.png"
+        },
+        {
+            "color": 15,
+            "id": "minecraft:terracotta",
+            "name": "陶瓦",
+            "icon": "terracotta.png"
+        },
+        {
+            "color": 15,
+            "id": "minecraft:smooth_red_sandstone",
+            "name": "平滑红砂岩",
+            "icon": "smooth_red_sandstone.png"
+        },
+        {
+            "color": 15,
+            "id": "minecraft:honeycomb_block",
+            "name": "蜜脾块",
+            "icon": "honeycomb_block.png"
+        },
+        {
+            "color": 15,
+            "id": "minecraft:waxed_copper_block",
+            "name": "涂蜡铜块",
+            "icon": "waxed_copper_block.png"
+        },
+        {
+            "color": 16,
+            "id": "minecraft:magenta_concrete",
+            "name": "品红色混凝土",
+            "icon": "magenta_concrete.png"
+        },
+        {
+            "color": 16,
+            "id": "minecraft:magenta_wool",
+            "name": "品红色羊毛",
+            "icon": "magenta_wool.png"
+        },
+        {
+            "color": 16,
+            "id": "minecraft:magenta_stained_glass",
+            "name": "品红色染色玻璃",
+            "icon": "magenta_stained_glass.png"
+        },
+        {
+            "color": 16,
+            "id": "minecraft:purpur_block",
+            "name": "紫珀块",
+            "icon": "purpur_block.png"
+        },
+        {
+            "color": 17,
+            "id": "minecraft:light_blue_concrete",
+            "name": "淡蓝色混凝土",
+            "icon": "light_blue_concrete.png"
+        },
+        {
+            "color": 17,
+            "id": "minecraft:light_blue_wool",
+            "name": "淡蓝色羊毛",
+            "icon": "light_blue_wool.png"
+        },
+        {
+            "color": 17,
+            "id": "minecraft:light_blue_stained_glass",
+            "name": "淡蓝色染色玻璃",
+            "icon": "light_blue_stained_glass.png"
+        },
+        {
+            "color": 18,
+            "id": "minecraft:yellow_concrete",
+            "name": "黄色混凝土",
+            "icon": "yellow_concrete.png"
+        },
+        {
+            "color": 18,
+            "id": "minecraft:yellow_wool",
+            "name": "黄色羊毛",
+            "icon": "yellow_wool.png"
+        },
+        {
+            "color": 18,
+            "id": "minecraft:yellow_stained_glass",
+            "name": "黄色染色玻璃",
+            "icon": "yellow_stained_glass.png"
+        },
+        {
+            "color": 18,
+            "id": "minecraft:hay_block",
+            "name": "干草捆",
+            "icon": "hay_block.png"
+        },
+        {
+            "color": 18,
+            "id": "minecraft:bamboo_planks",
+            "name": "竹板",
+            "icon": "bamboo_planks.png"
+        },
+        {
+            "color": 19,
+            "id": "minecraft:lime_concrete",
+            "name": "黄绿色混凝土",
+            "icon": "lime_concrete.png"
+        },
+        {
+            "color": 19,
+            "id": "minecraft:lime_wool",
+            "name": "黄绿色羊毛",
+            "icon": "lime_wool.png"
+        },
+        {
+            "color": 19,
+            "id": "minecraft:lime_stained_glass",
+            "name": "黄绿色染色玻璃",
+            "icon": "lime_stained_glass.png"
+        },
+        {
+            "color": 20,
+            "id": "minecraft:pink_concrete",
+            "name": "粉红色混凝土",
+            "icon": "pink_concrete.png"
+        },
+        {
+            "color": 20,
+            "id": "minecraft:pink_wool",
+            "name": "粉红色羊毛",
+            "icon": "pink_wool.png"
+        },
+        {
+            "color": 20,
+            "id": "minecraft:pink_stained_glass",
+            "name": "粉红色染色玻璃",
+            "icon": "pink_stained_glass.png"
+        },
+        {
+            "color": 20,
+            "id": "minecraft:pearlescent_froglight",
+            "name": "珠光蛙明灯",
+            "icon": "pearlescent_froglight_top.png"
+        },
+        {
+            "color": 21,
+            "id": "minecraft:gray_concrete",
+            "name": "灰色混凝土",
+            "icon": "gray_concrete.png"
+        },
+        {
+            "color": 21,
+            "id": "minecraft:gray_wool",
+            "name": "灰色羊毛",
+            "icon": "gray_wool.png"
+        },
+        {
+            "color": 21,
+            "id": "minecraft:gray_stained_glass",
+            "name": "灰色染色玻璃",
+            "icon": "gray_stained_glass.png"
+        },
+        {
+            "color": 21,
+            "id": "minecraft:tinted_glass",
+            "name": "遮光玻璃",
+            "icon": "tinted_glass.png"
+        },
+        {
+            "color": 22,
+            "id": "minecraft:light_gray_concrete",
+            "name": "淡灰色混凝土",
+            "icon": "light_gray_concrete.png"
+        },
+        {
+            "color": 22,
+            "id": "minecraft:light_gray_wool",
+            "name": "淡灰色羊毛",
+            "icon": "light_gray_wool.png"
+        },
+        {
+            "color": 22,
+            "id": "minecraft:light_gray_stained_glass",
+            "name": "淡灰色染色玻璃",
+            "icon": "light_gray_stained_glass.png"
+        },
+        {
+            "color": 23,
+            "id": "minecraft:cyan_concrete",
+            "name": "青色混凝土",
+            "icon": "cyan_concrete.png"
+        },
+        {
+            "color": 23,
+            "id": "minecraft:cyan_wool",
+            "name": "青色羊毛",
+            "icon": "cyan_wool.png"
+        },
+        {
+            "color": 23,
+            "id": "minecraft:cyan_stained_glass",
+            "name": "青色染色玻璃",
+            "icon": "cyan_stained_glass.png"
+        },
+        {
+            "color": 23,
+            "id": "minecraft:prismarine",
+            "name": "海晶石",
+            "icon": "prismarine.png"
+        },
+        {
+            "color": 24,
+            "id": "minecraft:purple_concrete",
+            "name": "紫色混凝土",
+            "icon": "purple_concrete.png"
+        },
+        {
+            "color": 24,
+            "id": "minecraft:purple_wool",
+            "name": "紫色羊毛",
+            "icon": "purple_wool.png"
+        },
+        {
+            "color": 24,
+            "id": "minecraft:purple_stained_glass",
+            "name": "紫色染色玻璃",
+            "icon": "purple_stained_glass.png"
+        },
+        {
+            "color": 24,
+            "id": "minecraft:amethyst_block",
+            "name": "紫水晶块",
+            "icon": "amethyst_block.png"
+        },
+        {
+            "color": 25,
+            "id": "minecraft:blue_concrete",
+            "name": "蓝色混凝土",
+            "icon": "blue_concrete.png"
+        },
+        {
+            "color": 25,
+            "id": "minecraft:blue_wool",
+            "name": "蓝色羊毛",
+            "icon": "blue_wool.png"
+        },
+        {
+            "color": 25,
+            "id": "minecraft:blue_stained_glass",
+            "name": "蓝色染色玻璃",
+            "icon": "blue_stained_glass.png"
+        },
+        {
+            "color": 26,
+            "id": "minecraft:brown_concrete",
+            "name": "棕色混凝土",
+            "icon": "brown_concrete.png"
+        },
+        {
+            "color": 26,
+            "id": "minecraft:brown_wool",
+            "name": "棕色羊毛",
+            "icon": "brown_wool.png"
+        },
+        {
+            "color": 26,
+            "id": "minecraft:brown_stained_glass",
+            "name": "棕色染色玻璃",
+            "icon": "brown_stained_glass.png"
+        },
+        {
+            "color": 26,
+            "id": "minecraft:dark_oak_planks",
+            "name": "深色橡木木板",
+            "icon": "dark_oak_planks.png"
+        },
+        {
+            "color": 26,
+            "id": "minecraft:soul_soil",
+            "name": "灵魂土",
+            "icon": "soul_soil.png"
+        },
+        {
+            "color": 27,
+            "id": "minecraft:green_concrete",
+            "name": "绿色混凝土",
+            "icon": "green_concrete.png"
+        },
+        {
+            "color": 27,
+            "id": "minecraft:green_wool",
+            "name": "绿色羊毛",
+            "icon": "green_wool.png"
+        },
+        {
+            "color": 27,
+            "id": "minecraft:green_stained_glass",
+            "name": "绿色染色玻璃",
+            "icon": "green_stained_glass.png"
+        },
+        {
+            "color": 27,
+            "id": "minecraft:dried_kelp_block",
+            "name": "海带块",
+            "icon": "dried_kelp_block.png"
+        },
+        {
+            "color": 28,
+            "id": "minecraft:red_concrete",
+            "name": "红色混凝土",
+            "icon": "red_concrete.png"
+        },
+        {
+            "color": 28,
+            "id": "minecraft:red_wool",
+            "name": "红色羊毛",
+            "icon": "red_wool.png"
+        },
+        {
+            "color": 28,
+            "id": "minecraft:red_stained_glass",
+            "name": "红色染色玻璃",
+            "icon": "red_stained_glass.png"
+        },
+        {
+            "color": 28,
+            "id": "minecraft:bricks",
+            "name": "红砖块",
+            "icon": "bricks.png"
+        },
+        {
+            "color": 28,
+            "id": "minecraft:red_mushroom_block",
+            "name": "红色蘑菇方块",
+            "icon": "red_mushroom_block.png"
+        },
+        {
+            "color": 28,
+            "id": "minecraft:nether_wart_block",
+            "name": "下界疣块",
+            "icon": "nether_wart_block.png"
+        },
+        {
+            "color": 28,
+            "id": "minecraft:shroomlight",
+            "name": "菌光体",
+            "icon": "shroomlight.png"
+        },
+        {
+            "color": 28,
+            "id": "minecraft:mangrove_planks",
+            "name": "红树木板",
+            "icon": "mangrove_planks.png"
+        },
+        {
+            "color": 29,
+            "id": "minecraft:black_concrete",
+            "name": "黑色混凝土",
+            "icon": "black_concrete.png"
+        },
+        {
+            "color": 29,
+            "id": "minecraft:black_wool",
+            "name": "黑色羊毛",
+            "icon": "black_wool.png"
+        },
+        {
+            "color": 29,
+            "id": "minecraft:black_stained_glass",
+            "name": "黑色染色玻璃",
+            "icon": "black_stained_glass.png"
+        },
+        {
+            "color": 29,
+            "id": "minecraft:obsidian",
+            "name": "黑曜石",
+            "icon": "obsidian.png"
+        },
+        {
+            "color": 29,
+            "id": "minecraft:coal_block",
+            "name": "煤炭块",
+            "icon": "coal_block.png"
+        },
+        {
+            "color": 29,
+            "id": "minecraft:polished_basalt",
+            "name": "磨制玄武岩",
+            "icon": "polished_basalt.png"
+        },
+        {
+            "color": 29,
+            "id": "minecraft:polished_blackstone",
+            "name": "磨制黑石",
+            "icon": "polished_blackstone.png"
+        },
+        {
+            "color": 29,
+            "id": "minecraft:sculk",
+            "name": "幽匿块",
+            "icon": "sculk.png"
+        },
+        {
+            "color": 30,
+            "id": "minecraft:gold_block",
+            "name": "金块",
+            "icon": "gold_block.png"
+        },
+        {
+            "color": 31,
+            "id": "minecraft:diamond_block",
+            "name": "钻石块",
+            "icon": "diamond_block.png"
+        },
+        {
+            "color": 31,
+            "id": "minecraft:prismarine_bricks",
+            "name": "海晶石砖",
+            "icon": "prismarine_bricks.png"
+        },
+        {
+            "color": 32,
+            "id": "minecraft:lapis_block",
+            "name": "青金石块",
+            "icon": "lapis_block.png"
+        },
+        {
+            "color": 33,
+            "id": "minecraft:emerald_block",
+            "name": "绿宝石块",
+            "icon": "emerald_block.png"
+        },
+        {
+            "color": 34,
+            "id": "minecraft:podzol",
+            "name": "灰化土",
+            "icon": "podzol.png"
+        },
+        {
+            "color": 34,
+            "id": "minecraft:spruce_planks",
+            "name": "云杉木板",
+            "icon": "spruce_planks.png"
+        },
+        {
+            "color": 35,
+            "id": "minecraft:netherrack",
+            "name": "下界岩",
+            "icon": "netherrack.png"
+        },
+        {
+            "color": 35,
+            "id": "minecraft:nether_bricks",
+            "name": "下界砖块",
+            "icon": "nether_bricks.png"
+        },
+        {
+            "color": 35,
+            "id": "minecraft:magma_block",
+            "name": "岩浆块",
+            "icon": "magma_block.png"
+        },
+        {
+            "color": 36,
+            "id": "minecraft:white_terracotta",
+            "name": "白色陶瓦",
+            "icon": "white_terracotta.png"
+        },
+        {
+            "color": 36,
+            "id": "minecraft:calcite",
+            "name": "方解石",
+            "icon": "calcite.png"
+        },
+        {
+            "color": 36,
+            "id": "minecraft:cherry_planks",
+            "name": "樱花木板",
+            "icon": "cherry_planks.png"
+        },
+        {
+            "color": 37,
+            "id": "minecraft:orange_terracotta",
+            "name": "橙色陶瓦",
+            "icon": "orange_terracotta.png"
+        },
+        {
+            "color": 38,
+            "id": "minecraft:magenta_terracotta",
+            "name": "品红色陶瓦",
+            "icon": "magenta_terracotta.png"
+        },
+        {
+            "color": 39,
+            "id": "minecraft:light_blue_terracotta",
+            "name": "淡蓝色陶瓦",
+            "icon": "light_blue_terracotta.png"
+        },
+        {
+            "color": 40,
+            "id": "minecraft:yellow_terracotta",
+            "name": "黄色陶瓦",
+            "icon": "yellow_terracotta.png"
+        },
+        {
+            "color": 41,
+            "id": "minecraft:lime_terracotta",
+            "name": "黄绿色陶瓦",
+            "icon": "lime_terracotta.png"
+        },
+        {
+            "color": 42,
+            "id": "minecraft:pink_terracotta",
+            "name": "粉红色陶瓦",
+            "icon": "pink_terracotta.png"
+        },
+        {
+            "color": 42,
+            "id": "minecraft:stripped_cherry_wood",
+            "name": "去皮樱花木头",
+            "icon": "stripped_cherry_log.png"
+        },
+        {
+            "color": 43,
+            "id": "minecraft:gray_terracotta",
+            "name": "灰色陶瓦",
+            "icon": "gray_terracotta.png"
+        },
+        {
+            "color": 44,
+            "id": "minecraft:light_gray_terracotta",
+            "name": "淡灰色陶瓦",
+            "icon": "light_gray_terracotta.png"
+        },
+        {
+            "color": 44,
+            "id": "minecraft:waxed_exposed_copper",
+            "name": "斑驳的涂蜡铜块",
+            "icon": "waxed_exposed_copper.png"
+        },
+        {
+            "color": 44,
+            "id": "minecraft:mud_bricks",
+            "name": "泥砖",
+            "icon": "mud_bricks.png"
+        },
+        {
+            "color": 45,
+            "id": "minecraft:cyan_terracotta",
+            "name": "青色陶瓦",
+            "icon": "cyan_terracotta.png"
+        },
+        {
+            "color": 45,
+            "id": "minecraft:mud",
+            "name": "泥巴",
+            "icon": "mud.png"
+        },
+        {
+            "color": 46,
+            "id": "minecraft:purple_terracotta",
+            "name": "紫色陶瓦",
+            "icon": "purple_terracotta.png"
+        },
+        {
+            "color": 47,
+            "id": "minecraft:blue_terracotta",
+            "name": "蓝色陶瓦",
+            "icon": "blue_terracotta.png"
+        },
+        {
+            "color": 48,
+            "id": "minecraft:brown_terracotta",
+            "name": "棕色陶瓦",
+            "icon": "brown_terracotta.png"
+        },
+        {
+            "color": 49,
+            "id": "minecraft:green_terracotta",
+            "name": "绿色陶瓦",
+            "icon": "green_terracotta.png"
+        },
+        {
+            "color": 50,
+            "id": "minecraft:red_terracotta",
+            "name": "红色陶瓦",
+            "icon": "red_terracotta.png"
+        },
+        {
+            "color": 51,
+            "id": "minecraft:black_terracotta",
+            "name": "黑色陶瓦",
+            "icon": "black_terracotta.png"
+        },
+        {
+            "color": 52,
+            "id": "minecraft:crimson_nylium",
+            "name": "绯红菌岩",
+            "icon": "crimson_nylium.png"
+        },
+        {
+            "color": 53,
+            "id": "minecraft:stripped_crimson_stem",
+            "name": "去皮绯红菌柄",
+            "icon": "stripped_crimson_stem.png"
+        },
+        {
+            "color": 54,
+            "id": "minecraft:stripped_crimson_hyphae",
+            "name": "去皮绯红菌核",
+            "icon": "stripped_crimson_hyphae.png"
+        },
+        {
+            "color": 55,
+            "id": "minecraft:warped_nylium",
+            "name": "诡异菌岩",
+            "icon": "warped_nylium.png"
+        },
+        {
+            "color": 55,
+            "id": "minecraft:waxed_oxidized_copper",
+            "name": "氧化的涂蜡铜块",
+            "icon": "waxed_oxidized_copper.png"
+        },
+        {
+            "color": 56,
+            "id": "minecraft:stripped_warped_stem",
+            "name": "去皮诡异菌柄",
+            "icon": "stripped_warped_stem.png"
+        },
+        {
+            "color": 56,
+            "id": "minecraft:waxed_weathered_copper",
+            "name": "锈蚀的涂蜡铜块",
+            "icon": "waxed_weathered_copper.png"
+        },
+        {
+            "color": 57,
+            "id": "minecraft:stripped_warped_hyphae",
+            "name": "去皮诡异菌核",
+            "icon": "stripped_warped_hyphae.png"
+        },
+        {
+            "color": 58,
+            "id": "minecraft:warped_wart_block",
+            "name": "诡异疣块",
+            "icon": "warped_wart_block.png"
+        },
+        {
+            "color": 59,
+            "id": "minecraft:deepslate",
+            "name": "深板岩",
+            "icon": "deepslate.png"
+        },
+        {
+            "color": 60,
+            "id": "minecraft:raw_iron_block",
+            "name": "粗铁块",
+            "icon": "raw_iron_block.png"
+        },
+        {
+            "color": 61,
+            "id": "minecraft:verdant_froglight",
+            "name": "青翠蛙明灯",
+            "icon": "verdant_froglight_top.png"
+        }
+    ]
+}
