@@ -153,6 +153,11 @@ int main(int argc, char** argv) {
                     // 将计算结果添加到数据中
                     generated_blocks.emplace_back(random_str, first_value, second_value, third_value);
 
+                    // 特殊处理植物，放一个原木
+                    if (bkey == "7") {
+                        generated_blocks.emplace_back("oak_log", first_value, second_value - 1, third_value);
+                    }
+
                     // 特殊处理水方块，挖空下面的方块，可能会漏水
                     if (bkey == "12") {
                         if (bvar == avar) {

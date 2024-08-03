@@ -80,9 +80,9 @@
         },
         {
             "color": 7,
-            "id": "minecraft:enderman_holdable",
-            "name": "仙人掌",
-            "icon": "enderman_holdable.png"
+            "id": "minecraft:oak_leaves",
+            "name": "橡树树叶",
+            "icon": "oak_leaves.png"
         },
         {
             "color": 8,
