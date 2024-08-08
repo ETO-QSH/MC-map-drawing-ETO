@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Aui</class>
+ <widget class="QWidget" name="Aui">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>960</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>960</width>
+    <height>640</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>960</width>
+    <height>640</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>萝莉体</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>40</y>
+     <width>871</width>
+     <height>579</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_7">
+    <item>
+     <spacer name="verticalSpacer_9">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>0</width>
+        <height>32</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+     <widget class="TitleLabel" name="TitleLabel">
+      <property name="font">
+       <font>
+        <family>萝莉体</family>
+        <pointsize>24</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="tabletTracking">
+       <bool>false</bool>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
+      <property name="text">
+       <string>选择地图画类型</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_13">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>0</width>
+        <height>32</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+     <widget class="SimpleCardWidget" name="SimpleCardWidget">
+      <property name="minimumSize">
+       <size>
+        <width>736</width>
+        <height>160</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>704</width>
+        <height>160</height>
+       </size>
+      </property>
+      <widget class="BodyLabel" name="BodyLabel_3">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>-1</y>
+         <width>736</width>
+         <height>161</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>736</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>704</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>萝莉体</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+         <underline>false</underline>
+        </font>
+       </property>
+       <property name="text">
+        <string>             玩家们会用地图来创作像素画。默认的地图大小为 128×128 并会读取每一个方块为一种特定的颜色。通过以特
+      定的排列放置方块，为创作像素画图像提供了可能。创作地图像素画有两种方法：平面型和阶梯型。平面型方法涉
+      及在一个平面上放置像素图像，最后创建出一个地板。平面型方法是两种方法中较简单的一种，但只提供了60色的
+      调色板。而阶梯型方法提供了180色，但使用起来更加复杂了。在阶梯型方法中，方块需要被放置不同的高度来获
+      得特定的颜色变化。一个方块的颜色会在比北边方块低的位置时变暗，而在比北边方块高的位置时变亮。使用平面
+      型方法时，可以使用以上列表中每个颜色组的第二个阴影。对于阶梯型方法，可以使用以上颜色组的前三个阴影。
+      只有使用外部工具才能获得第四个阴影。</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_8">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>0</width>
+        <height>32</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <spacer name="horizontalSpacer_7">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>64</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="CardWidget" name="CardWidget">
+          <property name="minimumSize">
+           <size>
+            <width>192</width>
+            <height>192</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>192</width>
+            <height>192</height>
+           </size>
+          </property>
+          <widget class="IconWidget" name="IconWidget_4">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>192</width>
+             <height>192</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>192</width>
+             <height>192</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>192</width>
+             <height>192</height>
+            </size>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../Desktop/Desktop/下载.png</normaloff>../../../Desktop/Desktop/下载.png</iconset>
+           </property>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_14">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>8</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="ElevatedCardWidget" name="ElevatedCardWidget_1">
+          <property name="minimumSize">
+           <size>
+            <width>192</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>192</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="borderRadius">
+           <number>5</number>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+            <widget class="CaptionLabel" name="CaptionLabel_11">
+             <property name="font">
+              <font>
+               <family>萝莉体</family>
+               <pointsize>10</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>ArrowCursor</cursorShape>
+             </property>
+             <property name="mouseTracking">
+              <bool>true</bool>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="text">
+              <string>平 面 地 图 画</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_12">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="cursor">
+           <cursorShape>ArrowCursor</cursorShape>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>5</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>64</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="CardWidget" name="CardWidget_2">
+          <property name="minimumSize">
+           <size>
+            <width>192</width>
+            <height>192</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>192</width>
+            <height>192</height>
+           </size>
+          </property>
+          <widget class="IconWidget" name="IconWidget_5">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>192</width>
+             <height>192</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>192</width>
+             <height>192</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>192</width>
+             <height>192</height>
+            </size>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../Desktop/Desktop/下载.png</normaloff>../../../Desktop/Desktop/下载.png</iconset>
+           </property>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_15">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>8</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="ElevatedCardWidget" name="ElevatedCardWidget_2">
+          <property name="minimumSize">
+           <size>
+            <width>192</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>192</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="borderRadius">
+           <number>5</number>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+            <widget class="CaptionLabel" name="CaptionLabel_12">
+             <property name="font">
+              <font>
+               <family>萝莉体</family>
+               <pointsize>10</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>ArrowCursor</cursorShape>
+             </property>
+             <property name="mouseTracking">
+              <bool>true</bool>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="text">
+              <string>立 体 地 图 画</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_10">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_2">
+          <property name="cursor">
+           <cursorShape>ArrowCursor</cursorShape>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>5</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>64</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="CardWidget" name="CardWidget_3">
+          <property name="minimumSize">
+           <size>
+            <width>192</width>
+            <height>192</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>192</width>
+            <height>192</height>
+           </size>
+          </property>
+          <widget class="IconWidget" name="IconWidget_6">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>192</width>
+             <height>192</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>192</width>
+             <height>192</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>192</width>
+             <height>192</height>
+            </size>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../Desktop/Desktop/下载.png</normaloff>../../../Desktop/Desktop/下载.png</iconset>
+           </property>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_16">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>8</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="ElevatedCardWidget" name="ElevatedCardWidget_3">
+          <property name="minimumSize">
+           <size>
+            <width>192</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>192</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="borderRadius">
+           <number>5</number>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_10">
+           <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+            <widget class="CaptionLabel" name="CaptionLabel_13">
+             <property name="font">
+              <font>
+               <family>萝莉体</family>
+               <pointsize>10</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>ArrowCursor</cursorShape>
+             </property>
+             <property name="mouseTracking">
+              <bool>true</bool>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="text">
+              <string>纯 文 件 地 图 画</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_11">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_3">
+          <property name="cursor">
+           <cursorShape>ArrowCursor</cursorShape>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>5</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>64</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>IconWidget</class>
+   <extends>QWidget</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>CardWidget</class>
+   <extends>QFrame</extends>
+   <header>qfluentwidgets</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ElevatedCardWidget</class>
+   <extends>SimpleCardWidget</extends>
+   <header>qfluentwidgets</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SimpleCardWidget</class>
+   <extends>CardWidget</extends>
+   <header>qfluentwidgets</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CaptionLabel</class>
+   <extends>QLabel</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>BodyLabel</class>
+   <extends>QLabel</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>TitleLabel</class>
+   <extends>QLabel</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>TitleLabel</tabstop>
+ </tabstops>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

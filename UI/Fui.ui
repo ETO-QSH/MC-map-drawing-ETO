@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Fui</class>
+ <widget class="QWidget" name="Fui">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>367</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>252</width>
+     <height>303</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="SimpleCardWidget" name="SimpleCardWidget">
+      <property name="minimumSize">
+       <size>
+        <width>225</width>
+        <height>270</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>250</width>
+        <height>270</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>萝莉体</family>
+       </font>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::ClickFocus</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="3" column="0">
+        <widget class="ListWidget" name="ListWidget">
+         <property name="font">
+          <font>
+           <family>萝莉体</family>
+          </font>
+         </property>
+         <item>
+          <property name="text">
+           <string>Simple2D</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>FloydSteinberg</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>FalseFloydSteinberg</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>JarvisJudiceNinke</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Atkinson</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Stucki</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Burkes</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sierra</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>TwoRowSierra</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SierraLite</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>StevenPigeon</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="1" column="0" alignment="Qt::AlignHCenter|Qt::AlignBottom">
+        <widget class="StrongBodyLabel" name="StrongBodyLabel">
+         <property name="font">
+          <font>
+           <family>萝莉体</family>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>可选矩阵</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>10</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+          <widget class="SubtitleLabel" name="SubtitleLabel">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>萝莉体</family>
+            </font>
+           </property>
+           <property name="text">
+            <string>Snakes</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="SwitchButton" name="SwitchButton">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QWidget {
+    background-color: white;
+}
+
+SwitchButton {
+    qproperty-spacing: 12;
+    background-color: transparent;
+}
+
+SwitchButton&gt;QLabel {
+    color: black;
+    font: 12px '萝莉体';
+    background-color: transparent;
+    border: none;
+}
+
+SwitchButton&gt;QLabel:disabled {
+    color: rgba(0, 0, 0, 0.36);
+}
+
+</string>
+           </property>
+           <property name="spacing">
+            <number>12</number>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <property name="onText">
+            <string>ON</string>
+           </property>
+           <property name="offText">
+            <string>OFF</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="PushButton" name="PushButton_SF">
+      <property name="minimumSize">
+       <size>
+        <width>250</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>250</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>萝莉体</family>
+        <pointsize>9</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>加 入 待 处 理 列 表</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PushButton</class>
+   <extends>QPushButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>SwitchButton</class>
+   <extends>QWidget</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>CardWidget</class>
+   <extends>QFrame</extends>
+   <header>qfluentwidgets</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SimpleCardWidget</class>
+   <extends>CardWidget</extends>
+   <header>qfluentwidgets</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>StrongBodyLabel</class>
+   <extends>QLabel</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>SubtitleLabel</class>
+   <extends>QLabel</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>ListWidget</class>
+   <extends>QListWidget</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
