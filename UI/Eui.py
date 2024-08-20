@@ -130,6 +130,17 @@ class Ui_Eui(object):
             parent=self
         )
 
+    def createWarningInfoBar2(self):
+        InfoBar.warning(
+            title='Warning',
+            content="请勾选单选框",
+            orient=Qt.Horizontal,
+            isClosable=True,   # disable close button
+            position=InfoBarPosition.TOP,
+            duration=2500,
+            parent=self
+        )
+
     def retranslateUi(self, Eui):
         _translate = QtCore.QCoreApplication.translate
         Eui.setWindowTitle(_translate("Eui", "Form"))

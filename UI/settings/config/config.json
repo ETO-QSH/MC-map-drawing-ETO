@@ -1,0 +1,21 @@
+{
+    "QFluentWidgets": {
+        "ThemeColor": "#ffffaaff",
+        "ThemeMode": "Dark"
+    },
+    "Update": {
+        "CheckUpdateAtStartUp": "动画式二"
+    },
+    "DesktopLyric": {
+        "FontFamily": "黑体",
+        "FontSize": 24
+    },
+    "Folders": {
+        "Download": "D:/Work Files/PyQt-Fluent-Widgets-exploit/ETO/download",
+        "Saves": "D:/Work Files/PyQt-Fluent-Widgets-exploit/ETO/saves"
+    },
+    "MainWindow": {
+        "DpiScale": "Auto",
+        "Language": "Auto"
+    }
+}

@@ -1,39 +1,65 @@
-from PyQt5.QtCore import QPoint
+from PyQt5.QtWidgets import QWidget, QApplication, QLabel
+from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtGui import QPixmap, QMovie
+import sys
 
-from qfluentwidgets import InfoBarManager, InfoBar
+class AnimatedButton(QWidget):
+    def __init__(self, on_gif_path, off_gif_path):
+        super().__init__()
 
+        self.current_state = "on"
 
-@InfoBarManager.register('Custom')
-class CustomInfoBarManager(InfoBarManager):
-    """ 自定义消息条管理器 """
+        self.on_gif_path = on_gif_path
+        self.off_gif_path = off_gif_path
 
-    def _pos(self, infoBar: InfoBar, parentSize=None):
-        p = infoBar.parent()
-        parentSize = parentSize or p.size()
+        self.pixmap_on = QPixmap(self.on_gif_path)
+        self.pixmap_off = QPixmap(self.off_gif_path)
 
-        # 第一个消息条的位置
-        x = (parentSize.width() - infoBar.width()) // 2
-        y = (parentSize.height() - infoBar.height()) // 2
+        self.movie_on = QMovie(self.on_gif_path)
+        self.movie_off = QMovie(self.off_gif_path)
 
-        # 计算当前 infoBar 的位置
-        index = self.infoBars[p].index(infoBar)
-        for bar in self.infoBars[p][0:index]:
-            y += (bar.height() + self.spacing)
+        self.movie_on.setSpeed(1000)
+        self.movie_off.setSpeed(1000)
 
-        return QPoint(x, y)
+        self.setFixedSize(self.pixmap_on.size())
 
-    def _slideStartPos(self, infoBar: InfoBar):
-        pos = self._pos(infoBar)
-        return QPoint(pos.x(), pos.y() - 16)
+        self.label = QLabel(self)
+        self.label.setPixmap(self.pixmap_on)
 
+        self.movie_on.frameChanged.connect(self.handle_frame_change)
+        self.movie_off.frameChanged.connect(self.handle_frame_change)
 
+        self.movie_on.jumpToFrame(0)
+        self.movie_off.jumpToFrame(0)
 
-InfoBar.success(
-    title='Lesson 4',
-    content="表达敬意吧，表达出敬意，然后迈向回旋的另一个全新阶段！",
-    orient=Qt.Horizontal,
-    isClosable=True,
-    position="Custom",  # 使用自定义管理器
-    duration=2000,
-    parent=window
-)
+    def handle_frame_change(self):
+        if self.current_state == "transition":
+            if self.movie_on.currentFrameNumber() == self.movie_on.frameCount() - 1:
+                self.current_state = "off"
+                self.movie_on.stop()
+                self.label.setPixmap(self.pixmap_off)
+                self.movie_on.jumpToFrame(0)
+                self.movie_off.jumpToFrame(0)
+            elif self.movie_off.currentFrameNumber() == self.movie_off.frameCount() - 1:
+                self.current_state = "on"
+                self.movie_off.stop()
+                self.label.setPixmap(self.pixmap_on)
+                self.movie_on.jumpToFrame(0)
+                self.movie_off.jumpToFrame(0)
+
+    def mousePressEvent(self, event):
+        if self.current_state == "on":
+            self.current_state = "transition"
+            self.movie_on.start()
+            self.label.setMovie(self.movie_on)
+        elif self.current_state == "off":
+            self.current_state = "transition"
+            self.movie_off.start()
+            self.label.setMovie(self.movie_off)
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    button = AnimatedButton(r"D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\loading\d2n_15.gif",
+                            r"D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\loading\n2d_15.gif")
+    button.show()
+    sys.exit(app.exec_())

@@ -1,24 +1,28 @@
 # coding:utf-8
+
 import sys
 from enum import Enum
 
-from PyQt5.QtCore import Qt, QUrl, QObject, pyqtSlot, QSize, QEventLoop, QTimer
+from PyQt5 import QtGui, QtWidgets, QtCore
+from PyQt5.QtCore import Qt, QUrl, QObject, pyqtSlot, QSize, QEventLoop, QTimer, pyqtSignal
 from PyQt5.QtGui import QIcon, QDesktopServices
-from PyQt5.QtWidgets import QApplication, QFrame, QHBoxLayout, QStackedWidget, QStackedLayout, QCheckBox, QLabel
+from PyQt5.QtWidgets import QApplication, QFrame, QHBoxLayout, QStackedWidget, QStackedLayout, QCheckBox, QLabel, \
+    QTreeWidgetItem, QTreeWidget
 
-from qfluentwidgets.components.widgets.frameless_window import FramelessWindow
-
-from examples.window.clock.view.Ui_FocusInterface import Ui_FocusInterface
+from collections import Counter
 from qfluentwidgets import (NavigationItemPosition, MessageBox, setTheme, Theme, MSFluentWindow, NavigationAvatarWidget,
                             qrouter, SubtitleLabel, setFont, setThemeColor, theme, SplashScreen, InfoBar,
                             InfoBarPosition, PushButton, RadioButton, LineEdit, SpinBox, SegmentedWidget, TreeWidget,
-                            SwitchButton, ListWidget, Slider)
+                            SwitchButton, ListWidget, Slider, SimpleCardWidget)
 from qfluentwidgets import FluentIcon as FIF
 
 from ETO.Aui import Ui_Aui
 from ETO.Bui import Ui_Bui
+from ETO.Tui import Ui_Tui
+from ETO.Xui import UI_Xui
 from ETO.Zui import Ui_Zui
 from ETO.Kui import Ui_Kui
+from ETO.settings.demo import UI_Yui
 
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QWidget, QGraphicsDropShadowEffect
@@ -27,14 +31,9 @@ from qfluentwidgets import FluentIcon, setFont, InfoBarIcon
 from PyQt5.QtCore import pyqtSlot
 from qfluentwidgets import qconfig, Theme, StyleSheetBase
 
-from qfluentwidgets import Theme
-from qfluentwidgets import QConfig
-
 from qfluentwidgets import SplashScreen
 
-
 class Widget(QFrame):
-
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.label = SubtitleLabel(text, self)
@@ -120,6 +119,9 @@ class Bui(Ui_Bui, QWidget):
 
 
 class Cui(Ui_Zui, QWidget):
+    # 定义一个信号
+    updateUi = pyqtSignal()
+
     def __init__(self, navigationInterface, windowInstance, parent=None):
         super().__init__(parent=parent)
         self.setupUi(self)
@@ -139,8 +141,6 @@ class Cui(Ui_Zui, QWidget):
     @pyqtSlot()
     def handleButtonClicked(self):
 
-        algorithmed = {}
-
         RadioBoxes = self.findChildren(RadioButton)
         for Radio in RadioBoxes:
             if Radio.isChecked():
@@ -156,17 +156,25 @@ class Cui(Ui_Zui, QWidget):
 
         SpinBoxes = self.findChildren(SpinBox)
         for SpinB in SpinBoxes:
-            val = SpinB.value()
-            if 'RadioBoxes' in algorithmed and algorithmed['RadioBoxes'] == 'RadioButton_1':
-                if val != 0:
-                    algorithmed['KTree'] = val
-            else:
-                algorithmed['KTree'] = 0
+            if SpinB.objectName() == 'SpinBox':
+                val = SpinB.value()
+                if 'RadioBoxes' in algorithmed and algorithmed['RadioBoxes'] == 'RadioButton_1':
+                    if val != 0:
+                        algorithmed['KTree'] = val
+                else:
+                    algorithmed['KTree'] = 0
 
         if len(list(algorithmed)) == 3:
-            print('DICT:', algorithmed, self.globalList)
-            buttonName = "go_next"
-            self.window.onButtonClicked(buttonName, 'Cui')
+            if algorithmed["RadioBoxes"] == 'RadioButton_2' and self.globalList == []:
+                self.createWarningInfoBar()
+
+            else:
+                print('algorithmed + globalList', algorithmed, self.globalList)
+                self.window.onButtonClicked("go_next", 'Cui')
+
+                # 要在这里更新列表 ~
+                self.updateUi.emit()
+
         else:
             self.createWarningInfoBar()
 
@@ -204,7 +212,167 @@ class Dui(Ui_Kui, QWidget):
         self.window.onButtonClicked(buttonName, 'Kui')
 
 
-# 定义 StyleSheet 类
+class Eui(UI_Xui, QWidget):
+    def __init__(self, navigationInterface, windowInstance, parent=None):
+        super().__init__(parent=parent)
+        self.setupUi(self)
+        self.navigationInterface = navigationInterface  # 保存导航界面引用
+        self.window = windowInstance  # 确保引用了 Window 实例
+
+    def setShadowEffect(self, card: QWidget):
+        shadowEffect = QGraphicsDropShadowEffect(self)
+        shadowEffect.setColor(QColor(0, 0, 0, 15))
+        shadowEffect.setBlurRadius(10)
+        shadowEffect.setOffset(0, 0)
+        card.setGraphicsEffect(shadowEffect)
+
+
+class Fui(Ui_Tui, QWidget):
+    def __init__(self, navigationInterface, windowInstance, parent=None):
+        super().__init__(parent=parent)
+        self.setupUi(self)
+        self.navigationInterface = navigationInterface  # 保存导航界面引用
+        self.window = windowInstance  # 确保引用了 Window 实例
+
+        # 连接按钮点击事件到槽函数
+        self.bction_button.clicked.connect(self.handleButtonClicked)
+
+    def setShadowEffect(self, card: QWidget):
+        shadowEffect = QGraphicsDropShadowEffect(self)
+        shadowEffect.setColor(QColor(0, 0, 0, 15))
+        shadowEffect.setBlurRadius(10)
+        shadowEffect.setOffset(0, 0)
+        card.setGraphicsEffect(shadowEffect)
+
+    def updateUi(self):
+        # 通过 SimpleCardWidget 查找 TreeWidget
+        self.SimpleCardWidget = self.findChild(SimpleCardWidget, 'SimpleCardWidget')
+        if self.SimpleCardWidget:
+            self.TreeWidget = self.SimpleCardWidget.findChild(TreeWidget, 'TreeWidget')
+            if self.TreeWidget:
+                # 清除所有项
+                self.TreeWidget.clear()
+                # 创建新的项
+                self.createTreeItems()
+
+    def createTreeItems(self):
+        font_8 = QtGui.QFont('萝莉体', 8)
+        font_9 = QtGui.QFont('萝莉体', 9)
+
+        # 创建树的分支结构
+        if self.window.algorithmed['RadioBoxes'] == 'RadioButton_1':
+            item_0 = QtWidgets.QTreeWidgetItem(self.TreeWidget)
+            item_1 = QtWidgets.QTreeWidgetItem(item_0)
+            item_0 = QtWidgets.QTreeWidgetItem(self.TreeWidget)
+            item_1 = QtWidgets.QTreeWidgetItem(item_0)
+            item_1 = QtWidgets.QTreeWidgetItem(item_0)
+            item_1 = QtWidgets.QTreeWidgetItem(item_0)
+            item_1 = QtWidgets.QTreeWidgetItem(item_0)
+
+        elif self.window.algorithmed['RadioBoxes'] == 'RadioButton_2':
+            item_0 = QtWidgets.QTreeWidgetItem(self.TreeWidget)
+            item_0 = QtWidgets.QTreeWidgetItem(self.TreeWidget)
+
+            sorted_data = sorted(self.window.appInterface.globalList, key=lambda x: x['QS'])
+            nums = Counter(d['QS'] for d in sorted_data)
+
+            item_1 = QtWidgets.QTreeWidgetItem(item_0)
+            for i in range(nums.get(0, 0)):
+                item_2 = QtWidgets.QTreeWidgetItem(item_1)
+            item_1 = QtWidgets.QTreeWidgetItem(item_0)
+            for i in range(nums.get(1, 0)):
+                item_2 = QtWidgets.QTreeWidgetItem(item_1)
+            item_1 = QtWidgets.QTreeWidgetItem(item_0)
+            for i in range(nums.get(2, 0)):
+                item_2 = QtWidgets.QTreeWidgetItem(item_1)
+            item_1 = QtWidgets.QTreeWidgetItem(item_0)
+            for i in range(nums.get(3, 0)):
+                item_2 = QtWidgets.QTreeWidgetItem(item_1)
+
+        _translate = QtCore.QCoreApplication.translate
+
+        if self.window.algorithmed['RadioBoxes'] == 'RadioButton_1':
+            self.TreeWidget.topLevelItem(0).setText(0, _translate("Tui", "CIEDE"))
+            self.TreeWidget.topLevelItem(0).child(0).setText(0, _translate("Tui", "ΔE+KT"+'--->'+'KTree: {}'.format(self.window.algorithmed['KTree'])))
+
+            self.TreeWidget.topLevelItem(1).setText(0, _translate("Tui", "DIDDER"))
+            self.TreeWidget.topLevelItem(1).child(0).setText(0, _translate("Tui", "RAD"))
+            self.TreeWidget.topLevelItem(1).child(1).setText(0, _translate("Tui", "BMD"))
+            self.TreeWidget.topLevelItem(1).child(2).setText(0, _translate("Tui", "ODM"))
+            self.TreeWidget.topLevelItem(1).child(3).setText(0, _translate("Tui", "EDM"))
+
+            self.TreeWidget.topLevelItem(0).setFont(0, font_9)
+            self.TreeWidget.topLevelItem(0).child(0).setFont(0, font_8)
+            self.TreeWidget.topLevelItem(1).setFont(0, font_9)
+            self.TreeWidget.topLevelItem(1).child(0).setFont(0, font_9)
+            self.TreeWidget.topLevelItem(1).child(1).setFont(0, font_9)
+            self.TreeWidget.topLevelItem(1).child(2).setFont(0, font_9)
+            self.TreeWidget.topLevelItem(1).child(3).setFont(0, font_9)
+
+        elif self.window.algorithmed['RadioBoxes'] == 'RadioButton_2':
+            self.TreeWidget.topLevelItem(0).setText(0, _translate("Tui", "CIEDE"))
+            self.TreeWidget.topLevelItem(1).setText(0, _translate("Tui", "DIDDER"))
+
+            self.TreeWidget.topLevelItem(0).setFont(0, font_9)
+            self.TreeWidget.topLevelItem(1).setFont(0, font_9)
+
+            sorted_data = sorted(self.window.appInterface.globalList, key=lambda x: x['QS'])
+            nums = Counter(d['QS'] for d in sorted_data)
+            flag = 0
+
+            self.TreeWidget.topLevelItem(1).child(0).setFont(0, font_8)
+            self.TreeWidget.topLevelItem(1).child(0).setText(0, _translate("Tui", "RAD"))
+            if nums.get(0, 0) > 0:
+                for i, data in enumerate(sorted_data[flag:flag+nums.get(0, 0)]):
+                    self.TreeWidget.topLevelItem(1).child(0).child(i).setText(0, _translate(
+                        "Tui", 'Flag: {}\nStrength: {}\nSeed: {}\nSlider: {}'.format(flag, data['strength'], data['Seed'], data['SliderB'])))
+                    self.TreeWidget.topLevelItem(1).child(0).child(i).setFont(0, font_8)
+                    flag += 1
+
+            self.TreeWidget.topLevelItem(1).child(1).setFont(0, font_8)
+            self.TreeWidget.topLevelItem(1).child(1).setText(0, _translate("Tui", "BMD"))
+            if nums.get(1, 0) > 0:
+                for i, data in enumerate(sorted_data[flag:flag+nums.get(1, 0)]):
+                    self.TreeWidget.topLevelItem(1).child(1).child(i).setText(0, _translate(
+                        "Tui", 'Flag: {}\nStrength: {}\nTree: {}'.format(flag, data['strength'], data['Tree'])))
+                    self.TreeWidget.topLevelItem(1).child(1).child(i).setFont(0, font_8)
+                    flag += 1
+
+            self.TreeWidget.topLevelItem(1).child(2).setFont(0, font_8)
+            self.TreeWidget.topLevelItem(1).child(2).setText(0, _translate("Tui", "ODM"))
+            if nums.get(2, 0) > 0:
+                for i, data in enumerate(sorted_data[flag:flag+nums.get(2, 0)]):
+                    self.TreeWidget.topLevelItem(1).child(2).child(i).setText(0, _translate(
+                        "Tui", 'Flag: {}\nStrength: {}\nList: {}'.format(flag, data['strength'], data['ListWidget_E'])))
+                    self.TreeWidget.topLevelItem(1).child(2).child(i).setFont(0, font_8)
+                    flag += 1
+
+            self.TreeWidget.topLevelItem(1).child(3).setFont(0, font_8)
+            self.TreeWidget.topLevelItem(1).child(3).setText(0, _translate("Tui", "EDM"))
+            if nums.get(3, 0) > 0:
+                for i, data in enumerate(sorted_data[flag:flag+nums.get(3, 0)]):
+                    self.TreeWidget.topLevelItem(1).child(3).child(i).setText(0, _translate(
+                        "Tui", 'Flag: {}\nStrength: {}\nList: {}\nSnakes: {}'.format(flag, data['strength'], data['ListWidget_F'], data['Snakes'])))
+                    self.TreeWidget.topLevelItem(1).child(3).child(i).setFont(0, font_8)
+                    flag += 1
+
+        for i in range(self.TreeWidget.topLevelItemCount()):
+            item = self.TreeWidget.topLevelItem(i)
+            self.expandAll(item)
+
+    def expandAll(self, item):
+        item.setExpanded(True)
+        for i in range(item.childCount()):
+            self.expandAll(item.child(i))
+
+    @pyqtSlot()
+    def handleButtonClicked(self):
+        # 调用 Window 类的 onButtonClicked 方法
+        button = self.sender()
+        buttonName = button.objectName()
+        self.window.onButtonClicked(buttonName, 'Dui')
+
+
 class StyleSheet(StyleSheetBase, Enum):
     WINDOW = "window"
     def path(self, theme=Theme.AUTO):
@@ -216,15 +384,28 @@ class Window(MSFluentWindow):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
 
+        self.algorithmed = algorithmed
+
         # create sub interface
+        self.settingButton = UI_Yui(self.navigationInterface)
+        self.settingButton.setObjectName("settingInterface")
+
         self.homeInterface = Aui(self.navigationInterface, self)
         self.colorInterface = Bui(self.navigationInterface, self)
+
         self.appInterface = Cui(self.navigationInterface, self)
         self.appInterface.setObjectName("homeInterface")
-        self.imageInterface = Dui(self.navigationInterface, self)
+
+        self.imageInterface = Fui(self.navigationInterface, self)
+        self.appInterface.setObjectName("imageInterface")
+
+        self.libraryInterface = Eui(self.navigationInterface, self)
+        self.libraryInterface.setObjectName("libraryInterface")
+
         self.videoInterface = Widget('Result Export', self)
-        self.libraryInterface = Widget('GitHub Home', self)
-        self.settingButton = Widget('Setting Button', self)
+
+        # 连接 Cui 发出的信号到 Fui 的槽函数
+        self.appInterface.updateUi.connect(self.imageInterface.updateUi)
 
         self.setThemeBasedStyles()  # 在初始化时设置样式
         self.initNavigation()
@@ -240,11 +421,11 @@ class Window(MSFluentWindow):
         self.addSubInterface(self.videoInterface, FIF.SAVE_AS, '导出')
 
         self.addSubInterface(self.settingButton, FIF.SETTING, '设置', FIF.SETTING, NavigationItemPosition.BOTTOM)
-        self.addSubInterface(self.libraryInterface, FIF.GITHUB, '源码', FIF.GITHUB, NavigationItemPosition.BOTTOM)
+        self.addSubInterface(self.libraryInterface, FIF.HELP, '帮助', FIF.HELP, NavigationItemPosition.BOTTOM)
         self.navigationInterface.addItem(
             routeKey='Help',
-            icon=FIF.HELP,
-            text='帮助',
+            icon=FIF.GITHUB,
+            text='源码',
             onClick=self.showMessageBox,
             selectable=False,
             position=NavigationItemPosition.BOTTOM,
@@ -263,7 +444,6 @@ class Window(MSFluentWindow):
         self.navigationInterface.setCurrentItem(self.homeInterface.objectName())
 
     def initWindow(self):
-        # self.resize(900, 720)
         self.setFixedSize(1040, 720)
         self.setWindowIcon(QIcon(r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\256t.png'))
         self.setWindowTitle('MC-map-drawing-ETO')
@@ -275,7 +455,6 @@ class Window(MSFluentWindow):
 
         desktop = QApplication.desktop().availableGeometry()
         w, h = desktop.width(), desktop.height()
-        # self.move(w//2 - self.width()//2 - 66, h//2 - self.height()//2)
         self.move(w//2 - self.width()//2, h//2 - self.height()//2)
 
         self.show()
@@ -391,15 +570,17 @@ class Window(MSFluentWindow):
             self.switchTo(self.appInterface)
         elif next == 'Cui':
             self.switchTo(self.imageInterface)
+        elif next == 'Dui':
+            self.switchTo(self.videoInterface)
 
     def showMessageBox(self):
         w = MessageBox(
-            '喵~',
-            '喵喵喵喵喵喵喵~',
+            'byETO',
+            '跳转至项目GitHub首页，可以为本项目提交Issue哦~',
             self
         )
-        w.yesButton.setText('喵喵喵~')
-        w.cancelButton.setText('喵喵喵喵喵~')
+        w.yesButton.setText('这就去')
+        w.cancelButton.setText('懒得看')
 
         if w.exec():
             QDesktopServices.openUrl(QUrl("https://github.com/ETO-QSH/MC-map-drawing-ETO"))
@@ -410,8 +591,9 @@ if __name__ == '__main__':
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
 
-    setTheme(Theme.DARK)
-    setThemeColor('#FFBFBF')
+    algorithmed = {'RadioBoxes': 'RadioButton_0'}
+
+    #setTheme(Theme.DARK)
 
     app = QApplication(sys.argv)
     w = Window()

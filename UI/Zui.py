@@ -139,16 +139,29 @@ class Aui(Ui_Cui, QWidget):
                                                               , lst['Slider_G_min'], lst['Slider_G_max']
                                                               , lst['Slider_B_min'], lst['Slider_B_max'])
 
-        if len(list(algorithm)) == 4 and algorithm['Seed'] != '':
-            if algorithm in self.ui_zui.globalList:
-                Ui_Cui.createRepeatInfoBar(self)
+        nameB, RadioBoxes = 'RadioButton_0', self.ui_zui.findChildren(RadioButton)
+        for Radio in RadioBoxes:
+            if Radio.isChecked():
+                nameB = Radio.objectName()
+                break
+
+        if nameB == 'RadioButton_1':
+            print("nameB == 'RadioButton_1'")
+            Ui_Fui.createSuccessInfoBar(self)
+            self.ui_zui.createInfoInfoBar()  # 假设 self.window 是 Ui_Zui 的实例
+        elif nameB == 'RadioButton_2':
+            if len(list(algorithm)) == 4 and algorithm['Seed'] != '':
+                if algorithm in self.ui_zui.globalList:
+                    Ui_Cui.createRepeatInfoBar(self)
+                else:
+                    print('DICT:', algorithm)
+                    self.ui_zui.globalList.append(algorithm)
+                    Ui_Cui.createSuccessInfoBar(self)
+                    self.ui_zui.createInfoInfoBar()
             else:
-                print('DICT:', algorithm)
-                self.ui_zui.globalList.append(algorithm)
-                Ui_Cui.createSuccessInfoBar(self)
-                self.ui_zui.createInfoInfoBar()  # 假设 self.window 是 Ui_Zui 的实例
+                Ui_Cui.createWarningInfoBar(self)
         else:
-            Ui_Cui.createWarningInfoBar(self)
+            Ui_Cui.createWarningInfoBar2(self)
 
 class Bui(Ui_Dui, QWidget):
     def __init__(self, parent=None):
@@ -184,16 +197,29 @@ class Bui(Ui_Dui, QWidget):
                 if '.' not in item.text(0):
                     algorithm['Tree'] = item.text(0).replace(" ", "")
 
-        if len(list(algorithm)) == 3:
-            if algorithm in self.ui_zui.globalList:
-                Ui_Dui.createRepeatInfoBar(self)
+        nameB, RadioBoxes = 'RadioButton_0', self.ui_zui.findChildren(RadioButton)
+        for Radio in RadioBoxes:
+            if Radio.isChecked():
+                nameB = Radio.objectName()
+                break
+
+        if nameB == 'RadioButton_1':
+            print("nameB == 'RadioButton_1'")
+            Ui_Fui.createSuccessInfoBar(self)
+            self.ui_zui.createInfoInfoBar()  # 假设 self.window 是 Ui_Zui 的实例
+        elif nameB == 'RadioButton_2':
+            if len(list(algorithm)) == 3:
+                if algorithm in self.ui_zui.globalList:
+                    Ui_Dui.createRepeatInfoBar(self)
+                else:
+                    print('DICT:', algorithm)
+                    self.ui_zui.globalList.append(algorithm)
+                    Ui_Dui.createSuccessInfoBar(self)
+                    self.ui_zui.createInfoInfoBar()  # 假设 self.window 是 Ui_Zui 的实例
             else:
-                print('DICT:', algorithm)
-                self.ui_zui.globalList.append(algorithm)
-                Ui_Dui.createSuccessInfoBar(self)
-                self.ui_zui.createInfoInfoBar()  # 假设 self.window 是 Ui_Zui 的实例
+                Ui_Dui.createWarningInfoBar(self)
         else:
-            Ui_Dui.createWarningInfoBar(self)
+            Ui_Dui.createWarningInfoBar2(self)
 
 class Cui(Ui_Eui, QWidget):
     def __init__(self, parent=None):
@@ -229,16 +255,29 @@ class Cui(Ui_Eui, QWidget):
                 for item in ListW.selectedItems():
                     algorithm['ListWidget_E'] = item.text()
 
-        if len(list(algorithm)) == 3:
-            if algorithm in self.ui_zui.globalList:
-                Ui_Eui.createRepeatInfoBar(self)
+        nameB, RadioBoxes = 'RadioButton_0', self.ui_zui.findChildren(RadioButton)
+        for Radio in RadioBoxes:
+            if Radio.isChecked():
+                nameB = Radio.objectName()
+                break
+
+        if nameB == 'RadioButton_1':
+            print("nameB == 'RadioButton_1'")
+            Ui_Fui.createSuccessInfoBar(self)
+            self.ui_zui.createInfoInfoBar()  # 假设 self.window 是 Ui_Zui 的实例
+        elif nameB == 'RadioButton_2':
+            if len(list(algorithm)) == 3:
+                if algorithm in self.ui_zui.globalList:
+                    Ui_Eui.createRepeatInfoBar(self)
+                else:
+                    print('DICT:', algorithm)
+                    self.ui_zui.globalList.append(algorithm)
+                    Ui_Eui.createSuccessInfoBar(self)
+                    self.ui_zui.createInfoInfoBar()  # 假设 self.window 是 Ui_Zui 的实例
             else:
-                print('DICT:', algorithm)
-                self.ui_zui.globalList.append(algorithm)
-                Ui_Eui.createSuccessInfoBar(self)
-                self.ui_zui.createInfoInfoBar()  # 假设 self.window 是 Ui_Zui 的实例
+                Ui_Eui.createWarningInfoBar(self)
         else:
-            Ui_Eui.createWarningInfoBar(self)
+            Ui_Eui.createWarningInfoBar2(self)
 
 class Dui(Ui_Fui, QWidget):
     def __init__(self, parent=None):
@@ -248,8 +287,6 @@ class Dui(Ui_Fui, QWidget):
         self.label = QLabel(self)
         self.label.setAlignment(Qt.AlignCenter)
         self.PushButton_SF.clicked.connect(self.handleButtonClicked)
-        #self.PushButton_SF.clicked.connect(lambda: Ui_Fui.createSuccessInfoBar(self))
-        #self.PushButton_SF.clicked.connect(lambda: Ui_Fui.createWarningInfoBar(self))
         self.ui_zui = parent  # 假设 parent 是 Ui_Zui 的实例
 
     def setShadowEffect(self, card: QWidget):
@@ -280,16 +317,29 @@ class Dui(Ui_Fui, QWidget):
                 for item in ListW.selectedItems():
                     algorithm['ListWidget_F'] = item.text()
 
-        if len(list(algorithm)) == 4:
-            if algorithm in self.ui_zui.globalList:
-                Ui_Fui.createRepeatInfoBar(self)
+        nameB, RadioBoxes = 'RadioButton_0', self.ui_zui.findChildren(RadioButton)
+        for Radio in RadioBoxes:
+            if Radio.isChecked():
+                nameB = Radio.objectName()
+                break
+
+        if nameB == 'RadioButton_1':
+            print("nameB == 'RadioButton_1'")
+            Ui_Fui.createSuccessInfoBar(self)
+            self.ui_zui.createInfoInfoBar()  # 假设 self.window 是 Ui_Zui 的实例
+        elif nameB == 'RadioButton_2':
+            if len(list(algorithm)) == 4:
+                if algorithm in self.ui_zui.globalList:
+                    Ui_Fui.createRepeatInfoBar(self)
+                else:
+                    print('DICT:', algorithm)
+                    self.ui_zui.globalList.append(algorithm)
+                    Ui_Fui.createSuccessInfoBar(self)
+                    self.ui_zui.createInfoInfoBar()  # 假设 self.window 是 Ui_Zui 的实例
             else:
-                print('DICT:', algorithm)
-                self.ui_zui.globalList.append(algorithm)
-                Ui_Fui.createSuccessInfoBar(self)
-                self.ui_zui.createInfoInfoBar()  # 假设 self.window 是 Ui_Zui 的实例
+                Ui_Fui.createWarningInfoBar(self)
         else:
-            Ui_Fui.createWarningInfoBar(self)
+            Ui_Fui.createWarningInfoBar2(self)
 
 
 class Ui_Zui(object):
@@ -298,7 +348,7 @@ class Ui_Zui(object):
         self.stackedWidget = QStackedWidget()
         self.segmentedWidget = SegmentedWidget()
         self.infoBarInstance = None  # 用于存储弹窗实例的引用
-        self.action_button = PushButton('NEXT')
+        self.action_button = PushButton('Next')
         self.globalList = []
 
         # 创建 Aui 实例
@@ -952,20 +1002,17 @@ class Ui_Zui(object):
             self.infoBarInstance.close()
             self.infoBarInstance = None
 
-        content = ""
-        self.infoBarInstance = InfoBar(
-            icon=InfoBarIcon.INFORMATION,
-            title='下一步 ？',
-            content=content,
-            orient=Qt.Vertical,  # vertical layout
-            isClosable=False,
-            position=InfoBarPosition.BOTTOM_RIGHT,
+        self.infoBarInstance = InfoBar.success(
+            title='Success',
+            content="进入下一步",
+            orient=Qt.Horizontal,  # vertical layout
+            isClosable=True,
+            position=InfoBarPosition.TOP_RIGHT,
             duration=-1,
             parent=self
         )
 
         self.infoBarInstance.addWidget(self.action_button)
-        self.infoBarInstance.show()
 
 from qfluentwidgets import SegmentedWidget, setFont, SubtitleLabel, StrongBodyLabel, RadioButton, \
     TitleLabel, PixmapLabel, HorizontalSeparator, VerticalSeparator, ListWidget, SpinBox, TeachingTipTailPosition, \

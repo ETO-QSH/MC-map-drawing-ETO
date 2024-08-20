@@ -186,6 +186,17 @@ class Ui_Fui(object):
             parent=self
         )
 
+    def createWarningInfoBar2(self):
+        InfoBar.warning(
+            title='Warning',
+            content="请勾选单选框",
+            orient=Qt.Horizontal,
+            isClosable=True,   # disable close button
+            position=InfoBarPosition.TOP,
+            duration=2500,
+            parent=self
+        )
+
     def showTeachingTip(self):
         TeachingTip.create(
             target=self.button,

@@ -22,7 +22,6 @@ class ExtendedSearchLineEdit(SearchLineEdit):
         self.searchSignal.connect(self.onSearch)
 
     def onSearch(self, text):
-        print('okok')
         # 当接收到 searchSignal 信号时，生成随机数并更新 Text_seed 控件
         randomNumber = random.randint(0, 65536)
         self.setText(str(randomNumber))
@@ -363,6 +362,17 @@ class Ui_Cui(object):
         InfoBar.warning(
             title='Warning',
             content="无效提交",
+            orient=Qt.Horizontal,
+            isClosable=True,   # disable close button
+            position=InfoBarPosition.TOP,
+            duration=2500,
+            parent=self
+        )
+
+    def createWarningInfoBar2(self):
+        InfoBar.warning(
+            title='Warning',
+            content="请勾选单选框",
             orient=Qt.Horizontal,
             isClosable=True,   # disable close button
             position=InfoBarPosition.TOP,
