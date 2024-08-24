@@ -12,7 +12,7 @@ from qfluentwidgets import (FlipImageDelegate, setTheme, Theme, HorizontalPipsPa
 
 class DIDshow(QWidget):
 
-    def __init__(self):
+    def __init__(self, size):
         super().__init__()
         #setTheme(Theme.DARK)
         #self.setStyleSheet('Demo{background:rgb(32,32,32)}')
@@ -24,11 +24,11 @@ class DIDshow(QWidget):
         self.flipView.setAspectRatioMode(Qt.AspectRatioMode.KeepAspectRatio)
 
         # adjust view size
-        self.flipView.setItemSize(QSize(512, 512))
-        self.flipView.setFixedSize(QSize(341, 512))
+        self.flipView.setItemSize(size)
+        self.flipView.setFixedSize(size)
 
         # add images
-        self.flipView.addImages([str(i) for i in Path('./test').glob('*')])
+        self.flipView.addImages([str(i) for i in Path('./data/didder').glob('*')])
         self.pager.setPageNumber(self.flipView.count())
 
         self.pager.currentIndexChanged.connect(self.flipView.setCurrentIndex)

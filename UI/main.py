@@ -1,6 +1,9 @@
 # coding:utf-8
 
+import ast
+import subprocess
 import sys
+import json
 from enum import Enum
 
 from PyQt5 import QtGui, QtWidgets, QtCore
@@ -32,6 +35,36 @@ from PyQt5.QtCore import pyqtSlot
 from qfluentwidgets import qconfig, Theme, StyleSheetBase
 
 from qfluentwidgets import SplashScreen
+
+def creat_BlockList_colorList(BlockList, colorList, newBlockList, newcolorList, name_list, MapMod):
+
+    with open(BlockList, 'r', encoding="utf-8") as file:
+        data = json.load(file)
+
+    color_set = set()
+
+    filtered_blocks = [block for block in data["BlockList"] if block["icon"].split('.')[0] in name_list]
+
+    [color_set.add(color["color"]) for color in filtered_blocks]
+
+    filtered_json = {"BlockList": filtered_blocks}
+
+    with open(newBlockList, 'w', encoding="utf-8") as file:
+        json.dump(filtered_json, file, indent=4)
+
+    with open(colorList, 'r', encoding="utf-8") as file:
+        data1 = ast.literal_eval(file.read())
+
+    data2 = ["#000000", ]
+
+    for i in range(1, 62):
+        if i in color_set:
+            for x in range(MapMod):
+                data2.append(data1[4*(i-1)+x+1])
+
+    with open(newcolorList, 'w', encoding="utf-8") as file:
+        file.write(str(data2))
+
 
 class Widget(QFrame):
     def __init__(self, text: str, parent=None):
@@ -70,8 +103,8 @@ class Aui(Ui_Aui, QWidget):
         button = self.sender()
         buttonName = button.objectName()
         self.window.onButtonClicked(buttonName, 'Aui')
-        MapMod = buttonName.split('_')[1]
-        print('MapMod:', MapMod)
+        self.parent().MapMod = {'1': 1, '2': 3, '3': 4}[buttonName.split('_')[1]]
+        print('MapMod:', self.parent().MapMod)
 
 
 class Bui(Ui_Bui, QWidget):
@@ -91,6 +124,26 @@ class Bui(Ui_Bui, QWidget):
         shadowEffect.setOffset(0, 0)
         card.setGraphicsEffect(shadowEffect)
 
+    def updateCheckBoxStyles(self, styleSheet_0, styleSheet_1):
+        # 查找所有特定名称前缀的控件
+        checkBoxes_0 = self.findChildren(QCheckBox)
+        checkBoxes_1 = [self.findChildren(QWidget, "CheckBox_B" + str(i))[0] for i in range(0, 62)]
+        for checkBox in checkBoxes_0:
+            checkBox.setStyleSheet(styleSheet_1)
+        for checkBox in checkBoxes_1:
+            checkBox.setStyleSheet(styleSheet_0)
+
+    def createWarningInfoBar(self):
+        InfoBar.warning(
+            title='Warning',
+            content="请与上页选择地图画模式",
+            orient=Qt.Horizontal,
+            isClosable=True,   # disable close button
+            position=InfoBarPosition.TOP,
+            duration=2500,
+            parent=self
+        )
+
     @pyqtSlot()
     def handleButtonClicked(self):
         # 调用 Window 类的 onButtonClicked 方法
@@ -105,17 +158,18 @@ class Bui(Ui_Bui, QWidget):
                 name = checkBox.objectName()
                 if 'CheckBox_B' not in name:
                     nameList.append(name)
-        self.window.onButtonClicked(buttonName, 'Bui')
-        print('nameList:', nameList)
 
-    def updateCheckBoxStyles(self, styleSheet_0, styleSheet_1):
-        # 查找所有特定名称前缀的控件
-        checkBoxes_0 = self.findChildren(QCheckBox)
-        checkBoxes_1 = [self.findChildren(QWidget, "CheckBox_B" + str(i))[0] for i in range(0, 62)]
-        for checkBox in checkBoxes_0:
-            checkBox.setStyleSheet(styleSheet_1)
-        for checkBox in checkBoxes_1:
-            checkBox.setStyleSheet(styleSheet_0)
+        try:
+            if self.parent().MapMod:
+                creat_BlockList_colorList(r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\src\BlockList.json',
+                                          r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\src\colorList.txt',
+                                       r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\data\BlockList.json',
+                                       r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\data\colorList.txt',
+                                                  nameList, self.parent().MapMod)
+                print('nameList:', nameList)
+                self.window.onButtonClicked(buttonName, 'Bui')
+        except AttributeError:
+            self.createWarningInfoBar()
 
 
 class Cui(Ui_Zui, QWidget):
@@ -365,12 +419,39 @@ class Fui(Ui_Tui, QWidget):
         for i in range(item.childCount()):
             self.expandAll(item.child(i))
 
+    def createWarningInfoBar(self):
+        InfoBar.warning(
+            title='Warning',
+            content="请点击左侧树控件选择算法与图片匹配",
+            orient=Qt.Horizontal,
+            isClosable=True,   # disable close button
+            position=InfoBarPosition.TOP,
+            duration=2500,
+            parent=self
+        )
+
     @pyqtSlot()
     def handleButtonClicked(self):
-        # 调用 Window 类的 onButtonClicked 方法
-        button = self.sender()
-        buttonName = button.objectName()
-        self.window.onButtonClicked(buttonName, 'Dui')
+
+        # 获取当前选中的项
+        selected_items = self.TreeWidget.selectedItems()
+
+        if selected_items:
+            for item in selected_items:
+                parent_item = item.parent()
+                if parent_item is not None:
+                    grandparent_item = parent_item.parent()
+                    if grandparent_item is not None:
+                        flag = int(item.text(0).split("\n")[0].split(":")[1].strip())
+                        if self.didshow.flipView.currentIndex() == flag:
+                            self.window.onButtonClicked("go_last", 'Dui')
+                            subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe',
+                                                  '-i', './data/didder/{}.png'.format(flag), '-o', './data/image/didder.png',
+                                                  '-m', 'true', '-s', '1.0'], shell=True)
+                        else:
+                            self.createWarningInfoBar()
+        else:
+            self.createWarningInfoBar()
 
 
 class StyleSheet(StyleSheetBase, Enum):
@@ -385,6 +466,8 @@ class Window(MSFluentWindow):
         super().__init__(parent=parent)
 
         self.algorithmed = algorithmed
+
+        self.MapMod = MapMod
 
         # create sub interface
         self.settingButton = UI_Yui(self.navigationInterface)
@@ -592,6 +675,8 @@ if __name__ == '__main__':
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
 
     algorithmed = {'RadioBoxes': 'RadioButton_0'}
+
+    MapMod = 0
 
     #setTheme(Theme.DARK)
 

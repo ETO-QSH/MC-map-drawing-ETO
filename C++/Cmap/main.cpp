@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    // 读取图片
+     // 读取图片
      cv::Mat img = cv::imread(input_image_path, cv::IMREAD_COLOR);
      if (img.empty()) {
          std::cerr << "Error: Image not found." << std::endl;
@@ -167,15 +167,33 @@ int main(int argc, char** argv) {
         // 用找到的最近颜色替换原图的像素
         for (int y = 0; y < img.rows; ++y) {
             for (int x = 0; x < img.cols; ++x) {
-                if (img.at<cv::Vec3b>(y, x) == cv::Vec3b(color[2], color[1], color[0])) {
-                    img.at<cv::Vec3b>(y, x) = cv::Vec3b(nearest_color[2], nearest_color[1], nearest_color[0]);
+                cv::Vec3b current_pixel = img.at<cv::Vec3b>(y, x);
+                if (current_pixel[0] == 0 && current_pixel[1] == 0 && current_pixel[2] == 0) {
+                } else {
+                    if (img.at<cv::Vec3b>(y, x) == cv::Vec3b(color[2], color[1], color[0])) {
+                        img.at<cv::Vec3b>(y, x) = cv::Vec3b(nearest_color[2], nearest_color[1], nearest_color[0]);
+                    }
                 }
             }
         }
     }
 
+    cv::Mat rgba_image(img.rows, img.cols, CV_8UC4);
+
+    // 将全黑像素转换为透明
+    for (int y = 0; y < rgba_image.rows; ++y) {
+        for (int x = 0; x < rgba_image.cols; ++x) {
+            cv::Vec3b current_pixel = img.at<cv::Vec3b>(y, x);
+            if (current_pixel[0] == 0 && current_pixel[1] == 0 && current_pixel[2] == 0) {
+                rgba_image.at<cv::Vec4b>(y, x) = cv::Vec4b(0, 0, 0, 0);
+            } else {
+                rgba_image.at<cv::Vec4b>(y, x) = cv::Vec4b(current_pixel[0], current_pixel[1], current_pixel[2], 255);
+            }
+        }
+    }
+
      // 保存结果
-    cv::imwrite(output_image_path, img);
+    cv::imwrite(output_image_path, rgba_image);
 
     return 0;
 }

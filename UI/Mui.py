@@ -24,6 +24,7 @@ class MovableWidget(QtWidgets.QWidget):
 
     def __init__(self, n, m, s, folder_path, scrollable_widget, parent=None):
         super().__init__(parent)
+        self.setStyleSheet("background-color:rgb(50, 50, 50);")
         self.folder_path = folder_path
         self.lastMousePressTime = None  # 用于记录上一次鼠标左键按下的时间
         self.scrollable_widget = scrollable_widget
@@ -89,7 +90,7 @@ class MovableWidget(QtWidgets.QWidget):
         try:
             _, i, j = os.path.splitext(os.path.split(file_path)[1])[0].split('_')
             if i.isdigit() and j.isdigit():
-
+                i, j = int(i) - 1, int(j) - 1
                 # 检查旧标签是否存在，并从布局和列表中移除
                 if 'Label_%s_%s' % (i, j) in names:
                     old_label = names['Label_%s_%s' % (i, j)]
@@ -102,6 +103,7 @@ class MovableWidget(QtWidgets.QWidget):
                     # 创建新的PixmapLabel控件
                     names['Label_%s_%s' % (i, j)] = PixmapLabel(self)
                     names['Label_%s_%s' % (i, j)].setFixedSize(self.s, self.s)
+                    names['Label_%s_%s' % (i, j)].setStyleSheet("background-color:rgb(50, 50, 50);")
                     names['Label_%s_%s' % (i, j)].setPixmap(QtGui.QPixmap(file_path))
                     names['Label_%s_%s' % (i, j)].mouseReleaseEvent = lambda event, label=names['Label_%s_%s' % (i, j)]: self.onLabelClicked(label, event)
                     self.gridLayout.addWidget(names['Label_%s_%s' % (i, j)], int(i), int(j))
@@ -179,6 +181,9 @@ class MovableWidget(QtWidgets.QWidget):
                 self.lastMousePressTime = time.time()
 
     def mousePressEvent(self, event):
+        if self.currentTip != None:
+            self.currentTip.close()
+            self.currentTip = None
         if event.button() == Qt.RightButton:
             self.mousePressPos = event.pos()
             self.mousePressGlobalPos = event.globalPos()
@@ -221,9 +226,11 @@ class MovableWidget(QtWidgets.QWidget):
 class ScrollableMovableGridPixmapWidget(QtWidgets.QWidget):
     def __init__(self, n, m, s, parent=None):
         super().__init__(parent)
-        self.movableWidget = MovableWidget(n, m, s, 'D:\\Work Files\\PyQt-Fluent-Widgets-exploit\\ETO\\data', self)
+        self.movableWidget = MovableWidget(n, m, s, 'D:\\Work Files\\PyQt-Fluent-Widgets-exploit\\ETO\\data\\split', self)
         self.movableWidget.connectNewFileSignal()
+        self.movableWidget.setStyleSheet("background-color:rgb(50, 50, 50);")
         self.scrollArea = QtWidgets.QScrollArea()
+        self.scrollArea.setStyleSheet("background-color:rgb(50, 50, 50);")
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setWidget(self.movableWidget)
         self.scrollArea.setLineWidth(0)
