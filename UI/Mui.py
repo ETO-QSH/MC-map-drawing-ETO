@@ -19,15 +19,21 @@ from qfluentwidgets import TeachingTipTailPosition, FlyoutViewBase, TeachingTip,
 
 names = locals()
 
+# 定义排序键函数
+def sort_key(filename):
+    parts = filename.split('.')[0].split('_')
+    return int(parts[1]), int(parts[2])
+
 class MovableWidget(QtWidgets.QWidget):
     newFileDetected = pyqtSignal(str)
 
-    def __init__(self, n, m, s, folder_path, scrollable_widget, parent=None):
+    def __init__(self, n, m, s, t, folder_path, scrollable_widget, parent=None):
         super().__init__(parent)
         self.setStyleSheet("background-color:rgb(50, 50, 50);")
         self.folder_path = folder_path
         self.lastMousePressTime = None  # 用于记录上一次鼠标左键按下的时间
         self.scrollable_widget = scrollable_widget
+        self.scrollable_widget.setStyleSheet("background-color:rgb(50, 50, 50);")
         self.gridLayout = QtWidgets.QGridLayout(self)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setSpacing(0)
@@ -38,37 +44,48 @@ class MovableWidget(QtWidgets.QWidget):
         self.lst = []
         self.S = s
 
-        # 创建一个定时器，用于定期检查文件夹
-        self.checkTimer = QTimer(self)
-        self.checkTimer.setInterval(1000)
-        self.checkTimer.timeout.connect(partial(self.checkForNewFiles, folder_path=self.folder_path))
-        self.checkTimer.start()
+        if t == True:
+            # 创建一个定时器，用于定期检查文件夹
+            self.checkTimer = QTimer(self)
+            self.checkTimer.setInterval(1000)
+            self.checkTimer.timeout.connect(partial(self.checkForNewFiles, folder_path=self.folder_path))
+            self.checkTimer.start()
 
-        image_paths = r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\loading\{}'.format({'动画式一': "load_0.gif", '动画式二': "load_1.gif", '动画式三': "load_2.gif"}[cfg.get(cfg.loadingStyle)])
+            image_paths = './loading/{}'.format({'动画式一': "load_0.gif", '动画式二': "load_1.gif", '动画式三': "load_2.gif"}[cfg.get(cfg.loadingStyle)])
 
-        # 创建并添加PixmapLabel控件，并为每个PixmapLabel设置图片
-        for i in range(n):
-            for j in range(m):
-                #names['Label_%s_%s' % (i, j)] = PixmapLabel(self)
-                #names['Label_%s_%s' % (i, j)].setFixedSize(self.s, self.s)
-                #names['Label_%s_%s' % (i, j)].setPixmap(QtGui.QPixmap(image_paths[i * m + j]))
-                #names['Label_%s_%s' % (i, j)].mouseReleaseEvent = lambda event, label=names['Label_%s_%s' % (i, j)]: self.onLabelClicked(label, event)
-                #self.gridLayout.addWidget(names['Label_%s_%s' % (i, j)], i, j)
-                #self.lst.append(names['Label_%s_%s' % (i, j)])
+            # 创建并添加PixmapLabel控件，并为每个PixmapLabel设置图片
+            for i in range(n):
+                for j in range(m):
+                    names['Label_%s_%s' % (i, j)] = QtWidgets.QLabel(self)
+                    names['Label_%s_%s' % (i, j)].setFixedSize(self.s, self.s)
+                    movie = QMovie(image_paths)
+                    names['Label_%s_%s' % (i, j)].setMovie(movie)
+                    movie.setScaledSize(PyQt5.QtCore.QSize(self.s, self.s))
+                    movie.setSpeed(10000)
+                    self.movielst.append(movie)
+                    self.gridLayout.addWidget(names['Label_%s_%s' % (i, j)], i, j)
+                    self.lst.append(names['Label_%s_%s' % (i, j)])
 
-                names['Label_%s_%s' % (i, j)] = QtWidgets.QLabel(self)
-                names['Label_%s_%s' % (i, j)].setFixedSize(self.s, self.s)
-                movie = QMovie(image_paths)
-                names['Label_%s_%s' % (i, j)].setMovie(movie)
-                movie.setScaledSize(PyQt5.QtCore.QSize(self.s, self.s))
-                movie.setSpeed(10000)
-                self.movielst.append(movie)
-                self.gridLayout.addWidget(names['Label_%s_%s' % (i, j)], i, j)
-                self.lst.append(names['Label_%s_%s' % (i, j)])
+            for label in self.lst:
+                label.setFixedSize(self.s, self.s)
+                label.movie().jumpToFrame(random.randint(0, label.movie().frameCount() - 1))
 
-        for label in self.lst:
-            label.setFixedSize(self.s, self.s)
-            label.movie().jumpToFrame(random.randint(0, label.movie().frameCount() - 1))
+        elif t == False:
+            # 获取图片并排序(好像不排也行的说)
+            image_paths = sorted([item for item in os.listdir('./data/split/') if os.path.isfile(os.path.join(folder_path, item))], key=sort_key)
+
+            # 创建并添加PixmapLabel控件，并为每个PixmapLabel设置图片
+            for i in range(n):
+                for j in range(m):
+                    names['Label_%s_%s' % (i, j)] = PixmapLabel(self)
+                    names['Label_%s_%s' % (i, j)].setFixedSize(self.s, self.s)
+                    names['Label_%s_%s' % (i, j)].setPixmap(QtGui.QPixmap('./data/split/'+image_paths[i * m + j]))
+                    names['Label_%s_%s' % (i, j)].mouseReleaseEvent = lambda event, label=names['Label_%s_%s' % (i, j)]: self.onLabelClicked(label, event)
+                    self.gridLayout.addWidget(names['Label_%s_%s' % (i, j)], i, j)
+                    self.lst.append(names['Label_%s_%s' % (i, j)])
+
+            for label in self.lst:
+                label.setFixedSize(self.s, self.s)
 
         # 初始化移动功能的变量
         self.mousePressPos = None
@@ -149,7 +166,7 @@ class MovableWidget(QtWidgets.QWidget):
                         self.currentTip = None
 
                     # 创建CustomTeachingTip实例
-                    title = 'pic_%s_%s' % (i, j)
+                    title = 'pic_%s_%s' % (i + 1, j + 1)
                     view = CustomTeachingTipView(
                         title=title,
                         content="",
@@ -181,9 +198,9 @@ class MovableWidget(QtWidgets.QWidget):
                 self.lastMousePressTime = time.time()
 
     def mousePressEvent(self, event):
-        if self.currentTip != None:
-            self.currentTip.close()
-            self.currentTip = None
+        # if self.currentTip != None:
+        #     self.currentTip.close()
+        #     self.currentTip = None
         if event.button() == Qt.RightButton:
             self.mousePressPos = event.pos()
             self.mousePressGlobalPos = event.globalPos()
@@ -224,10 +241,11 @@ class MovableWidget(QtWidgets.QWidget):
         self.s = int(self.s * factor)
 
 class ScrollableMovableGridPixmapWidget(QtWidgets.QWidget):
-    def __init__(self, n, m, s, parent=None):
+    def __init__(self, n, m, s, t, parent=None):
         super().__init__(parent)
-        self.movableWidget = MovableWidget(n, m, s, 'D:\\Work Files\\PyQt-Fluent-Widgets-exploit\\ETO\\data\\split', self)
-        self.movableWidget.connectNewFileSignal()
+        self.setStyleSheet("background-color:rgb(50, 50, 50);")
+        self.movableWidget = MovableWidget(n, m, s, t, './data/split', self)
+        self.movableWidget.connectNewFileSignal() if t == True else None
         self.movableWidget.setStyleSheet("background-color:rgb(50, 50, 50);")
         self.scrollArea = QtWidgets.QScrollArea()
         self.scrollArea.setStyleSheet("background-color:rgb(50, 50, 50);")

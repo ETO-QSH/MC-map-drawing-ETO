@@ -59,7 +59,7 @@ class AnimatedButton(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    button = AnimatedButton(r"D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\loading\d2n_15.gif",
-                            r"D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\loading\n2d_15.gif")
+    button = AnimatedButton(r"./loading/d2n_15.gif",
+                            r"./loading/n2d_15.gif")
     button.show()
     sys.exit(app.exec_())

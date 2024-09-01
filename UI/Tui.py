@@ -13,7 +13,7 @@ from PyQt5.QtCore import Qt, QRect, QObject, pyqtSignal, QThread
 from PyQt5.QtGui import QFont, QPixmap
 
 from ETO.settings.config import cfg
-from qfluentwidgets import qconfig, InfoBar, InfoBarPosition
+from qfluentwidgets import qconfig, InfoBar, InfoBarPosition, Theme
 from ETO.Mui import ScrollableMovableGridPixmapWidget
 from ETO.Nui import DIDshow
 
@@ -57,17 +57,13 @@ class Worker2(QObject):
         for item in self.itemList:
             if item["parent"] == 'RAD':
                 rad = item["Slider"].split(',')
-                child = ['random', ','.join(rad[0:2]), ','.join(rad[2:4]), ','.join(rad[4:6])]
-                print('flag provided but not defined: -seed')
-                # [child.append(i) for i in ['--seed', item["Seed"]]]
+                child = ['random'] + ['--seed', item["Seed"]] + [','.join(rad[0:2]), ','.join(rad[2:4]), ','.join(rad[4:6])]
             if item["parent"] == 'BMD':
                 child = ['bayer', item["Tree"]]
             if item["parent"] == 'ODM':
                 child = ['odm', item["List"]]
             if item["parent"] == 'EDM':
-                child = ['edm', item["List"]]
-                print('flag provided but not defined: -serpentine')
-                # [child.insert(0, '--serpentine') if item["Snakes"] == 'True' else 0]
+                child = ['edm'] + [['--serpentine'] if item["Snakes"] == 'True' else []][0] + [item["List"]]
 
             cmd = [r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\didder.exe', '--in', self.file, '--out', './data/didder/{}.png'.format(item["Flag"]), '--strength', item["Strength"]+'%', '--palette', self.palette]
 
@@ -133,7 +129,8 @@ class Ui_Tui(object):
         font.setItalic(False)
         font.setWeight(50)
         self.TreeWidget.setFont(font)
-        self.TreeWidget.setStyleSheet("QTreeView {\n"
+        self.TreeWidget.setStyleSheet(re.sub(r'\*\*\*', '#FFFFFF' if qconfig.theme == Theme.DARK else '#000000',
+"QTreeView {\n"
 "    background-color: transparent;\n"
 "    border: none;\n"
 "    border-radius: 5px;\n"
@@ -185,7 +182,7 @@ class Ui_Tui(object):
 "\n"
 "QHeaderView::section {\n"
 "    background-color: transparent;\n"
-"    color: rgb(96, 96, 96);\n"
+"    color: ***;\n"
 "    padding-left: 5px;\n"
 "    padding-right: 5px;\n"
 "    border: 1px solid rgba(0, 0, 0, 15);\n"
@@ -234,7 +231,7 @@ class Ui_Tui(object):
 "\n"
 "QTableCornerButton::section:pressed {\n"
 "    background-color: rgba(0, 0, 0, 12);\n"
-"}")
+"}"))
         self.TreeWidget.setAutoScrollMargin(0)
         self.TreeWidget.setDragEnabled(False)
         self.TreeWidget.setAutoExpandDelay(-1)
@@ -372,8 +369,9 @@ class Ui_Tui(object):
             res = subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe', '-i', self.window.algorithmed['imageFile'].replace('/', '\\'), '-o', './data/spliting/Label', '-m', 'false', '-s', '1.0'], shell=True, capture_output=True, text=True)
             n, m = res.stdout[1:-2].split(',')
 
-            self.StateToolTip = ScrollableMovableGridPixmapWidget(int(n)-1, int(m)-1, 480)
+            self.StateToolTip = ScrollableMovableGridPixmapWidget(int(n)-1, int(m)-1, 480, True)
             self.StateToolTip.setObjectName('ScrollableMovableGridPixmapWidget')
+            self.StateToolTip.setStyleSheet("background-color:rgb(50, 50, 50);")
             self.StateToolTip.setGeometry(QRect(0, 0, 480, 480))
             self.gridLayout.addWidget(self.StateToolTip, 0, 0, 1, 1, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
@@ -419,8 +417,7 @@ class Ui_Tui(object):
         self.createSuccessInfoBar()
         shutil.rmtree('./data/spliting')
         subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe', '-i', './data/split', '-o', './data/image/ciede.png', '-m', 'none', '-s', '1.0'], shell=True)
-        shutil.rmtree('./data/split')
-        os.makedirs('./data/split', exist_ok=True)
+        subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe', '-i', self.window.algorithmed['imageFile'].replace('/', '\\'), '-o', './data/image/contrast.png', '-m', 'true', '-s', '1.0'], shell=True)
 
     def on_StateToolTip_closed(self):
         # 删除 StateToolTip
@@ -430,7 +427,7 @@ class Ui_Tui(object):
         self.pixmap_size = pixmap.size()
 
         # 创建 DIDshow 实例
-        self.didshow = DIDshow(self.pixmap_size)
+        self.didshow = DIDshow(self.pixmap_size, './data/didder', 512)
         self.gridLayout.addWidget(self.didshow, 0, 0, 1, 1, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
         # 更新布局

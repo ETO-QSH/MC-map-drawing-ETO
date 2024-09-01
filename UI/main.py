@@ -1,16 +1,20 @@
 # coding:utf-8
 
 import ast
+import os
+import shutil
 import subprocess
 import sys
 import json
 from enum import Enum
+from multiprocessing import Pool
 
+import nbtlib
 from PyQt5 import QtGui, QtWidgets, QtCore
-from PyQt5.QtCore import Qt, QUrl, QObject, pyqtSlot, QSize, QEventLoop, QTimer, pyqtSignal
+from PyQt5.QtCore import Qt, QUrl, QObject, pyqtSlot, QSize, QEventLoop, QTimer, pyqtSignal, QThread
 from PyQt5.QtGui import QIcon, QDesktopServices
 from PyQt5.QtWidgets import QApplication, QFrame, QHBoxLayout, QStackedWidget, QStackedLayout, QCheckBox, QLabel, \
-    QTreeWidgetItem, QTreeWidget
+    QTreeWidgetItem, QTreeWidget, QAbstractItemView
 
 from collections import Counter
 from qfluentwidgets import (NavigationItemPosition, MessageBox, setTheme, Theme, MSFluentWindow, NavigationAvatarWidget,
@@ -21,10 +25,12 @@ from qfluentwidgets import FluentIcon as FIF
 
 from ETO.Aui import Ui_Aui
 from ETO.Bui import Ui_Bui
+from ETO.Hui import Ui_Hui
 from ETO.Tui import Ui_Tui
 from ETO.Xui import UI_Xui
 from ETO.Zui import Ui_Zui
 from ETO.Kui import Ui_Kui
+from ETO.Hui import AHui, BHui, CHui
 from ETO.settings.demo import UI_Yui
 
 from PyQt5.QtGui import QColor
@@ -64,6 +70,91 @@ def creat_BlockList_colorList(BlockList, colorList, newBlockList, newcolorList, 
 
     with open(newcolorList, 'w', encoding="utf-8") as file:
         file.write(str(data2))
+
+
+class Worker3(QObject):
+    finished3 = pyqtSignal(int, int)
+
+    def __init__(self, mode):
+        super().__init__()
+        self.mode = mode
+
+    def run(self):
+        cmds = []
+
+        for item in [item for item in os.listdir('./data/split/') if os.path.isfile(os.path.join('./data/split/', item))]:
+            cmds.append([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\mapKey.exe', '-i', os.path.join('./data/split/', item),
+                          '-p', os.path.join('./data/pixivColor/', 'pixivColor_{}_{}.txt'.format(item.split('.')[0].split('_')[1], item.split('.')[0].split('_')[2])),
+                          '-k', './data/keyValue.json', '-c', './data/colorList.txt', '-n', '4'])
+
+        print(cmds)
+
+        # 创建进程池并处理文件
+        with Pool(processes=os.cpu_count()) as pool:
+            pool.map(self.to_pixivColor, cmds)
+
+        res = subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\mapKey.exe', '-i', os.path.join('./data/image/', [item for item in os.listdir('./data/image/') if item != 'contrast.png'][0]),
+                                    '-p', './data/pixivColor.txt/', '-k', './data/keyValue.json', '-c', './data/colorList.txt', '-n', str(self.mode)], shell=True, capture_output=True, text=True)
+
+        a, b = [int(i) for i in res.stdout[1:-2].split(',')]
+
+        # 通知GUI任务完成
+        self.finished3.emit(a, b)
+
+    @staticmethod
+    def to_pixivColor(cmd):
+        subprocess.run(cmd, shell=True)
+
+
+class Worker4(QObject):
+    finished4 = pyqtSignal()
+
+    def __init__(self, mode, saves, dirName):
+        super().__init__()
+        self.dirName = dirName
+        self.saves = saves
+        self.mode = mode
+
+    def run(self):
+        cmds = []
+        try:
+            Data = int(nbtlib.load(os.path.join(self.saves, self.dirName, 'data/idcounts.dat'))["data"]["map"])
+        except FileNotFoundError:
+            Data = -1
+        numbers = [list(map(int, item.split('.')[0].split('_')[1:])) for item in [item for item in os.listdir('./data/split/') if os.path.isfile(os.path.join('./data/split/', item))]]
+        max_x, max_y = max(numbers, key=lambda x: x[0])[0], max(numbers, key=lambda x: x[1])[1]
+        for item in [item for item in os.listdir('./data/pixivColor/') if os.path.isfile(os.path.join('./data/pixivColor/', item))]:
+            cmds.append([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\nbtfile.exe', '-c', os.path.join('./data/pixivColor/', item),
+                          '-f', './data/world_dat/map_{}.dat'.format(Data + (int(item.split('.')[0].split('_')[1]) - 1) * max_x + int(item.split('.')[0].split('_')[2]))])
+        cmds.append([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\nbtfile.exe', '-p', './data/world_dat/idcounts.dat', '-n', str(max_x * max_y + Data + 1)])
+
+        # 创建进程池并处理文件
+        with Pool(processes=os.cpu_count()) as pool:
+            pool.map(self.to_nbtfile, cmds)
+        # 通知GUI任务完成
+        self.finished4.emit()
+
+    @staticmethod
+    def to_nbtfile(cmd):
+        subprocess.run(cmd, shell=True)
+
+
+class Worker5(QObject):
+    finished5 = pyqtSignal()
+
+    def __init__(self, x, y, z):
+        super().__init__()
+        self.x = str(x)
+        self.y = str(y)
+        self.z = str(z)
+
+    def run(self):
+        subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\Forblock.exe', '-b', './data/BlockList.json',
+                              '-k', './data/keyValue.json', '-o', './data/blockList.txt', '-x', self.x, '-y', self.y, '-z', self.z], shell=True)
+        subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\SuperflatEdit.exe', '-b', './data/blockList.txt', '-w', './data/world_mca'], shell=True)
+
+        # 通知GUI任务完成
+        self.finished5.emit()
 
 
 class Widget(QFrame):
@@ -161,11 +252,9 @@ class Bui(Ui_Bui, QWidget):
 
         try:
             if self.parent().MapMod:
-                creat_BlockList_colorList(r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\src\BlockList.json',
-                                          r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\src\colorList.txt',
-                                       r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\data\BlockList.json',
-                                       r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\data\colorList.txt',
-                                                  nameList, self.parent().MapMod)
+                creat_BlockList_colorList('./src/BlockList.json', './src/colorList.txt',
+                                       './data/BlockList.json', './data/colorList.txt',
+                                          nameList, self.parent().MapMod)
                 print('nameList:', nameList)
                 self.window.onButtonClicked(buttonName, 'Bui')
         except AttributeError:
@@ -282,6 +371,8 @@ class Eui(UI_Xui, QWidget):
 
 
 class Fui(Ui_Tui, QWidget):
+    # 定义一个信号
+    updateUiH = pyqtSignal()
     def __init__(self, navigationInterface, windowInstance, parent=None):
         super().__init__(parent=parent)
         self.setupUi(self)
@@ -432,26 +523,200 @@ class Fui(Ui_Tui, QWidget):
 
     @pyqtSlot()
     def handleButtonClicked(self):
+        if self.window.algorithmed['RadioBoxes'] == 'RadioButton_2':
 
-        # 获取当前选中的项
+            # 获取当前选中的项
+            selected_items = self.TreeWidget.selectedItems()
+
+            if selected_items:
+                for item in selected_items:
+                    parent_item = item.parent()
+                    if parent_item is not None:
+                        grandparent_item = parent_item.parent()
+                        if grandparent_item is not None:
+                            flag = int(item.text(0).split("\n")[0].split(":")[1].strip())
+                            if self.didshow.flipView.currentIndex() == flag:
+
+                                subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe',
+                                                      '-i', './data/didder/{}.png'.format(flag), '-o', './data/image/didder.png',
+                                                      '-m', 'true', '-s', '1.0'], shell=True)
+
+                                subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe',
+                                                      '-i',self.window.algorithmed['imageFile'].replace('/', '\\'), '-o',
+                                                      './data/image/contrast.png', '-m', 'true', '-s', '1.0'], shell=True)
+
+                                subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe',
+                                                      '-i', './data/didder/{}.png'.format(flag), '-o', './data/split/Label',
+                                                      '-m', 'false', '-s', '1.0'], shell=True)
+
+                                self.window.onButtonClicked("go_last", 'Dui')
+                                self.updateUiH.emit()
+
+                            else:
+                                self.createWarningInfoBar()
+            else:
+                self.createWarningInfoBar()
+
+        elif self.window.algorithmed['RadioBoxes'] == 'RadioButton_1':
+            self.window.onButtonClicked("go_last", 'Dui')
+            self.updateUiH.emit()
+
+class Gui(Ui_Hui, QWidget):
+    def __init__(self, navigationInterface, windowInstance, parent=None):
+        super().__init__(parent=parent)
+        self.setupUi(self)
+        self.navigationInterface = navigationInterface  # 保存导航界面引用
+        self.window = windowInstance  # 确保引用了 Window 实例
+        self.PushButton_SF.clicked.connect(self.handleButtonClicked)
+        self.CreateStackedItemsed = False
+
+    def setShadowEffect(self, card: QWidget):
+        shadowEffect = QGraphicsDropShadowEffect(self)
+        shadowEffect.setColor(QColor(0, 0, 0, 15))
+        shadowEffect.setBlurRadius(10)
+        shadowEffect.setOffset(0, 0)
+        card.setGraphicsEffect(shadowEffect)
+
+    def updateUiH(self):
+        self.createStackedItems()
+
+    @pyqtSlot()
+    def handleButtonClicked(self):
+        self.SimpleCardWidget = self.findChild(SimpleCardWidget, 'SimpleCardWidget')
+        if self.SimpleCardWidget:
+            self.TreeWidget = self.SimpleCardWidget.findChild(TreeWidget, 'TreeWidget')
+
         selected_items = self.TreeWidget.selectedItems()
-
         if selected_items:
-            for item in selected_items:
-                parent_item = item.parent()
-                if parent_item is not None:
-                    grandparent_item = parent_item.parent()
-                    if grandparent_item is not None:
-                        flag = int(item.text(0).split("\n")[0].split(":")[1].strip())
-                        if self.didshow.flipView.currentIndex() == flag:
-                            self.window.onButtonClicked("go_last", 'Dui')
-                            subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe',
-                                                  '-i', './data/didder/{}.png'.format(flag), '-o', './data/image/didder.png',
-                                                  '-m', 'true', '-s', '1.0'], shell=True)
-                        else:
-                            self.createWarningInfoBar()
+            if self.CreateStackedItemsed == True:
+                self.dirName = selected_items[0].text(0).split("\n")[0].split('"')[1]
+                self.TreeWidget.setSelectionMode(QAbstractItemView.NoSelection)
+                self.PushButton_SF.clicked.disconnect()
+                self.PushButton_2.clicked.disconnect()
+                _translate = QtCore.QCoreApplication.translate
+                self.PushButton_SF.setText(_translate("Hui", "控 件 已 锁 定 请 耐 心 等 候"))
+                self.idcounts_dat = os.path.join(self.LineEdit_2.text(), self.dirName, 'data', 'idcounts.dat')
+                self.map_data = os.path.join(self.LineEdit_2.text(), self.dirName, 'data', 'map.dat')
+
+                # 创建并启动工作进程
+                self.worker3 = Worker3(self.parent().MapMod)
+                self.worker3.finished3.connect(self.on_finsh3)
+                self.worker3.moveToThread(QThread())
+                self.worker3.thread().started.connect(self.worker3.run)
+                self.worker3.thread().start()
+
+            else:
+                self.createWarningInfoBar2()
         else:
             self.createWarningInfoBar()
+
+    @pyqtSlot()
+    def handleButtonClicked2(self):
+
+        _translate = QtCore.QCoreApplication.translate
+        self.PushButton_SF.setText(_translate("Hui", "正 在 编 写 地 图 存 档 文 件 "))
+        self.PushButton_SF.clicked.disconnect()
+
+        x, y, z = 0, 100, 0
+
+        self.worker5 = Worker5(x, y, z)
+        self.worker5.finished5.connect(self.on_finsh5)
+        self.worker5.moveToThread(QThread())
+        self.worker5.thread().started.connect(self.worker5.run)
+        self.worker5.thread().start()
+
+    @pyqtSlot(int, int)
+    def on_finsh3(self, a, b):
+        print(f"占用高度 {b} ~ {a} 格！")
+        self.worker4 = Worker4(self.parent().MapMod, self.LineEdit_2.text(), self.dirName)
+        self.worker4.finished4.connect(self.on_finsh4)
+        self.worker4.moveToThread(QThread())
+        self.worker4.thread().started.connect(self.worker4.run)
+        self.worker4.thread().start()
+
+    def on_finsh4(self):
+        _translate = QtCore.QCoreApplication.translate
+        if self.parent().MapMod in [1, 3]:
+            self.PushButton_SF.setText(_translate("Hui", "生 成 地 图 存 档 文 件"))
+            self.PushButton_SF.clicked.connect(self.handleButtonClicked2)
+        elif self.parent().MapMod == 4:
+            self.PushButton_SF.setText(_translate("Hui", "纯 文 件 地 图 画 生 成 完 成"))
+        self.createSuccessInfoBar()
+
+    def on_finsh5(self):
+        _translate = QtCore.QCoreApplication.translate
+        self.PushButton_SF.setText(_translate("Hui", "地 图 存 档 文 件 完 成"))
+        self.createSuccessInfoBar2()
+        print("byETO")
+
+    def createStackedItems2(self):
+        self.CCCInterface = CHui(self)
+        self.CCCInterface.setObjectName("CCCInterface")
+        self.addSubInterface(self.CCCCInterface, 'AAAInterface', '位置编辑')
+        self.stackedWidget.addWidget(self.CCCInterface)
+        self.switchTo(self.CCCInterface)
+
+    def createStackedItems(self):
+        self.CreateStackedItemsed = True
+
+        self.AAAInterface = AHui(self)
+        self.AAAInterface.setObjectName("AAAInterface")
+        self.BBBInterface = BHui(self)
+        self.BBBInterface.setObjectName("BBBInterface")
+
+        self.addSubInterface(self.AAAInterface, 'AAAInterface', '切割预览')
+        self.addSubInterface(self.BBBInterface, 'BBBInterface', '对比预览')
+
+        self.stackedWidget.addWidget(self.AAAInterface)
+        self.stackedWidget.addWidget(self.BBBInterface)
+
+        self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
+        self.stackedWidget.setCurrentWidget(self.AAAInterface)
+        self.segmentedWidget.setCurrentItem(self.AAAInterface.objectName())
+
+    def createWarningInfoBar(self):
+        InfoBar.warning(
+            title='Warning',
+            content="请选择世界文件夹",
+            orient=Qt.Horizontal,
+            isClosable=True,   # disable close button
+            position=InfoBarPosition.TOP,
+            duration=2500,
+            parent=self
+        )
+
+    def createWarningInfoBar2(self):
+        InfoBar.warning(
+            title='Warning',
+            content="前按照步骤完成前面的提交",
+            orient=Qt.Horizontal,
+            isClosable=True,   # disable close button
+            position=InfoBarPosition.TOP,
+            duration=2500,
+            parent=self
+        )
+
+    def createSuccessInfoBar(self):
+        self.infoBar = InfoBar.success(
+            title='Success',
+            content="map.dat & idcounts.dat 已完成！",
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP_RIGHT,
+            duration=-1,
+            parent=self
+        )
+
+    def createSuccessInfoBar2(self):
+        self.infoBar = InfoBar.success(
+            title='Success',
+            content="地图存档文件生成成功！",
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP_RIGHT,
+            duration=-1,
+            parent=self
+        )
 
 
 class StyleSheet(StyleSheetBase, Enum):
@@ -480,15 +745,16 @@ class Window(MSFluentWindow):
         self.appInterface.setObjectName("homeInterface")
 
         self.imageInterface = Fui(self.navigationInterface, self)
-        self.appInterface.setObjectName("imageInterface")
+        self.imageInterface.setObjectName("imageInterface")
 
         self.libraryInterface = Eui(self.navigationInterface, self)
         self.libraryInterface.setObjectName("libraryInterface")
 
-        self.videoInterface = Widget('Result Export', self)
+        self.videoInterface = Gui(self.navigationInterface, self)
 
         # 连接 Cui 发出的信号到 Fui 的槽函数
         self.appInterface.updateUi.connect(self.imageInterface.updateUi)
+        self.imageInterface.updateUiH.connect(self.videoInterface.updateUiH)
 
         self.setThemeBasedStyles()  # 在初始化时设置样式
         self.initNavigation()
@@ -528,7 +794,7 @@ class Window(MSFluentWindow):
 
     def initWindow(self):
         self.setFixedSize(1040, 720)
-        self.setWindowIcon(QIcon(r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\256t.png'))
+        self.setWindowIcon(QIcon('icon.ico'))
         self.setWindowTitle('MC-map-drawing-ETO')
 
         # create splash screen
@@ -670,6 +936,11 @@ class Window(MSFluentWindow):
 
 
 if __name__ == '__main__':
+
+    shutil.rmtree('./data')
+    for dirs in ['./data/didder', './data/image', './data/pixivColor', './data/split', './data/world_dat', './data/world_mca', ]:
+        os.makedirs(dirs, exist_ok=True)
+
     QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)

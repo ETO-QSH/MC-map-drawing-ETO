@@ -144,12 +144,12 @@ std::vector<int> hlist(const std::vector<int>& lst, const std::pair<int, int>& a
 int main(int argc, char** argv) {
     // 检查命令行参数数量
     if (argc != 11) {
-        std::cerr << "Usage: " << argv[0] << " -i <png_path> -c <colorList> -p <pixivColor> -k <key_value_list_txt> -n <mode>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " -i <png_path> -c <colorList> -p <pixivColor> -k <keyValue> -n <mode>" << std::endl;
         return -1;
     }
 
     // 解析命令行参数
-    std::string key_value_list_txt;
+    std::string keyValue;
     std::string pixivColor;
     std::string colorList;
     std::string png_path;
@@ -163,7 +163,7 @@ int main(int argc, char** argv) {
         } else if (strcmp(argv[i], "-p") == 0) {
             pixivColor = argv[++i];
         } else if (strcmp(argv[i], "-k") == 0) {
-            key_value_list_txt = argv[++i];
+            keyValue = argv[++i];
         } else if (strcmp(argv[i], "-n") == 0) {
             char* end;
             mode = static_cast<int>(strtol(argv[++i], &end, 10));
@@ -270,6 +270,8 @@ int main(int argc, char** argv) {
             } else {
                 // 如果颜色不在color_index_map中，可以添加一个默认值或进行其他处理
                 std::map<std::string, std::string> color_dict = {{"0", "1"}};
+                // std::cerr << "Error in " << x << ' ' << y << std::endl;
+                hex_values += "0x01, ";
                 row_list.push_back(color_dict);
             }
         }
@@ -292,14 +294,16 @@ int main(int argc, char** argv) {
     }
 
     catch (...) {
-        // 打开文件用于写入，如果文件不存在则创建它
-        std::ofstream ofile(pixivColor);
-        if (!ofile.is_open()) {
-            std::cerr << "无法打开文件" << std::endl;
-            return 1;
+        if (mode == 4) {
+            // 打开文件用于写入，如果文件不存在则创建它
+            std::ofstream ofile(pixivColor);
+            if (!ofile.is_open()) {
+                std::cerr << "无法打开文件" << std::endl;
+                return 1;
+            }
+            ofile << hex_values;
+            ofile.close();
         }
-        ofile << hex_values;
-        ofile.close();
 
         if (mode == 3 or mode == 1) {
             // 创建一个新列表 lst，用于存储行列置换后的二维列表
@@ -345,6 +349,7 @@ int main(int argc, char** argv) {
 
             json_obj["u-d"] = nlohmann::json::array({upon, down});
             json_obj["blocks"] = nlohmann::json::array();
+            std::cout << '(' << (upon) << "," << (down) << ')' << std::endl;
 
             for (size_t i = 0; i < key_value_list.size(); ++i) {
                 // 为每个中间层创建一个空数组
@@ -362,7 +367,7 @@ int main(int argc, char** argv) {
 
             // 将JSON对象转换为字符串并写入json
             std::string json_str = json_obj.dump();
-            std::ofstream cfile(key_value_list_txt);
+            std::ofstream cfile(keyValue);
             if (!cfile.is_open()) {
                 std::cerr << "无法打开文件" << std::endl;
                 return 1;
