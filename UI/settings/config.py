@@ -37,7 +37,7 @@ class Config(QConfig):
     except FileNotFoundError:
         theme_color = ''
 
-    downloadFolder = ConfigItem("Folders", "Download", "download", FolderValidator())
+    downloadFolder = ConfigItem("Folders", "Download", "Backup", FolderValidator())
 
     savesFolder = ConfigItem("Folders", "Saves", "saves", FolderValidator())
 

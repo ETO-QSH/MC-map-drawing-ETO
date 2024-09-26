@@ -729,7 +729,7 @@ class Ui_Zui(object):
         self.PixmapLabel_2.setMaximumSize(QtCore.QSize(280, 360))
         # 连接 LineEdit_2 的信号到槽函数，以便在文本改变时更新图片
         self.LineEdit_2.textChanged.connect(self.updatePixmap)
-        pixmap = QPixmap(r".\file-format(黑).png")
+        pixmap = QPixmap("./image/file-format(黑).png")
         if not pixmap.isNull():
             self.PixmapLabel_2.setPixmap(pixmap.scaled(self.PixmapLabel_2.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
         self.gridLayout_3.addWidget(self.PixmapLabel_2, 4, 2, 1, 1, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)

@@ -1074,7 +1074,7 @@ class Window(MSFluentWindow):
         self.titleBar.maxBtn.hide()
         self.titleBar.setDoubleClickEnabled(False)
 
-        icon = QtGui.QIcon("icon.ico")
+        icon = QtGui.QIcon("./image/icon.ico")
         self.titleBar.iconLabel.setPixmap(icon.pixmap(24, 24))
         self.titleBar.iconLabel.setFixedSize(36, 56)
 
@@ -1097,7 +1097,7 @@ class Window(MSFluentWindow):
         #                             }
         #                             """)
 
-        self.splashScreen = SplashScreen(QIcon('setup.jpg'), self)
+        self.splashScreen = SplashScreen(QIcon('./image/setup.jpg'), self)
         self.splashScreen.setIconSize(QSize(1040, 720))
         self.splashScreen.raise_()
 
