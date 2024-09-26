@@ -52,9 +52,7 @@ class Ui_Qui(object):
         self.gridLayoutQ.setObjectName("gridLayoutQ")
 
         pixmap = QPixmap([str(i) for i in Path('./data/image').glob('*')][0])
-        self.pixmap_size = pixmap.size()
-        width = self.pixmap_size.width()
-        height = self.pixmap_size.height()
+        width, height= pixmap.size().width(), pixmap.size().height()
 
         max_size, min_size = max(width, height), min(width, height)
         dpi_size = min_size / max_size

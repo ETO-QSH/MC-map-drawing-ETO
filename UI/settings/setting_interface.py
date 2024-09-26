@@ -60,7 +60,7 @@ class SettingInterface(ScrollArea):
         self.downloadFolderCard = PushSettingCard(
             self.tr('更改'),
             FIF.DOWNLOAD,
-            self.tr("临时目录"),
+            self.tr("备份目录"),
             cfg.get(cfg.downloadFolder),
             self.personalGroup
         )

@@ -1,9 +1,11 @@
 
+
 import random
 
 upon, down = 0, 0
 
 lst = [[random.randint(0, 2) for i in range(16)] for i in range(16)]
+
 
 def longest(lst):
     turn = None
@@ -40,7 +42,8 @@ def longest(lst):
 
     return [first_length, max(max_length_zero, max_length_two) + 1]
 
-def hlist(lst, ags):
+
+def hlist(lst, ags, Upon, Down):
     global upon, down
     j = 0
     f = True
@@ -114,10 +117,26 @@ def hlist(lst, ags):
         upon = u
     if d < down:
         down = d
+
+    for index, v in enumerate(newlst):
+        if v < Down:
+            down = Down
+        if v > Upon:
+            upon = Upon
+    for v in newlst:
+        while v < Down:
+            v += (upon - down)
+        while v > Upon:
+            v -= (upon - down)
+        newlst[index] = v
+
     return newlst
+
 
 lst = [[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 print(lst)
 
 print([[hlist(lst[i], longest(lst[i])) for i in range(len(lst))], [upon, down]])
+
+

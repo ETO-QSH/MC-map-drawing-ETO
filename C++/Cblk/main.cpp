@@ -53,6 +53,8 @@ std::vector<int> hlist(const std::vector<int>& lst, const std::pair<int, int>& a
     int first_length = ags.first;
     int max_length = ags.second;
     int first = first_length > 0 ? first_length : -first_length;
+    int Upon = 319;
+    int Down = -64;
     FState f = FState::True;
     std::vector<int> new_lst;
     int h = 0, j = 0, u = 0, d = 0, Hmode = 0;
@@ -138,6 +140,26 @@ std::vector<int> hlist(const std::vector<int>& lst, const std::pair<int, int>& a
             down = d;
         }
     }
+
+    for (int index : new_lst) {
+        if (index < Down) {
+            down = Down;
+        }
+        if (index > Upon) {
+            upon = Upon;
+        }
+    }
+
+    // 第二个循环，根据下限和上限调整 newlst 中的值
+    for (int & index : new_lst) {
+        while (index < down) {
+            index += (upon - down);
+        }
+        while (index > upon) {
+            index -= (upon - down);
+        }
+    }
+
     return new_lst;
 }
 
@@ -217,10 +239,10 @@ int main(int argc, char** argv) {
     std::string hex_values;
 
     // 遍历图片中的每个像素
-    for (int y = 0; y < img.rows; ++y) {
+    for (int x = 0; x < img.cols; ++x) {
         std::vector<std::map<std::string, std::string>> row_list;
         std::vector<int> row_values_list;
-        for (int x = 0; x < img.cols; ++x) {
+        for (int y = 0; y < img.rows; ++y) {
             // 获取当前像素的RGB值
             cv::Vec3b RGB_color = img.at<cv::Vec3b>(y, x);
             // 将颜色转换为字符串形式
@@ -239,8 +261,8 @@ int main(int argc, char** argv) {
                 std::string value = "1";
 
                 if (it->second != 0) {
-                    key = std::to_string(((it->second - 1) / 4) + 1);
-                    value = std::to_string((it->second - 1) % 4);
+                    key = std::to_string(((it->second - 1) / mode) + 1);
+                    value = std::to_string((it->second - 1) % mode);
                 } else {
                     key = std::to_string(0);
                     value = std::to_string(1);
@@ -272,6 +294,9 @@ int main(int argc, char** argv) {
                 std::map<std::string, std::string> color_dict = {{"0", "1"}};
                 // std::cerr << "Error in " << x << ' ' << y << std::endl;
                 hex_values += "0x01, ";
+                std::string dict_value = color_dict.begin()->second;
+                int dict_value_int = std::stoi(dict_value);
+                row_values_list.push_back(dict_value_int);
                 row_list.push_back(color_dict);
             }
         }
@@ -308,13 +333,19 @@ int main(int argc, char** argv) {
         if (mode == 3 or mode == 1) {
             // 创建一个新列表 lst，用于存储行列置换后的二维列表
             std::vector<std::vector<int>> lst;
-            for (size_t col = 0; col < transformed_values_list[0].size(); ++col) {
-                std::vector<int> new_row;
-                for (auto & row : transformed_values_list) {
-                    new_row.push_back(row[col]);
-                }
-                lst.push_back(new_row);
-            }
+
+            // 行列置换不必要
+            // for (size_t col = 0; col < transformed_values_list[0].size(); ++col) {
+            //     std::vector<int> new_row;
+            //     for (auto & row : transformed_values_list) {
+            //         new_row.push_back(row[col]);
+            //     }
+            //     // 翻转一下列表
+            //     std::reverse(new_row.begin(), new_row.end());
+            //     lst.push_back(new_row);
+            // }
+
+            lst = transformed_values_list;
 
             // 创建一个新的二维列表来存储键值对
             std::vector<std::vector<std::pair<std::string, int>>> key_value_list;
@@ -323,23 +354,23 @@ int main(int argc, char** argv) {
             for (int row = 0; row < transformed_list.size(); ++row) {
                 std::vector<std::pair<std::string, int>> key_value_row;
                 std::vector<int> new_lst = hlist(lst[row], longest(lst[row]));
-                for (int col = 0; col < transformed_list[row].size(); ++col) {
-                    // 遍历字典中的每个键值对--将[col][row]颠倒一下
-                    for (const auto& pair : transformed_list[col][row]) {
-                        // 获取new_lst中相同坐标的元素作为值
-                        int zvalue = 0;
+
+                for (int col = 0; col < new_lst.size(); ++col) {
+                    for (const auto& pair : transformed_list[row][col]) {
+                        // 获取new_lst中相同坐标的元素作为值， 将键和值转换为字典形式并添加到当前行的列表中
+                        std::pair<std::string, int> key_value_str = {pair.first, 0};
                         if (mode==3) {
-                            zvalue = new_lst[col];
-                        } else if (mode==1) {
-                            zvalue = 0;
-                        } else if (mode==4) {
-                            zvalue = -1;
+                            key_value_str = {pair.first, new_lst[col]};
                         }
-                        // 将键和值转换为字典形式并添加到当前行的列表中
-                        std::pair<std::string, int> key_value_str = {pair.first, zvalue};
                         key_value_row.push_back(key_value_str);
                     }
                 }
+
+                // 需要读一下不然概率会乱码
+                for (const auto& pair : key_value_row) {
+                    int eto = pair.second;
+                }
+
                 // 将当前行的列表添加到新的二维列表中
                 key_value_list.push_back(key_value_row);
             }

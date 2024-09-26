@@ -1,21 +1,21 @@
 from itertools import chain
 from mcworldlib.anvil import load_region
 import os, ast, copy, math, numpy, argparse, tempfile
-from nbtlib.tag import List, Long, String, Compound, LongArray
+from nbtlib.tag import Int, Byte, List, Long, Short, String, Compound, LongArray
 
 def SuperflatEdit(Layer_of_blocks, blocklist, save_path, mca_file):
 
     result_dict, int_64_max, data_array, Data_model, I2B = {}, 2**63, numpy.array(blocklist), load_region(mca_file), lambda num, bits: bin(num)[2:].zfill(bits)
     result_pairs = set(zip(data_array[:, 1].astype(int)//512, data_array[:, 3].astype(int)//512, (data_array[:, 1].astype(int)%512)//16, (data_array[:, 3].astype(int)%512)//16))
-    section = {k: v for d in [{str(Y): [list(chain(*[[Layer_of_blocks[str(Y*16+i)] for _ in range(256)] if str(Y*16+i) in Layer_of_blocks.keys() else ['air' for _ in range(256)] for i in range(16)]))
-               if Y in numpy.array(list(Layer_of_blocks.keys())).astype(int)//16 else ['air' for _ in range(4096)]][0]} for Y in range(-4, 24)] for k, v in d.items()}
+    sections = {k: v for d in [{str(Y): [list(chain(*[[Layer_of_blocks[str(Y*16+i)] for _ in range(256)] if str(Y*16+i) in Layer_of_blocks.keys() else ['air' for _ in range(256)] for i in range(16)]))
+                if Y in numpy.array(list(Layer_of_blocks.keys())).astype(int)//16 else ['air' for _ in range(4096)]][0]} for Y in range(-4, 20)] for k, v in d.items()}
 
     for item in result_pairs:
         a, b, c, d = item
         if f"{a}_{b}" in result_dict:
-            result_dict[f"{a}_{b}"][f"{c}_{d}"] = section
+            result_dict[f"{a}_{b}"][f"{c}_{d}"] = copy.deepcopy(sections)
         else:
-            result_dict[f"{a}_{b}"] = {f"{c}_{d}": section}
+            result_dict[f"{a}_{b}"] = {f"{c}_{d}": copy.deepcopy(sections)}
 
     for block in blocklist:
         id, x, y, z = block
@@ -27,35 +27,32 @@ def SuperflatEdit(Layer_of_blocks, blocklist, save_path, mca_file):
         updata_Flag, Data = False, copy.deepcopy(Data_model)
         for Chunk in Data.keys():
             mca_chunk = str(Chunk).replace(" ", "").replace(",", "_")[1:-1]
+            Data[Chunk]['isLightOn'], Data[Chunk]['LastUpdate'], Data[Chunk]['InhabitedTime'] = Byte(0), Long(0), Long(0)
             if mca_chunk in result_dict[region]:
                 for entries in result_dict[region][mca_chunk].keys():
                     blocks = sorted(list(set(result_dict[region][mca_chunk][entries])), key=lambda name: {'air': 0, 'glass': 1}.get(name, 2))
-                    bite = (lambda n: 4 if n < 16 else math.ceil(math.log2(n+1)))(len(blocks)-1)
+                    updataBlocks = [Short(int(((i%256)//16)*256 + (i//256)*16 + i%16)) for i, block in enumerate(result_dict[region][mca_chunk][entries]) if block != 'air']
+                    updata_Flag, datas, bite = True, [], (lambda n: 4 if n < 16 else math.ceil(math.log2(n+1)))(len(blocks) - 1)
                     section = [I2B(blocks.index(i), bite) for i in result_dict[region][mca_chunk][entries]]
                     new_palette = List([Compound({'Name': String(':'.join(['minecraft', item]))}) for item in blocks])
-                    flag, datas = 0, []
-                    while flag < 4096:
-                        int_64 = int(''.join(map(str, section[flag:flag+64//bite][::-1])).zfill(64), 2)
-                        if int_64_max > int_64:
-                            datas.append(Long(int_64))
-                            flag += 64//bite
-                        else:
-                            datas.append(Long(int(''.join(map(str, section[flag:flag+64//bite-1][::-1])).zfill(64), 2)))
-                            flag += 64//bite-1
+                    Data[Chunk]['xPos'], Data[Chunk]['zPos'] = Int(int(mca_chunk.split("_")[0])), Int(int(mca_chunk.split("_")[1]))
+                    for i in range(math.ceil(4096/(64//bite))):
+                        int_64 = int(''.join(map(str, section[i*(64//bite): (i+1)*(64//bite)][::-1])).zfill(64), 2)
+                        datas.append(Long(int_64)) if int_64_max > int_64 else datas.append(Long(int_64-2*int_64_max))
                     for i in range(len(Data[Chunk]['sections'])):
                         if int(Data[Chunk]['sections'][i]['Y']) == int(entries):
                             Data[Chunk]['sections'][i]['block_states']['data'] = LongArray(datas)
                             Data[Chunk]['sections'][i]['block_states']['palette'] = new_palette
-                            updata_Flag = True
-        Data.save(os.path.join(save_path, 'r.{}.{}.mca'.format(region.split('_')[0], region.split('_')[1]))) if updata_Flag == True else None
+                            Data[Chunk]['PostProcessing'][i] = List(updataBlocks)
+        Data.save(os.path.join(save_path, 'r.{}.{}.mca'.format(*region.split('_')))) if updata_Flag == True else None
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('-w', required=True, help='Path to the world folder')
     parser.add_argument('-b', required=True, help='Path to the blocklist file')
+    parser.add_argument('-s', required=True, help='Layers of the blocks')
     parser.add_argument('-m', help='Path to the r.0.0.mca file')
-    parser.add_argument('-s', help='Layers of the blocks')
 
     args = parser.parse_args()
 

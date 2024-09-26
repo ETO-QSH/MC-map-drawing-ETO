@@ -146,17 +146,17 @@ int main(int argc, char** argv) {
                     std::string random_str = random_string_from_list(new_json, bkey);
 
                     // 计算数组中每个元素的值
-                    int first_value = (xchunk + 1) * 16 - row;
+                    int first_value = xchunk * 16 + row;
                     int second_value = flat + bvar;
-                    int third_value = (zchunk + 1) * 16 - col;
+                    int third_value = zchunk * 16 + col;
 
                     // 将计算结果添加到数据中
                     generated_blocks.emplace_back(random_str, first_value, second_value, third_value);
 
-                    // 特殊处理植物，放一个原木
-                    if (bkey == "7") {
-                        generated_blocks.emplace_back("oak_log", first_value, second_value - 1, third_value);
-                    }
+                    // 特殊处理植物，放一个原木 (24w37a将直接召唤的方块改为装饰物意味着树叶不会掉落)
+                    // if (bkey == "7") {
+                    //     generated_blocks.emplace_back("oak_log", first_value, second_value - 1, third_value);
+                    // }
 
                     // 特殊处理水方块，挖空下面的方块，可能会漏水
                     if (bkey == "12") {

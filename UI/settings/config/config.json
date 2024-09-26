@@ -11,11 +11,11 @@
         "FontSize": 24
     },
     "Folders": {
-        "Download": "D:/Work Files/PyQt-Fluent-Widgets-exploit/ETO/download",
+        "Download": "D:/Work Files/PyQt-Fluent-Widgets-exploit/ETO/Backup",
         "Saves": "D:/Work Files/PyQt-Fluent-Widgets-exploit/ETO/saves"
     },
     "MainWindow": {
         "DpiScale": "Auto",
-        "Language": "Auto"
+        "Language": "zh_CN"
     }
 }

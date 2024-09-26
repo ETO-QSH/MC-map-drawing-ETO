@@ -9,7 +9,7 @@ from multiprocessing import Pool
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt, QRect, QObject, pyqtSignal, QThread
+from PyQt5.QtCore import Qt, QRect, QObject, pyqtSignal, QThread, QSize
 from PyQt5.QtGui import QFont, QPixmap
 
 from ETO.settings.config import cfg
@@ -85,7 +85,6 @@ class Worker2(QObject):
 
 
 class Ui_Tui(object):
-
     def setupUi(self, Tui):
         Tui.setObjectName("Tui")
         Tui.resize(1060, 659)
@@ -424,10 +423,14 @@ class Ui_Tui(object):
         self.StateToolTip.deleteLater()
 
         pixmap = QPixmap(self.window.algorithmed['imageFile'])
-        self.pixmap_size = pixmap.size()
+        width, height= pixmap.size().width(), pixmap.size().height()
+
+        max_size, min_size = max(width, height), min(width, height)
+        dpi_size = min_size / max_size
+        size = QSize(512, int(dpi_size * 512)) if max_size == width else QSize(int(dpi_size * 512), 512)
 
         # 创建 DIDshow 实例
-        self.didshow = DIDshow(self.pixmap_size, './data/didder', 512)
+        self.didshow = DIDshow(size, './data/didder', 512)
         self.gridLayout.addWidget(self.didshow, 0, 0, 1, 1, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
         # 更新布局
