@@ -1,21 +1,24 @@
 {
-    "QFluentWidgets": {
-        "ThemeColor": "#ffffaaff",
-        "ThemeMode": "Dark"
+    "Color": {
+        "ThemeColor": "#ffffbfbf"
     },
-    "Update": {
-        "CheckUpdateAtStartUp": "动画式二"
-    },
-    "DesktopLyric": {
-        "FontFamily": "黑体",
-        "FontSize": 24
+    "Font": {
+        "FontFamily": "萝莉体",
+        "FontSize": 50
     },
     "Folders": {
         "Download": "D:/Work Files/PyQt-Fluent-Widgets-exploit/ETO/Backup",
         "Saves": "D:/Work Files/PyQt-Fluent-Widgets-exploit/ETO/saves"
     },
-    "MainWindow": {
-        "DpiScale": "Auto",
-        "Language": "zh_CN"
+    "Style": {
+        "loadingStyle": "动画式二",
+        "themeModeETO": "暗色主题"
+    },
+    "QFluentWidgets": {
+        "ThemeColor": "#ffffbfbf",
+        "ThemeMode": "Light"
+    },
+    "Version": {
+        "version": "1.0.0"
     }
 }

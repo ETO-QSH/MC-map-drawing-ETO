@@ -15,9 +15,9 @@ from multiprocessing import Pool
 
 from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtCore import Qt, QUrl, QObject, pyqtSlot, QSize, QEventLoop, QTimer, pyqtSignal, QThread, QRect
-from PyQt5.QtGui import QIcon, QDesktopServices
+from PyQt5.QtGui import QIcon, QDesktopServices, QFont
 from PyQt5.QtWidgets import QApplication, QFrame, QHBoxLayout, QStackedWidget, QStackedLayout, QCheckBox, QLabel, \
-    QTreeWidgetItem, QTreeWidget, QAbstractItemView, QSpacerItem, QSizePolicy
+    QTreeWidgetItem, QTreeWidget, QAbstractItemView, QSpacerItem, QSizePolicy, QComboBox
 
 from collections import Counter
 
@@ -540,15 +540,38 @@ class Dui(Ui_Kui, QWidget):
         w.yesButton.setText("确 认")
         w.cancelButton.setText("打 开")
 
-        # 还是没生效
-        # font = QtGui.QFont()
-        # font.setFamily("萝莉体")
-        # font.setPointSize(12)
-        # font.setBold(False)
-        # font.setWeight(50)
-        # w.setFont(font)
+        self.set_font("萝莉体", 10, w.yesButton)
+
+        titleLabelStyle = """
+                QLabel {
+                    font-family: '萝莉体';
+                    font-size: 20px;
+                }
+                """
+        w.titleLabel.setStyleSheet(titleLabelStyle)
+
+        contentLabelStyle = """
+                QLabel {
+                    font-family: '萝莉体';
+                    font-size: 16px;
+                }
+                """
+        w.contentLabel.setStyleSheet(contentLabelStyle)
+
+        cancelButtonStyle = """
+                QPushButton {
+                    font-family: '萝莉体';
+                    font-size: 13px;
+                }
+                """
+        w.cancelButton.setStyleSheet(cancelButtonStyle)
 
         print("byETO") if w.exec() else self.window.switchTo(self.window.libraryInterface)
+
+    def set_font(self, font_name, font_size, label):
+        """ 设置指定标签的字体和大小 """
+        font = QFont(font_name, font_size)
+        label.setFont(font)
 
     @pyqtSlot()
     def PushButton_SFR_Clicked(self):
@@ -1068,34 +1091,63 @@ class Window(MSFluentWindow):
         # 设置初始页面
         self.navigationInterface.setCurrentItem(self.homeInterface.objectName())
 
+        font = QtGui.QFont()
+        font.setFamily("萝莉体")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.navigationInterface.setFont(font)
+
+        self.navigationInterface.setStyleSheet('''
+        NavigationPanel[menu=true] {
+            background-color: rgb(32, 32, 32);
+            border: 1px solid rgb(57, 57, 57);
+            border-top-right-radius: 7px;
+            border-bottom-right-radius: 7px;
+        }
+        
+        NavigationPanel[menu=false] {
+            background-color: transparent;
+            border: 1px solid transparent;
+            border-top-right-radius: 7px;
+            border-bottom-right-radius: 7px;
+        }
+        
+        NavigationPanel[transparent=true] {
+            background-color: transparent;
+        }
+        
+        QScrollArea,
+        #scrollWidget {
+            border: none;
+            background-color: transparent;
+        }
+        
+        /* NavigationInterface {
+            background-color: rgb(32, 32, 32);
+        } */''')
+
     def initWindow(self):
         self.setFixedSize(1040, 720)
 
         self.titleBar.maxBtn.hide()
         self.titleBar.setDoubleClickEnabled(False)
 
-        icon = QtGui.QIcon("./image/icon.ico")
+        icon = QtGui.QIcon("./image/Sprite-0001.ico")
         self.titleBar.iconLabel.setPixmap(icon.pixmap(24, 24))
-        self.titleBar.iconLabel.setFixedSize(36, 56)
+        self.titleBar.iconLabel.setFixedSize(36, 36)
 
         self.titleBar.hBoxLayout.insertSpacing(0, 4)
 
         self.titleBar.titleLabel.setText('MC-map-drawing-ETO')
 
-        # 没有生效
-        # font = QtGui.QFont()
-        # font.setFamily("萝莉体")
-        # font.setPointSize(10)
-        # font.setBold(True)
-        # font.setWeight(50)
-        # self.titleBar.titleLabel.setFont(font)
-        # self.titleBar.setStyleSheet("""
-        #                             QLabel {
-        #                                 font-family: "萝莉体";  /* 设置字体 */
-        #                                 font-size: 12px;      /* 设置字号 */
-        #                                 font-weight: bold;    /* 设置字体加粗 */
-        #                             }
-        #                             """)
+        titleLabelStyle = """
+        QLabel {
+            font-family: '萝莉体';
+            font-size: 15px;
+        }
+        """
+        self.titleBar.titleLabel.setStyleSheet(titleLabelStyle)
 
         self.splashScreen = SplashScreen(QIcon('./image/setup.jpg'), self)
         self.splashScreen.setIconSize(QSize(1040, 720))
@@ -1230,8 +1282,39 @@ class Window(MSFluentWindow):
         w.yesButton.setText('这就去')
         w.cancelButton.setText('懒得看')
 
+        self.set_font("萝莉体", 10, w.yesButton)
+
+        titleLabelStyle = """
+        QLabel {
+            font-family: '萝莉体';
+            font-size: 20px;
+        }
+        """
+        w.titleLabel.setStyleSheet(titleLabelStyle)
+
+        contentLabelStyle = """
+        QLabel {
+            font-family: '萝莉体';
+            font-size: 16px;
+        }
+        """
+        w.contentLabel.setStyleSheet(contentLabelStyle)
+
+        cancelButtonStyle = """
+        QPushButton {
+            font-family: '萝莉体';
+            font-size: 13px;
+        }
+        """
+        w.cancelButton.setStyleSheet(cancelButtonStyle)
+
         if w.exec():
             QDesktopServices.openUrl(QUrl("https://github.com/ETO-QSH/MC-map-drawing-ETO"))
+
+    def set_font(self, font_name, font_size, label):
+        """ 设置指定标签的字体和大小 """
+        font = QFont(font_name, font_size)
+        label.setFont(font)
 
 
 if __name__ == '__main__':
@@ -1244,11 +1327,9 @@ if __name__ == '__main__':
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
 
-    algorithmed = {'RadioBoxes': 'RadioButton_0'}
+    MapMod, algorithmed = 0, {'RadioBoxes': 'RadioButton_0'}
 
-    MapMod = 0
-
-    #setTheme(Theme.DARK)
+    setTheme(Theme.DARK) if cfg.get(cfg.themeModeETO) == '暗色主题' else setTheme(Theme.LIGHT)
 
     app = QApplication(sys.argv)
     w = Window()

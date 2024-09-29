@@ -12,7 +12,7 @@ from enum import Enum
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtWidgets import QMenu, QCompleter
 from qfluentwidgets.components.widgets.button import DropDownButtonBase
 
@@ -429,6 +429,10 @@ class Ui_Kui(object):
             self.ComboBox.setItemIcon(i, QIcon(os.path.join('./icon', item["icon"])))
         self.ComboBox.currentIndexChanged.connect(lambda index: print(self.ComboBox.currentText())) # 当前选项的索引改变信号
         self.ComboBox.setCompleter(QCompleter([item["name"] for item in data], self.ComboBox)) # 设置补全器
+
+        # 不生效的说 byETO
+        for item in self.ComboBox.items:
+            item.setFont(QFont('萝莉体', 10))
 
         self.HorizontalSeparator_2 = HorizontalSeparator(self.widget)
         self.HorizontalSeparator_2.setMinimumSize(QtCore.QSize(256, 4))

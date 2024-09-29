@@ -16,22 +16,9 @@ class UI_Yui(QWidget):
         self.hBoxLayout.addWidget(self.settingInterface)
 
         self.setQss()
-        #cfg.themeChanged.connect(self.setQss)
 
     def setQss(self):
-        theme = 'dark' if isDarkTheme() else 'light'
+        theme = 'dark' if cfg.get(cfg.themeModeETO) == '暗色主题' else 'light'
         with open(f'settings/resource/qss/{theme}/demo.qss', encoding='utf-8') as f:
             self.setStyleSheet(f.read())
-
-        if cfg.get(cfg.dpiScale) == "Auto":
-            QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
-            QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
-        else:
-            os.environ["QT_ENABLE_HIGHDPI_SCALING"] = "0"
-            os.environ["QT_SCALE_FACTOR"] = str(cfg.get(cfg.dpiScale))
-
-        # internationalization
-        locale = cfg.get(cfg.language).value
-        settingTranslator = QTranslator()
-        settingTranslator.load(locale, "settings", ".", "resource/i18n")
 

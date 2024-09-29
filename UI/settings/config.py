@@ -8,25 +8,6 @@ from qfluentwidgets import (qconfig, QConfig, ConfigItem, OptionsConfigItem, Boo
                             ColorConfigItem, OptionsValidator, RangeConfigItem, RangeValidator,
                             FolderListValidator, EnumSerializer, FolderValidator, ConfigSerializer, __version__)
 
-class Language(Enum):
-    """ Language enumeration """
-
-    CHINESE_SIMPLIFIED = QLocale(QLocale.Chinese, QLocale.China)
-    CHINESE_TRADITIONAL = QLocale(QLocale.Chinese, QLocale.HongKong)
-    ENGLISH = QLocale(QLocale.English)
-    AUTO = QLocale()
-
-
-class LanguageSerializer(ConfigSerializer):
-    """ Language serializer """
-
-    def serialize(self, language):
-        return language.value.name() if language != Language.AUTO else "Auto"
-
-    def deserialize(self, value: str):
-        return Language(QLocale(value)) if value != "Auto" else Language.AUTO
-
-
 class Config(QConfig):
     """ Config of application """
 
@@ -37,23 +18,21 @@ class Config(QConfig):
     except FileNotFoundError:
         theme_color = ''
 
-    downloadFolder = ConfigItem("Folders", "Download", "Backup", FolderValidator())
+    downloadFolder = ConfigItem("Folders", "Download", "./Backup", FolderValidator())
 
-    savesFolder = ConfigItem("Folders", "Saves", "saves", FolderValidator())
+    savesFolder = ConfigItem("Folders", "Saves", "./saves", FolderValidator())
 
-    ThemeColor = ColorConfigItem("QFluentWidgets", "ThemeColor", theme_color if theme_color != '' else "#ffbfbf")
+    ThemeColor = ColorConfigItem("Color", "ThemeColor", theme_color if theme_color != '' else "#FFBFBF")
 
-    dpiScale = OptionsConfigItem("MainWindow", "DpiScale", "Auto", OptionsValidator([1, 1.25, 1.5, 1.75, 2, 2.25, "Auto"]), restart=True)
+    deskLyricFontSize = RangeConfigItem("Font", "FontSize", 50, RangeValidator(15, 50))
 
-    language = OptionsConfigItem("MainWindow", "Language", Language.AUTO, OptionsValidator(Language), LanguageSerializer(), restart=True)
+    deskLyricFontFamily = ConfigItem("Font", "FontFamily", "萝莉体")
 
-    deskLyricFontSize = RangeConfigItem("DesktopLyric", "FontSize", 50, RangeValidator(15, 50))
+    versionControl = ConfigItem("Version", "version", "1.0.0")
 
-    deskLyricFontFamily = ConfigItem("DesktopLyric", "FontFamily", "萝莉体")
+    themeModeETO = OptionsConfigItem("Style", "themeModeETO", "暗色主题", OptionsValidator(["暗色主题", "亮色主题"]), restart=True)
 
-    checkUpdateAtStartUp = OptionsConfigItem("Update", "CheckUpdateAtStartUp", "Auto", OptionsValidator(["每次检查", "每月检查", "永不更新"]), restart=True)
-
-    loadingStyle = OptionsConfigItem("Update", "CheckUpdateAtStartUp", "动画式一", OptionsValidator(["动画式一", "动画式二", "动画式三"]), restart=True)
+    loadingStyle = OptionsConfigItem("Style", "loadingStyle", "动画式一", OptionsValidator(["动画式一", "动画式二", "动画式三"]), restart=True)
 
     @property
     def desktopLyricFont(self):

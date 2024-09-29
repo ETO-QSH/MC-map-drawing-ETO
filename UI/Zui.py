@@ -11,7 +11,7 @@ from enum import Enum
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot, Qt
-from PyQt5.QtGui import QColor, QPixmap
+from PyQt5.QtGui import QColor, QPixmap, QFont
 from PyQt5.QtWidgets import QWidget, QGraphicsDropShadowEffect, QHBoxLayout, QFrame, QLabel, QStackedWidget
 from qfluentwidgets import SmoothScrollArea, LineEdit, PushButton, HyperlinkLabel, qconfig, Theme, StyleSheetBase, \
     InfoBarPosition, InfoBar, SwitchButton, TreeWidget, Slider
@@ -347,6 +347,77 @@ class Ui_Zui(object):
         super().__init__(parent=parent)
         self.stackedWidget = QStackedWidget()
         self.segmentedWidget = SegmentedWidget()
+
+        segmentedWidget_styleSheet = '''
+        PivotItem {
+            padding: 10px 12px;
+            color: white;
+            background-color: transparent;
+            border: none;
+            outline: none;
+        }
+        PivotItem[isSelected=true]:hover {
+            color: rgba(255, 255, 255, 0.63);
+        }
+        PivotItem[isSelected=true]:pressed {
+            color: rgba(255, 255, 255, 0.53);
+        }
+        PivotItem[isSelected=false]:pressed {
+            color: rgba(255, 255, 255, 0.75);
+        }
+        PivotItem[hasIcon=false] {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+        PivotItem[hasIcon=true] {
+            padding-left: 36px;
+            padding-right: 12px;
+        }
+        Pivot {
+            border: none;
+            background-color: transparent;
+        }
+        #view {
+            background-color: transparent;
+        }
+        SegmentedToolItem {
+            padding: 5px 9px 6px 8px;
+        }
+        SegmentedWidget,
+        SegmentedToolWidget {
+            background-color: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+        }
+        SegmentedItem[isSelected=false], SegmentedToolItem[isSelected=false] {
+            padding-top: 3px;
+            padding-bottom: 3px;
+            background-color: transparent;
+            border: none;
+            border-radius: 6px;
+            margin: 3px 2px;
+        }
+        SegmentedItem[isSelected=false]:hover,
+        SegmentedToolItem[isSelected=false]:hover {
+            background-color: rgba(255, 255, 255, 9);
+        }
+        SegmentedItem[isSelected=false]:pressed,
+        SegmentedToolItem[isSelected=false]:pressed {
+            background-color: rgba(255, 255, 255, 6);
+            margin: 3px 4px 3px 4px;
+        }
+        SegmentedItem[isSelected=true],
+        SegmentedToolItem[isSelected=true] {
+            padding-top: 6px;
+            padding-bottom: 6px;
+            margin: 0px;
+            color: white;
+            background-color: transparent;
+        }
+        QPushButton { font-family: '萝莉体'; font-size: 12px; }'''
+
+        self.segmentedWidget.setStyleSheet(segmentedWidget_styleSheet)
+
         self.infoBarInstance = None  # 用于存储弹窗实例的引用
         self.action_button = PushButton('Next')
         self.globalList = []
@@ -676,6 +747,12 @@ class Ui_Zui(object):
         self.LineEdit_2.setMaximumSize(QtCore.QSize(150, 30))
         self.LineEdit_2.setObjectName("LineEdit_2")
         self.LineEdit_2.setReadOnly(True)
+        font = QtGui.QFont()
+        font.setFamily("萝莉体")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.LineEdit_2.setFont(font)
         self.gridLayout_6.addWidget(self.LineEdit_2, 0, 1, 1, 1)
 
         self.PushButton_2 = PushButton(self.widget)
