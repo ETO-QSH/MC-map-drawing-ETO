@@ -1,52 +1,34 @@
-# coding:utf-8
+# -*- coding: utf-8 -*-
 
-import os
-import re
-import ast
-import sys
-import json
-import nbtlib
-import shutil
-import zipfile
-import subprocess
 from enum import Enum
+from pathlib import Path
 from datetime import datetime
+from collections import Counter
 from multiprocessing import Pool
 
+import os, re, ast, sys, json, nbtlib, shutil, zipfile, subprocess
+
 from PyQt5 import QtGui, QtWidgets, QtCore
-from PyQt5.QtCore import Qt, QUrl, QObject, pyqtSlot, QSize, QEventLoop, QTimer, pyqtSignal, QThread, QRect
-from PyQt5.QtGui import QIcon, QDesktopServices, QFont
-from PyQt5.QtWidgets import QApplication, QFrame, QHBoxLayout, QStackedWidget, QStackedLayout, QCheckBox, QLabel, \
-    QTreeWidgetItem, QTreeWidget, QAbstractItemView, QSpacerItem, QSizePolicy, QComboBox
+from PyQt5.QtGui import QIcon, QDesktopServices, QFont, QColor, QFontDatabase
+from PyQt5.QtCore import Qt, QUrl, QObject, QSize, QTimer, pyqtSignal, QThread, QRect, pyqtSlot
+from PyQt5.QtWidgets import QApplication, QFrame, QHBoxLayout, QCheckBox, QAbstractItemView, QWidget, QGraphicsDropShadowEffect
 
-from collections import Counter
+from qfluentwidgets import (NavigationItemPosition, MessageBox, setTheme, MSFluentWindow, SubtitleLabel, theme, Theme,
+                            InfoBar, InfoBarPosition, PushButton, RadioButton, LineEdit, SpinBox, TreeWidget, qconfig,
+                            SimpleCardWidget, StateToolTip, EditableComboBox, setFont, StyleSheetBase, SplashScreen)
 
-from ETO.settings.config import cfg
-from qfluentwidgets import (NavigationItemPosition, MessageBox, setTheme, Theme, MSFluentWindow, NavigationAvatarWidget,
-                            qrouter, SubtitleLabel, setFont, setThemeColor, theme, SplashScreen, InfoBar,
-                            InfoBarPosition, PushButton, RadioButton, LineEdit, SpinBox, SegmentedWidget, TreeWidget,
-                            SwitchButton, ListWidget, Slider, SimpleCardWidget, DropDownPushButton, StateToolTip,
-                            Dialog, EditableComboBox)
+from byETO.Aui import Ui_Aui
+from byETO.Bui import Ui_Bui
+from byETO.Hui import Ui_Hui
+from byETO.Tui import Ui_Tui
+from byETO.Xui import UI_Xui
+from byETO.Zui import Ui_Zui
+from byETO.Hui import AHui, BHui
+from byETO.settings.config import cfg
+from byETO.settings.demo import UI_Yui
+from byETO.Kui import Ui_Kui, CustomSpinBox
 from qfluentwidgets import FluentIcon as FIF
 
-from ETO.Aui import Ui_Aui
-from ETO.Bui import Ui_Bui
-from ETO.Hui import Ui_Hui
-from ETO.Tui import Ui_Tui
-from ETO.Xui import UI_Xui
-from ETO.Zui import Ui_Zui
-from ETO.Kui import Ui_Kui, CustomSpinBox, newDropDownPushButton
-from ETO.Hui import AHui, BHui, CHui
-from ETO.settings.demo import UI_Yui
-
-from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QWidget, QGraphicsDropShadowEffect
-from qfluentwidgets import FluentIcon, setFont, InfoBarIcon
-
-from PyQt5.QtCore import pyqtSlot
-from qfluentwidgets import qconfig, Theme, StyleSheetBase
-
-from qfluentwidgets import SplashScreen
 
 def copy_and_replace_files(source_folder, target_folder):
     for item in os.listdir(source_folder):
@@ -225,7 +207,6 @@ class Worker5(QObject):
         SuperflatEdit_cmd = [r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\SuperflatEdit.exe', '-b', './data/blockList.txt', '-w', './data/world_mca'] + self.addLayer
         subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\Forblock.exe', '-b', './data/BlockList.json',
                               '-k', './data/keyValue.json', '-o', './data/blockList.txt', '-x', self.x, '-y', self.y, '-z', self.z], shell=True)
-        print(SuperflatEdit_cmd)
         subprocess.run(SuperflatEdit_cmd, shell=True)
 
         # 通知GUI任务完成
@@ -270,7 +251,6 @@ class Aui(Ui_Aui, QWidget):
         buttonName = button.objectName()
         self.window.onButtonClicked(buttonName, 'Aui')
         self.parent().MapMod = {'1': 1, '2': 3, '3': 4}[buttonName.split('_')[1]]
-        print('MapMod:', self.parent().MapMod)
 
 
 class Bui(Ui_Bui, QWidget):
@@ -304,7 +284,7 @@ class Bui(Ui_Bui, QWidget):
             title='Warning',
             content="请与上页选择地图画模式",
             orient=Qt.Horizontal,
-            isClosable=True,   # disable close button
+            isClosable=True,
             position=InfoBarPosition.TOP,
             duration=2500,
             parent=self
@@ -330,7 +310,6 @@ class Bui(Ui_Bui, QWidget):
                 creat_BlockList_colorList('./src/BlockList.json', './src/colorList.txt',
                                        './data/BlockList.json', './data/colorList.txt',
                                           nameList, self.parent().MapMod)
-                print('nameList:', nameList)
                 self.window.onButtonClicked(buttonName, 'Bui')
         except AttributeError:
             self.createWarningInfoBar()
@@ -386,7 +365,6 @@ class Cui(Ui_Zui, QWidget):
             if algorithmed["RadioBoxes"] == 'RadioButton_2' and self.globalList == []:
                 self.createWarningInfoBar()
             else:
-                print('algorithmed + globalList', algorithmed, self.globalList)
                 self.window.onButtonClicked("go_next", 'Cui')
                 self.updateUi.emit()
         else:
@@ -397,7 +375,7 @@ class Cui(Ui_Zui, QWidget):
             title='Warning',
             content="请勾选单选框 or 提交文件路径 or 保证K-T>0",
             orient=Qt.Horizontal,
-            isClosable=True,   # disable close button
+            isClosable=True,
             position=InfoBarPosition.TOP,
             duration=2500,
             parent=self
@@ -467,9 +445,11 @@ class Dui(Ui_Kui, QWidget):
 
         self.worker5 = Worker5(x, y, z, dic)
         self.worker5.finished5.connect(self.on_finsh5)
-        self.worker5.moveToThread(QThread())
-        self.worker5.thread().started.connect(self.worker5.run)
-        self.worker5.thread().start()
+
+        self.thread5 = QThread()
+        self.worker5.moveToThread(self.thread5)
+        self.thread5.started.connect(self.worker5.run)
+        self.thread5.start()
 
     def on_StateToolTip_closed2(self):
         self.gridLayout_4.removeWidget(self.PushButton_SFR)
@@ -623,7 +603,7 @@ class Dui(Ui_Kui, QWidget):
             title='Warning',
             content="格式错误 —— 例：'-64:bedrock;-63:dirt;-62:dirt;-61:grass_block'",
             orient=Qt.Horizontal,
-            isClosable=True,   # disable close button
+            isClosable=True,
             position=InfoBarPosition.TOP,
             duration=2500,
             parent=self
@@ -634,7 +614,7 @@ class Dui(Ui_Kui, QWidget):
             title='Warning',
             content="请勾选单选框",
             orient=Qt.Horizontal,
-            isClosable=True,   # disable close button
+            isClosable=True,
             position=InfoBarPosition.TOP,
             duration=2500,
             parent=self
@@ -645,7 +625,7 @@ class Dui(Ui_Kui, QWidget):
             title='Warning',
             content="请选择背景层",
             orient=Qt.Horizontal,
-            isClosable=True,   # disable close button
+            isClosable=True,
             position=InfoBarPosition.TOP,
             duration=2500,
             parent=self
@@ -656,7 +636,7 @@ class Dui(Ui_Kui, QWidget):
             title='Warning',
             content="方块id错误，请填写上文存在的id",
             orient=Qt.Horizontal,
-            isClosable=True,   # disable close button
+            isClosable=True,
             position=InfoBarPosition.TOP,
             duration=2500,
             parent=self
@@ -823,7 +803,7 @@ class Fui(Ui_Tui, QWidget):
             title='Warning',
             content="请点击左侧树控件选择算法与图片匹配",
             orient=Qt.Horizontal,
-            isClosable=True,   # disable close button
+            isClosable=True,
             position=InfoBarPosition.TOP,
             duration=2500,
             parent=self
@@ -909,9 +889,11 @@ class Gui(Ui_Hui, QWidget):
                 # 创建并启动工作进程
                 self.worker3 = Worker3(self.parent().MapMod)
                 self.worker3.finished3.connect(self.on_finsh3)
-                self.worker3.moveToThread(QThread())
-                self.worker3.thread().started.connect(self.worker3.run)
-                self.worker3.thread().start()
+
+                self.thread3 = QThread()
+                self.worker3.moveToThread(self.thread3)
+                self.thread3.started.connect(self.worker3.run)
+                self.thread3.start()
 
             else:
                 self.createWarningInfoBar2()
@@ -924,13 +906,14 @@ class Gui(Ui_Hui, QWidget):
         max_x, max_y = max(numbers, key=lambda x: x[0])[0], max(numbers, key=lambda x: x[1])[1]
         self.worker4 = Worker4(self.parent().MapMod, self.LineEdit_2.text(), self.dirName, max_x, max_y, a, b)
         self.worker4.finished4.connect(self.on_finsh4)
-        self.worker4.moveToThread(QThread())
-        self.worker4.thread().started.connect(self.worker4.run)
-        self.worker4.thread().start()
+
+        self.thread4 = QThread()
+        self.worker4.moveToThread(self.thread4)
+        self.thread4.started.connect(self.worker4.run)
+        self.thread4.start()
 
     @pyqtSlot(int, int, int, int, str, str)
     def on_finsh4(self, a, b, max_x, max_y, saves, dirName):
-        print(a, b, max_x, max_y, dirName, saves)
         _translate = QtCore.QCoreApplication.translate
         if self.parent().MapMod in [1, 3]:
             self.createStackedItems2(xx=max_x-1, yu=a, yd=b, zz=max_y-1, saves=saves, dirName=dirName)
@@ -980,7 +963,7 @@ class Gui(Ui_Hui, QWidget):
             title='Warning',
             content="请选择世界文件夹",
             orient=Qt.Horizontal,
-            isClosable=True,   # disable close button
+            isClosable=True,
             position=InfoBarPosition.TOP,
             duration=2500,
             parent=self
@@ -991,7 +974,7 @@ class Gui(Ui_Hui, QWidget):
             title='Warning',
             content="前按照步骤完成前面的提交",
             orient=Qt.Horizontal,
-            isClosable=True,   # disable close button
+            isClosable=True,
             position=InfoBarPosition.TOP,
             duration=2500,
             parent=self
@@ -1318,10 +1301,19 @@ class Window(MSFluentWindow):
 
 
 if __name__ == '__main__':
+    
+    os.system("chcp 65001")
 
-    shutil.rmtree('./data')
+    shutil.rmtree('./data') if Path('./data').exists() else False
+
     for dirs in ['./data/didder', './data/image', './data/pixivColor', './data/split', './data/world_dat', './data/world_mca', './data/Backup']:
         os.makedirs(dirs, exist_ok=True)
+
+    # 加载字体
+    fontDb = QFontDatabase()
+    fontID = fontDb.addApplicationFont('./font/萝莉体.ttf')
+    fontFamilies = fontDb.applicationFontFamilies(fontID)
+    print(fontFamilies)
 
     QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)

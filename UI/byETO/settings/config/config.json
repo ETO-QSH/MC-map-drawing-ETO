@@ -1,0 +1,24 @@
+{
+    "Color": {
+        "ThemeColor": "#ffffbfbf"
+    },
+    "Font": {
+        "FontFamily": "萝莉体",
+        "FontSize": 50
+    },
+    "Folders": {
+        "Download": "D:/Work Files/PyQt-Fluent-Widgets-exploit/ETO/Backup",
+        "Saves": "D:/Work Files/PyQt-Fluent-Widgets-exploit/ETO/saves"
+    },
+    "Style": {
+        "loadingStyle": "动画式二",
+        "themeModeETO": "暗色主题"
+    },
+    "QFluentWidgets": {
+        "ThemeColor": "#ffffbfbf",
+        "ThemeMode": "Light"
+    },
+    "Version": {
+        "version": "1.0.0"
+    }
+}

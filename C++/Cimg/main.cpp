@@ -79,8 +79,6 @@ void jigsaw(const std::string& dic_path, const std::string& output_image_path) {
 
     FindClose(hFind);
 
-    std::cout << "okokok" << std::endl;
-
     // 按坐标排序图片
     std::sort(coordinates.begin(), coordinates.end(), [](const std::pair<int, int>& a, const std::pair<int, int>& b) {
         return a.second < b.second || (a.second == b.second && a.first < b.first);
