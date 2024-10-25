@@ -19,6 +19,13 @@ from qfluentwidgets import TeachingTipTailPosition, FlyoutViewBase, TeachingTip,
 
 names = locals()
 
+def find_path(filename):
+    for root, dirs, files in os.walk(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))):
+        for file in files:
+            if file.endswith(os.path.splitext(filename)[1]) and file.startswith(os.path.splitext(filename)[0]):
+                return os.path.join(root, file)
+    return None
+
 # 定义排序键函数
 def sort_key(filename):
     parts = filename.split('.')[0].split('_')
@@ -51,7 +58,7 @@ class MovableWidget(QtWidgets.QWidget):
             self.checkTimer.timeout.connect(partial(self.checkForNewFiles, folder_path=self.folder_path))
             self.checkTimer.start()
 
-            image_paths = './loading/{}'.format({'动画式一': "load_0.gif", '动画式二': "load_1.gif", '动画式三': "load_2.gif"}[cfg.get(cfg.loadingStyle)])
+            image_paths = {'动画式一': f"{find_path('load_0.gif')}", '动画式二': f"{find_path('load_1.gif')}", '动画式三': f"{find_path('load_2.gif')}"}[cfg.get(cfg.loadingStyle)]
 
             # 创建并添加PixmapLabel控件，并为每个PixmapLabel设置图片
             for i in range(n):
@@ -322,14 +329,12 @@ class ScrollableMovableGridPixmapWidget(QtWidgets.QWidget):
         self.movableWidget.zoomLabels(8/9, mousePos)
 
     def createSuccessInfoBar(self):
-        # convenient class mothod
         InfoBar.success(
             title='Success',
             content="已完成全部加载！",
             orient=Qt.Horizontal,
             isClosable=True,
             position=InfoBarPosition.TOP,
-            # position='Custom',   # NOTE: use custom info bar manager
             duration=-1,
             parent=self
         )
@@ -372,4 +377,3 @@ class CustomTeachingTip(TeachingTip):
                 self.bubble.view.imageLabel.setPixmap(self.bubble.view.imageLabel.pixmap().scaledToHeight(self.bubble.view.imageLabel.height(), Qt.SmoothTransformation))
             elif self.manager.imagePosition() in [ImagePosition.LEFT, ImagePosition.RIGHT]:
                 self.bubble.view.imageLabel.setPixmap(self.bubble.view.imageLabel.pixmap().scaledToWidth(self.bubble.view.imageLabel.width(), Qt.SmoothTransformation))
-

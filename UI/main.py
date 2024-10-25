@@ -6,7 +6,7 @@ from datetime import datetime
 from collections import Counter
 from multiprocessing import Pool
 
-import os, re, ast, sys, json, nbtlib, shutil, zipfile, subprocess
+import os, re, ast, sys, json, nbtlib, shutil, zipfile, subprocess; os.system("chcp 65001")
 
 from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtGui import QIcon, QDesktopServices, QFont, QColor, QFontDatabase
@@ -29,6 +29,17 @@ from byETO.settings.demo import UI_Yui
 from byETO.Kui import Ui_Kui, CustomSpinBox
 from qfluentwidgets import FluentIcon as FIF
 
+def print_dir_tree(startpath):
+    for root, _, files in os.walk(startpath):
+        print(f"{' ' * 4 * (root.replace(startpath, '').count(os.sep))}┣━ {os.path.basename(root)} • ")
+        [print(f"{' ' * 4 * (root.replace(startpath, '').count(os.sep) + 1)}┣━ {f}") for f in files]
+
+def find_path(filename):
+    for root, dirs, files in os.walk(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))):
+        for file in files:
+            if file.endswith(os.path.splitext(filename)[1]) and file.startswith(os.path.splitext(filename)[0]):
+                return os.path.join(root, file)
+    return None
 
 def copy_and_replace_files(source_folder, target_folder):
     for item in os.listdir(source_folder):
@@ -122,16 +133,15 @@ class Worker3(QObject):
         cmds = []
 
         for item in [item for item in os.listdir('./data/split/') if os.path.isfile(os.path.join('./data/split/', item))]:
-            cmds.append([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\mapKey.exe', '-i', os.path.join('./data/split/', item),
-                          '-p', os.path.join('./data/pixivColor/', 'pixivColor_{}_{}.txt'.format(item.split('.')[0].split('_')[1], item.split('.')[0].split('_')[2])),
-                          '-k', './data/keyValue.json', '-c', './data/colorList.txt', '-n', '4'])
+            cmds.append([find_path('mapKey.exe'), '-i', os.path.join('./data/split/', item), '-p', os.path.join('./data/pixivColor/', 'pixivColor_{}_{}.txt'.format(
+                item.split('.')[0].split('_')[1], item.split('.')[0].split('_')[2])), '-k', './data/keyValue.json', '-c', './data/colorList.txt', '-n', '4'])
 
         # 创建进程池并处理文件
         with Pool(processes=os.cpu_count()) as pool:
             pool.map(self.to_pixivColor, cmds)
 
-        res = subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\mapKey.exe', '-i', os.path.join('./data/image/', [item for item in os.listdir('./data/image/') if item != 'contrast.png'][0]),
-                                    '-p', './data/pixivColor.txt/', '-k', './data/keyValue.json', '-c', './data/colorList.txt', '-n', str(self.mode)], shell=True, capture_output=True, text=True)
+        res = subprocess.run([find_path('mapKey.exe'), '-i', os.path.join('./data/image/', [item for item in os.listdir('./data/image/') if item != 'contrast.png'][0]), '-p',
+                              './data/pixivColor.txt/', '-k', './data/keyValue.json', '-c', './data/colorList.txt', '-n', str(self.mode)], shell=True, capture_output=True, text=True)
 
         a, b = [int(i) for i in res.stdout[1:-2].split(',')] if (not res.stdout == '' and str(self.mode) == '3') else [0, 0]
 
@@ -163,9 +173,9 @@ class Worker4(QObject):
         except FileNotFoundError:
             Data = -1
         for item in [item for item in os.listdir('./data/pixivColor/') if os.path.isfile(os.path.join('./data/pixivColor/', item))]:
-            cmds.append([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\nbtfile.exe', '-c', os.path.join('./data/pixivColor/', item),
-                          '-f', './data/world_dat/map_{}.dat'.format(Data + (int(item.split('.')[0].split('_')[1]) - 1) * self.max_x + int(item.split('.')[0].split('_')[2]))])
-        cmds.append([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\nbtfile.exe', '-p', './data/world_dat/idcounts.dat', '-n', str(self.max_x * self.max_y + Data + 1)])
+            cmds.append([find_path('nbtfile.exe'), '-c', os.path.join('./data/pixivColor/', item), '-f', './data/world_dat/map_{}.dat'.format(
+                        Data + (int(item.split('.')[0].split('_')[1]) - 1) * self.max_x + int(item.split('.')[0].split('_')[2]))])
+        cmds.append([find_path('nbtfile.exe'), '-p', './data/world_dat/idcounts.dat', '-n', str(self.max_x * self.max_y + Data + 1)])
 
         # 创建进程池并处理文件
         with Pool(processes=os.cpu_count()) as pool:
@@ -204,9 +214,9 @@ class Worker5(QObject):
         self.addLayer = ['-s', '"{}"'.format(Layer)]
 
     def run(self):
-        SuperflatEdit_cmd = [r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\SuperflatEdit.exe', '-b', './data/blockList.txt', '-w', './data/world_mca'] + self.addLayer
-        subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\Forblock.exe', '-b', './data/BlockList.json',
-                              '-k', './data/keyValue.json', '-o', './data/blockList.txt', '-x', self.x, '-y', self.y, '-z', self.z], shell=True)
+        SuperflatEdit_cmd = [find_path('SuperflatEdit.exe'), '-b', './data/blockList.txt', '-w', './data/world_mca'] + self.addLayer
+        subprocess.run([find_path('Forblock.exe'), '-b', './data/BlockList.json', '-k', './data/keyValue.json',
+                        '-o', './data/blockList.txt', '-x', self.x, '-y', self.y, '-z', self.z], shell=True)
         subprocess.run(SuperflatEdit_cmd, shell=True)
 
         # 通知GUI任务完成
@@ -307,8 +317,8 @@ class Bui(Ui_Bui, QWidget):
 
         try:
             if self.parent().MapMod:
-                creat_BlockList_colorList('./src/BlockList.json', './src/colorList.txt',
-                                       './data/BlockList.json', './data/colorList.txt',
+                creat_BlockList_colorList(find_path('BlockList.json'), find_path('colorList.txt'),
+                                          './data/BlockList.json', './data/colorList.txt',
                                           nameList, self.parent().MapMod)
                 self.window.onButtonClicked(buttonName, 'Bui')
         except AttributeError:
@@ -825,17 +835,14 @@ class Fui(Ui_Tui, QWidget):
                             flag = int(item.text(0).split("\n")[0].split(":")[1].strip())
                             if self.didshow.flipView.currentIndex() == flag:
 
-                                subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe',
-                                                      '-i', './data/didder/{}.png'.format(flag), '-o', './data/image/didder.png',
-                                                      '-m', 'true', '-s', '1.0'], shell=True)
+                                subprocess.run([find_path('ImgTransform.exe'), '-i', './data/didder/{}.png'.format(flag),
+                                                '-o', './data/image/didder.png', '-m', 'true', '-s', '1.0'], shell=True)
 
-                                subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe',
-                                                      '-i',self.window.algorithmed['imageFile'].replace('/', '\\'), '-o',
-                                                      './data/image/contrast.png', '-m', 'true', '-s', '1.0'], shell=True)
+                                subprocess.run([find_path('ImgTransform.exe'), '-i', self.window.algorithmed['imageFile'].replace('/', '\\'),
+                                                '-o', './data/image/contrast.png', '-m', 'true', '-s', '1.0'], shell=True)
 
-                                subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe',
-                                                      '-i', './data/didder/{}.png'.format(flag), '-o', './data/split/Label',
-                                                      '-m', 'false', '-s', '1.0'], shell=True)
+                                subprocess.run([find_path('ImgTransform.exe'), '-i', './data/didder/{}.png'.format(flag),
+                                                '-o', './data/split/Label', '-m', 'false', '-s', '1.0'], shell=True)
 
                                 self.window.onButtonClicked("go_last", 'Dui')
                                 self.updateUiH.emit()
@@ -1116,7 +1123,7 @@ class Window(MSFluentWindow):
         self.titleBar.maxBtn.hide()
         self.titleBar.setDoubleClickEnabled(False)
 
-        icon = QtGui.QIcon("./image/Sprite-0001.ico")
+        icon = QtGui.QIcon(find_path("Sprite-0001.ico"))
         self.titleBar.iconLabel.setPixmap(icon.pixmap(24, 24))
         self.titleBar.iconLabel.setFixedSize(36, 36)
 
@@ -1132,7 +1139,7 @@ class Window(MSFluentWindow):
         """
         self.titleBar.titleLabel.setStyleSheet(titleLabelStyle)
 
-        self.splashScreen = SplashScreen(QIcon('./image/setup.jpg'), self)
+        self.splashScreen = SplashScreen(QIcon(find_path('setup.jpg')), self)
         self.splashScreen.setIconSize(QSize(1040, 720))
         self.splashScreen.raise_()
 
@@ -1301,8 +1308,6 @@ class Window(MSFluentWindow):
 
 
 if __name__ == '__main__':
-    
-    os.system("chcp 65001")
 
     shutil.rmtree('./data') if Path('./data').exists() else False
 
@@ -1310,10 +1315,10 @@ if __name__ == '__main__':
         os.makedirs(dirs, exist_ok=True)
 
     # 加载字体
-    fontDb = QFontDatabase()
-    fontID = fontDb.addApplicationFont('./font/萝莉体.ttf')
-    fontFamilies = fontDb.applicationFontFamilies(fontID)
-    print(fontFamilies)
+    # fontDb = QFontDatabase()
+    # fontID = fontDb.addApplicationFont(find_path('萝莉体.ttf'))
+    # fontFamilies = fontDb.applicationFontFamilies(fontID)
+    # print(fontFamilies)
 
     QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)

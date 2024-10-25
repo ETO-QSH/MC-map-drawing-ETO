@@ -1,6 +1,16 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import os
 
+
+def find_path(filename):
+    for root, dirs, files in os.walk(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))):
+        for file in files:
+            if file.endswith(os.path.splitext(filename)[1]) and file.startswith(os.path.splitext(filename)[0]):
+                return os.path.join(root, file)
+    return None
+
+filePath = os.path.dirname(find_path('glass.png'))
 
 class Ui_Bui(object):
     def setupUi(self, Bui):
@@ -144,7 +154,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("icon/black_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(os.path.join(filePath, "black_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.black_terracotta.setIcon(icon)
         self.black_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.black_terracotta.setChecked(True)
@@ -417,7 +427,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("icon/light_blue_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(os.path.join(filePath, "light_blue_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.light_blue_concrete.setIcon(icon1)
         self.light_blue_concrete.setIconSize(QtCore.QSize(16, 16))
         self.light_blue_concrete.setChecked(True)
@@ -466,7 +476,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("icon/light_blue_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(os.path.join(filePath, "light_blue_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.light_blue_wool.setIcon(icon2)
         self.light_blue_wool.setIconSize(QtCore.QSize(16, 16))
         self.light_blue_wool.setTristate(False)
@@ -510,7 +520,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("icon/light_blue_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap(os.path.join(filePath, "light_blue_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.light_blue_stained_glass.setIcon(icon3)
         self.light_blue_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.light_blue_stained_glass.setTristate(False)
@@ -559,7 +569,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("icon/spruce_planks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap(os.path.join(filePath, "spruce_planks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.spruce_planks.setIcon(icon4)
         self.spruce_planks.setIconSize(QtCore.QSize(16, 16))
         self.spruce_planks.setTristate(False)
@@ -607,7 +617,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("icon/podzol.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap(os.path.join(filePath, "podzol.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.podzol.setIcon(icon5)
         self.podzol.setIconSize(QtCore.QSize(16, 16))
         self.podzol.setChecked(True)
@@ -659,7 +669,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap("icon/crimson_nylium.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon6.addPixmap(QtGui.QPixmap(os.path.join(filePath, "crimson_nylium.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.crimson_nylium.setIcon(icon6)
         self.crimson_nylium.setIconSize(QtCore.QSize(16, 16))
         self.crimson_nylium.setChecked(True)
@@ -711,7 +721,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap("icon/cyan_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon7.addPixmap(QtGui.QPixmap(os.path.join(filePath, "cyan_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.cyan_concrete.setIcon(icon7)
         self.cyan_concrete.setIconSize(QtCore.QSize(16, 16))
         self.cyan_concrete.setChecked(True)
@@ -756,7 +766,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap("icon/cyan_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon8.addPixmap(QtGui.QPixmap(os.path.join(filePath, "cyan_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.cyan_stained_glass.setIcon(icon8)
         self.cyan_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.cyan_stained_glass.setTristate(False)
@@ -800,7 +810,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap("icon/prismarine.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon9.addPixmap(QtGui.QPixmap(os.path.join(filePath, "prismarine.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.prismarine.setIcon(icon9)
         self.prismarine.setIconSize(QtCore.QSize(16, 16))
         self.prismarine.setTristate(False)
@@ -846,7 +856,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap("icon/cyan_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon10.addPixmap(QtGui.QPixmap(os.path.join(filePath, "cyan_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.cyan_wool.setIcon(icon10)
         self.cyan_wool.setIconSize(QtCore.QSize(16, 16))
         self.cyan_wool.setTristate(False)
@@ -909,7 +919,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap("icon/magenta_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon11.addPixmap(QtGui.QPixmap(os.path.join(filePath, "magenta_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.magenta_terracotta.setIcon(icon11)
         self.magenta_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.magenta_terracotta.setChecked(True)
@@ -965,7 +975,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon12 = QtGui.QIcon()
-        icon12.addPixmap(QtGui.QPixmap("icon/stripped_crimson_hyphae.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon12.addPixmap(QtGui.QPixmap(os.path.join(filePath, "stripped_crimson_hyphae.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.stripped_crimson_hyphae.setIcon(icon12)
         self.stripped_crimson_hyphae.setIconSize(QtCore.QSize(16, 16))
         self.stripped_crimson_hyphae.setChecked(True)
@@ -1042,7 +1052,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon13 = QtGui.QIcon()
-        icon13.addPixmap(QtGui.QPixmap("icon/green_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon13.addPixmap(QtGui.QPixmap(os.path.join(filePath, "green_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.green_concrete.setIcon(icon13)
         self.green_concrete.setIconSize(QtCore.QSize(16, 16))
         self.green_concrete.setChecked(True)
@@ -1087,7 +1097,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon14 = QtGui.QIcon()
-        icon14.addPixmap(QtGui.QPixmap("icon/green_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon14.addPixmap(QtGui.QPixmap(os.path.join(filePath, "green_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.green_stained_glass.setIcon(icon14)
         self.green_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.green_stained_glass.setTristate(False)
@@ -1131,7 +1141,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon15 = QtGui.QIcon()
-        icon15.addPixmap(QtGui.QPixmap("icon/dried_kelp_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon15.addPixmap(QtGui.QPixmap(os.path.join(filePath, "dried_kelp_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.dried_kelp_block.setIcon(icon15)
         self.dried_kelp_block.setIconSize(QtCore.QSize(16, 16))
         self.dried_kelp_block.setTristate(False)
@@ -1177,7 +1187,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon16 = QtGui.QIcon()
-        icon16.addPixmap(QtGui.QPixmap("icon/green_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon16.addPixmap(QtGui.QPixmap(os.path.join(filePath, "green_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.green_wool.setIcon(icon16)
         self.green_wool.setIconSize(QtCore.QSize(16, 16))
         self.green_wool.setTristate(False)
@@ -1663,7 +1673,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon17 = QtGui.QIcon()
-        icon17.addPixmap(QtGui.QPixmap("icon/red_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon17.addPixmap(QtGui.QPixmap(os.path.join(filePath, "red_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.red_concrete.setIcon(icon17)
         self.red_concrete.setIconSize(QtCore.QSize(16, 16))
         self.red_concrete.setChecked(True)
@@ -1708,7 +1718,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon18 = QtGui.QIcon()
-        icon18.addPixmap(QtGui.QPixmap("icon/red_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon18.addPixmap(QtGui.QPixmap(os.path.join(filePath, "red_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.red_wool.setIcon(icon18)
         self.red_wool.setIconSize(QtCore.QSize(16, 16))
         self.red_wool.setTristate(False)
@@ -1752,7 +1762,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon19 = QtGui.QIcon()
-        icon19.addPixmap(QtGui.QPixmap("icon/red_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon19.addPixmap(QtGui.QPixmap(os.path.join(filePath, "red_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.red_stained_glass.setIcon(icon19)
         self.red_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.red_stained_glass.setTristate(False)
@@ -1796,7 +1806,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon20 = QtGui.QIcon()
-        icon20.addPixmap(QtGui.QPixmap("icon/bricks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon20.addPixmap(QtGui.QPixmap(os.path.join(filePath, "bricks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bricks.setIcon(icon20)
         self.bricks.setIconSize(QtCore.QSize(16, 16))
         self.bricks.setTristate(False)
@@ -1840,7 +1850,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon21 = QtGui.QIcon()
-        icon21.addPixmap(QtGui.QPixmap("icon/red_mushroom_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon21.addPixmap(QtGui.QPixmap(os.path.join(filePath, "red_mushroom_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.red_mushroom_block.setIcon(icon21)
         self.red_mushroom_block.setIconSize(QtCore.QSize(16, 16))
         self.red_mushroom_block.setTristate(False)
@@ -1884,7 +1894,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon22 = QtGui.QIcon()
-        icon22.addPixmap(QtGui.QPixmap("icon/nether_wart_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon22.addPixmap(QtGui.QPixmap(os.path.join(filePath, "nether_wart_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.nether_wart_block.setIcon(icon22)
         self.nether_wart_block.setIconSize(QtCore.QSize(16, 16))
         self.nether_wart_block.setTristate(False)
@@ -1928,7 +1938,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon23 = QtGui.QIcon()
-        icon23.addPixmap(QtGui.QPixmap("icon/shroomlight.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon23.addPixmap(QtGui.QPixmap(os.path.join(filePath, "shroomlight.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.shroomlight.setIcon(icon23)
         self.shroomlight.setIconSize(QtCore.QSize(16, 16))
         self.shroomlight.setTristate(False)
@@ -1972,7 +1982,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon24 = QtGui.QIcon()
-        icon24.addPixmap(QtGui.QPixmap("icon/mangrove_planks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon24.addPixmap(QtGui.QPixmap(os.path.join(filePath, "mangrove_planks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.mangrove_planks.setIcon(icon24)
         self.mangrove_planks.setIconSize(QtCore.QSize(16, 16))
         self.mangrove_planks.setTristate(False)
@@ -2025,7 +2035,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon25 = QtGui.QIcon()
-        icon25.addPixmap(QtGui.QPixmap("icon/mushroom_stem.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon25.addPixmap(QtGui.QPixmap(os.path.join(filePath, "mushroom_stem.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.mushroom_stem.setIcon(icon25)
         self.mushroom_stem.setIconSize(QtCore.QSize(16, 16))
         self.mushroom_stem.setChecked(True)
@@ -2081,7 +2091,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon26 = QtGui.QIcon()
-        icon26.addPixmap(QtGui.QPixmap("icon/lapis_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon26.addPixmap(QtGui.QPixmap(os.path.join(filePath, "lapis_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.lapis_block.setIcon(icon26)
         self.lapis_block.setIconSize(QtCore.QSize(16, 16))
         self.lapis_block.setChecked(True)
@@ -2135,7 +2145,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon27 = QtGui.QIcon()
-        icon27.addPixmap(QtGui.QPixmap("icon/brown_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon27.addPixmap(QtGui.QPixmap(os.path.join(filePath, "brown_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.brown_concrete.setIcon(icon27)
         self.brown_concrete.setIconSize(QtCore.QSize(16, 16))
         self.brown_concrete.setChecked(True)
@@ -2180,7 +2190,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon28 = QtGui.QIcon()
-        icon28.addPixmap(QtGui.QPixmap("icon/brown_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon28.addPixmap(QtGui.QPixmap(os.path.join(filePath, "brown_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.brown_wool.setIcon(icon28)
         self.brown_wool.setIconSize(QtCore.QSize(16, 16))
         self.brown_wool.setTristate(False)
@@ -2224,7 +2234,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon29 = QtGui.QIcon()
-        icon29.addPixmap(QtGui.QPixmap("icon/brown_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon29.addPixmap(QtGui.QPixmap(os.path.join(filePath, "brown_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.brown_stained_glass.setIcon(icon29)
         self.brown_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.brown_stained_glass.setTristate(False)
@@ -2268,7 +2278,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon30 = QtGui.QIcon()
-        icon30.addPixmap(QtGui.QPixmap("icon/dark_oak_planks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon30.addPixmap(QtGui.QPixmap(os.path.join(filePath, "dark_oak_planks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.dark_oak_planks.setIcon(icon30)
         self.dark_oak_planks.setIconSize(QtCore.QSize(16, 16))
         self.dark_oak_planks.setTristate(False)
@@ -2312,7 +2322,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon31 = QtGui.QIcon()
-        icon31.addPixmap(QtGui.QPixmap("icon/soul_soil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon31.addPixmap(QtGui.QPixmap(os.path.join(filePath, "soul_soil.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.soul_soil.setIcon(icon31)
         self.soul_soil.setIconSize(QtCore.QSize(16, 16))
         self.soul_soil.setTristate(False)
@@ -2363,7 +2373,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon32 = QtGui.QIcon()
-        icon32.addPixmap(QtGui.QPixmap("icon/yellow_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon32.addPixmap(QtGui.QPixmap(os.path.join(filePath, "yellow_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.yellow_concrete.setIcon(icon32)
         self.yellow_concrete.setIconSize(QtCore.QSize(16, 16))
         self.yellow_concrete.setChecked(True)
@@ -2408,7 +2418,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon33 = QtGui.QIcon()
-        icon33.addPixmap(QtGui.QPixmap("icon/yellow_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon33.addPixmap(QtGui.QPixmap(os.path.join(filePath, "yellow_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.yellow_wool.setIcon(icon33)
         self.yellow_wool.setIconSize(QtCore.QSize(16, 16))
         self.yellow_wool.setTristate(False)
@@ -2452,7 +2462,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon34 = QtGui.QIcon()
-        icon34.addPixmap(QtGui.QPixmap("icon/yellow_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon34.addPixmap(QtGui.QPixmap(os.path.join(filePath, "yellow_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.yellow_stained_glass.setIcon(icon34)
         self.yellow_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.yellow_stained_glass.setTristate(False)
@@ -2496,7 +2506,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon35 = QtGui.QIcon()
-        icon35.addPixmap(QtGui.QPixmap("icon/hay_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon35.addPixmap(QtGui.QPixmap(os.path.join(filePath, "hay_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.hay_block.setIcon(icon35)
         self.hay_block.setIconSize(QtCore.QSize(16, 16))
         self.hay_block.setTristate(False)
@@ -2540,7 +2550,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon36 = QtGui.QIcon()
-        icon36.addPixmap(QtGui.QPixmap("icon/bamboo_planks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon36.addPixmap(QtGui.QPixmap(os.path.join(filePath, "bamboo_planks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bamboo_planks.setIcon(icon36)
         self.bamboo_planks.setIconSize(QtCore.QSize(16, 16))
         self.bamboo_planks.setTristate(False)
@@ -2682,7 +2692,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon37 = QtGui.QIcon()
-        icon37.addPixmap(QtGui.QPixmap("icon/verdant_froglight_top.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon37.addPixmap(QtGui.QPixmap(os.path.join(filePath, "verdant_froglight_top.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.verdant_froglight_top.setIcon(icon37)
         self.verdant_froglight_top.setIconSize(QtCore.QSize(16, 16))
         self.verdant_froglight_top.setChecked(True)
@@ -2738,7 +2748,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon38 = QtGui.QIcon()
-        icon38.addPixmap(QtGui.QPixmap("icon/gold_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon38.addPixmap(QtGui.QPixmap(os.path.join(filePath, "gold_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.gold_block.setIcon(icon38)
         self.gold_block.setIconSize(QtCore.QSize(16, 16))
         self.gold_block.setChecked(True)
@@ -2902,7 +2912,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon39 = QtGui.QIcon()
-        icon39.addPixmap(QtGui.QPixmap("icon/purple_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon39.addPixmap(QtGui.QPixmap(os.path.join(filePath, "purple_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.purple_terracotta.setIcon(icon39)
         self.purple_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.purple_terracotta.setChecked(True)
@@ -2969,7 +2979,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon40 = QtGui.QIcon()
-        icon40.addPixmap(QtGui.QPixmap("icon/blue_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon40.addPixmap(QtGui.QPixmap(os.path.join(filePath, "blue_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.blue_concrete.setIcon(icon40)
         self.blue_concrete.setIconSize(QtCore.QSize(16, 16))
         self.blue_concrete.setChecked(True)
@@ -3018,7 +3028,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon41 = QtGui.QIcon()
-        icon41.addPixmap(QtGui.QPixmap("icon/blue_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon41.addPixmap(QtGui.QPixmap(os.path.join(filePath, "blue_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.blue_wool.setIcon(icon41)
         self.blue_wool.setIconSize(QtCore.QSize(16, 16))
         self.blue_wool.setTristate(False)
@@ -3062,7 +3072,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon42 = QtGui.QIcon()
-        icon42.addPixmap(QtGui.QPixmap("icon/blue_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon42.addPixmap(QtGui.QPixmap(os.path.join(filePath, "blue_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.blue_stained_glass.setIcon(icon42)
         self.blue_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.blue_stained_glass.setTristate(False)
@@ -3123,7 +3133,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon43 = QtGui.QIcon()
-        icon43.addPixmap(QtGui.QPixmap("icon/clay.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon43.addPixmap(QtGui.QPixmap(os.path.join(filePath, "clay.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.clay.setIcon(icon43)
         self.clay.setIconSize(QtCore.QSize(16, 16))
         self.clay.setChecked(True)
@@ -3180,7 +3190,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon44 = QtGui.QIcon()
-        icon44.addPixmap(QtGui.QPixmap("icon/white_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon44.addPixmap(QtGui.QPixmap(os.path.join(filePath, "white_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.white_concrete.setIcon(icon44)
         self.white_concrete.setIconSize(QtCore.QSize(16, 16))
         self.white_concrete.setChecked(True)
@@ -3225,7 +3235,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon45 = QtGui.QIcon()
-        icon45.addPixmap(QtGui.QPixmap("icon/white_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon45.addPixmap(QtGui.QPixmap(os.path.join(filePath, "white_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.white_stained_glass.setIcon(icon45)
         self.white_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.white_stained_glass.setTristate(False)
@@ -3269,7 +3279,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon46 = QtGui.QIcon()
-        icon46.addPixmap(QtGui.QPixmap("icon/snow_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon46.addPixmap(QtGui.QPixmap(os.path.join(filePath, "snow_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.snow_block.setIcon(icon46)
         self.snow_block.setIconSize(QtCore.QSize(16, 16))
         self.snow_block.setTristate(False)
@@ -3315,7 +3325,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon47 = QtGui.QIcon()
-        icon47.addPixmap(QtGui.QPixmap("icon/white_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon47.addPixmap(QtGui.QPixmap(os.path.join(filePath, "white_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.white_wool.setIcon(icon47)
         self.white_wool.setIconSize(QtCore.QSize(16, 16))
         self.white_wool.setTristate(False)
@@ -3561,7 +3571,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon48 = QtGui.QIcon()
-        icon48.addPixmap(QtGui.QPixmap("icon/quartz_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon48.addPixmap(QtGui.QPixmap(os.path.join(filePath, "quartz_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.quartz_block.setIcon(icon48)
         self.quartz_block.setIconSize(QtCore.QSize(16, 16))
         self.quartz_block.setChecked(True)
@@ -3610,7 +3620,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon49 = QtGui.QIcon()
-        icon49.addPixmap(QtGui.QPixmap("icon/sea_lantern.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon49.addPixmap(QtGui.QPixmap(os.path.join(filePath, "sea_lantern.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.sea_lantern.setIcon(icon49)
         self.sea_lantern.setIconSize(QtCore.QSize(16, 16))
         self.sea_lantern.setTristate(False)
@@ -3654,7 +3664,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon50 = QtGui.QIcon()
-        icon50.addPixmap(QtGui.QPixmap("icon/target.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon50.addPixmap(QtGui.QPixmap(os.path.join(filePath, "target.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.target.setIcon(icon50)
         self.target.setIconSize(QtCore.QSize(16, 16))
         self.target.setTristate(False)
@@ -3705,7 +3715,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon51 = QtGui.QIcon()
-        icon51.addPixmap(QtGui.QPixmap("icon/glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon51.addPixmap(QtGui.QPixmap(os.path.join(filePath, "glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.glass.setIcon(icon51)
         self.glass.setIconSize(QtCore.QSize(16, 16))
         self.glass.setCheckable(True)
@@ -3902,7 +3912,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon52 = QtGui.QIcon()
-        icon52.addPixmap(QtGui.QPixmap("icon/oak_planks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon52.addPixmap(QtGui.QPixmap(os.path.join(filePath, "oak_planks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.oak_planks.setIcon(icon52)
         self.oak_planks.setIconSize(QtCore.QSize(16, 16))
         self.oak_planks.setChecked(True)
@@ -3954,7 +3964,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon53 = QtGui.QIcon()
-        icon53.addPixmap(QtGui.QPixmap("icon/purple_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon53.addPixmap(QtGui.QPixmap(os.path.join(filePath, "purple_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.purple_concrete.setIcon(icon53)
         self.purple_concrete.setIconSize(QtCore.QSize(16, 16))
         self.purple_concrete.setChecked(True)
@@ -3999,7 +4009,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon54 = QtGui.QIcon()
-        icon54.addPixmap(QtGui.QPixmap("icon/purple_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon54.addPixmap(QtGui.QPixmap(os.path.join(filePath, "purple_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.purple_stained_glass.setIcon(icon54)
         self.purple_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.purple_stained_glass.setTristate(False)
@@ -4043,7 +4053,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon55 = QtGui.QIcon()
-        icon55.addPixmap(QtGui.QPixmap("icon/amethyst_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon55.addPixmap(QtGui.QPixmap(os.path.join(filePath, "amethyst_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.amethyst_block.setIcon(icon55)
         self.amethyst_block.setIconSize(QtCore.QSize(16, 16))
         self.amethyst_block.setTristate(False)
@@ -4089,7 +4099,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon56 = QtGui.QIcon()
-        icon56.addPixmap(QtGui.QPixmap("icon/purple_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon56.addPixmap(QtGui.QPixmap(os.path.join(filePath, "purple_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.purple_wool.setIcon(icon56)
         self.purple_wool.setIconSize(QtCore.QSize(16, 16))
         self.purple_wool.setTristate(False)
@@ -4142,7 +4152,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon57 = QtGui.QIcon()
-        icon57.addPixmap(QtGui.QPixmap("icon/raw_iron_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon57.addPixmap(QtGui.QPixmap(os.path.join(filePath, "raw_iron_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.raw_iron_block.setIcon(icon57)
         self.raw_iron_block.setIconSize(QtCore.QSize(16, 16))
         self.raw_iron_block.setChecked(True)
@@ -4311,7 +4321,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon58 = QtGui.QIcon()
-        icon58.addPixmap(QtGui.QPixmap("icon/emerald_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon58.addPixmap(QtGui.QPixmap(os.path.join(filePath, "emerald_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.emerald_block.setIcon(icon58)
         self.emerald_block.setIconSize(QtCore.QSize(16, 16))
         self.emerald_block.setChecked(True)
@@ -4564,7 +4574,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon59 = QtGui.QIcon()
-        icon59.addPixmap(QtGui.QPixmap("icon/coarse_dirt.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon59.addPixmap(QtGui.QPixmap(os.path.join(filePath, "coarse_dirt.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.coarse_dirt.setIcon(icon59)
         self.coarse_dirt.setIconSize(QtCore.QSize(16, 16))
         self.coarse_dirt.setChecked(True)
@@ -4609,7 +4619,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon60 = QtGui.QIcon()
-        icon60.addPixmap(QtGui.QPixmap("icon/jungle_planks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon60.addPixmap(QtGui.QPixmap(os.path.join(filePath, "jungle_planks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.jungle_planks.setIcon(icon60)
         self.jungle_planks.setIconSize(QtCore.QSize(16, 16))
         self.jungle_planks.setTristate(False)
@@ -4653,7 +4663,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon61 = QtGui.QIcon()
-        icon61.addPixmap(QtGui.QPixmap("icon/brown_mushroom_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon61.addPixmap(QtGui.QPixmap(os.path.join(filePath, "brown_mushroom_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.brown_mushroom_block.setIcon(icon61)
         self.brown_mushroom_block.setIconSize(QtCore.QSize(16, 16))
         self.brown_mushroom_block.setTristate(False)
@@ -4699,7 +4709,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon62 = QtGui.QIcon()
-        icon62.addPixmap(QtGui.QPixmap("icon/dirt.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon62.addPixmap(QtGui.QPixmap(os.path.join(filePath, "dirt.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.dirt.setIcon(icon62)
         self.dirt.setIconSize(QtCore.QSize(16, 16))
         self.dirt.setTristate(False)
@@ -4743,7 +4753,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon63 = QtGui.QIcon()
-        icon63.addPixmap(QtGui.QPixmap("icon/polished_granite.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon63.addPixmap(QtGui.QPixmap(os.path.join(filePath, "polished_granite.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.polished_granite.setIcon(icon63)
         self.polished_granite.setIconSize(QtCore.QSize(16, 16))
         self.polished_granite.setTristate(False)
@@ -4789,7 +4799,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon64 = QtGui.QIcon()
-        icon64.addPixmap(QtGui.QPixmap("icon/packed_mud.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon64.addPixmap(QtGui.QPixmap(os.path.join(filePath, "packed_mud.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.packed_mud.setIcon(icon64)
         self.packed_mud.setIconSize(QtCore.QSize(16, 16))
         self.packed_mud.setTristate(False)
@@ -4840,7 +4850,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon65 = QtGui.QIcon()
-        icon65.addPixmap(QtGui.QPixmap("icon/warped_wart_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon65.addPixmap(QtGui.QPixmap(os.path.join(filePath, "warped_wart_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.warped_wart_block.setIcon(icon65)
         self.warped_wart_block.setIconSize(QtCore.QSize(16, 16))
         self.warped_wart_block.setChecked(True)
@@ -4896,7 +4906,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon66 = QtGui.QIcon()
-        icon66.addPixmap(QtGui.QPixmap("icon/blue_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon66.addPixmap(QtGui.QPixmap(os.path.join(filePath, "blue_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.blue_terracotta.setIcon(icon66)
         self.blue_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.blue_terracotta.setChecked(True)
@@ -4957,7 +4967,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon67 = QtGui.QIcon()
-        icon67.addPixmap(QtGui.QPixmap("icon/red_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon67.addPixmap(QtGui.QPixmap(os.path.join(filePath, "red_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.red_terracotta.setIcon(icon67)
         self.red_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.red_terracotta.setChecked(True)
@@ -5014,7 +5024,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon68 = QtGui.QIcon()
-        icon68.addPixmap(QtGui.QPixmap("icon/netherrack.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon68.addPixmap(QtGui.QPixmap(os.path.join(filePath, "netherrack.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.netherrack.setIcon(icon68)
         self.netherrack.setIconSize(QtCore.QSize(16, 16))
         self.netherrack.setChecked(True)
@@ -5063,7 +5073,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon69 = QtGui.QIcon()
-        icon69.addPixmap(QtGui.QPixmap("icon/nether_bricks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon69.addPixmap(QtGui.QPixmap(os.path.join(filePath, "nether_bricks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.nether_bricks.setIcon(icon69)
         self.nether_bricks.setIconSize(QtCore.QSize(16, 16))
         self.nether_bricks.setTristate(False)
@@ -5107,7 +5117,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon70 = QtGui.QIcon()
-        icon70.addPixmap(QtGui.QPixmap("icon/magma_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon70.addPixmap(QtGui.QPixmap(os.path.join(filePath, "magma_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.magma_block.setIcon(icon70)
         self.magma_block.setIconSize(QtCore.QSize(16, 16))
         self.magma_block.setTristate(False)
@@ -5164,7 +5174,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon71 = QtGui.QIcon()
-        icon71.addPixmap(QtGui.QPixmap("icon/pink_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon71.addPixmap(QtGui.QPixmap(os.path.join(filePath, "pink_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pink_concrete.setIcon(icon71)
         self.pink_concrete.setIconSize(QtCore.QSize(16, 16))
         self.pink_concrete.setChecked(True)
@@ -5209,7 +5219,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon72 = QtGui.QIcon()
-        icon72.addPixmap(QtGui.QPixmap("icon/pink_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon72.addPixmap(QtGui.QPixmap(os.path.join(filePath, "pink_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pink_stained_glass.setIcon(icon72)
         self.pink_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.pink_stained_glass.setTristate(False)
@@ -5253,7 +5263,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon73 = QtGui.QIcon()
-        icon73.addPixmap(QtGui.QPixmap("icon/pearlescent_froglight_top.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon73.addPixmap(QtGui.QPixmap(os.path.join(filePath, "pearlescent_froglight_top.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pearlescent_froglight_top.setIcon(icon73)
         self.pearlescent_froglight_top.setIconSize(QtCore.QSize(16, 16))
         self.pearlescent_froglight_top.setTristate(False)
@@ -5299,7 +5309,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon74 = QtGui.QIcon()
-        icon74.addPixmap(QtGui.QPixmap("icon/pink_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon74.addPixmap(QtGui.QPixmap(os.path.join(filePath, "pink_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pink_wool.setIcon(icon74)
         self.pink_wool.setIconSize(QtCore.QSize(16, 16))
         self.pink_wool.setTristate(False)
@@ -5352,7 +5362,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon75 = QtGui.QIcon()
-        icon75.addPixmap(QtGui.QPixmap("icon/redstone_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon75.addPixmap(QtGui.QPixmap(os.path.join(filePath, "redstone_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.redstone_block.setIcon(icon75)
         self.redstone_block.setIconSize(QtCore.QSize(16, 16))
         self.redstone_block.setChecked(True)
@@ -5482,7 +5492,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon76 = QtGui.QIcon()
-        icon76.addPixmap(QtGui.QPixmap("icon/orange_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon76.addPixmap(QtGui.QPixmap(os.path.join(filePath, "orange_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.orange_terracotta.setIcon(icon76)
         self.orange_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.orange_terracotta.setChecked(True)
@@ -5541,7 +5551,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon77 = QtGui.QIcon()
-        icon77.addPixmap(QtGui.QPixmap("icon/mud.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon77.addPixmap(QtGui.QPixmap(os.path.join(filePath, "mud.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.mud.setIcon(icon77)
         self.mud.setIconSize(QtCore.QSize(16, 16))
         self.mud.setTristate(False)
@@ -5589,7 +5599,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon78 = QtGui.QIcon()
-        icon78.addPixmap(QtGui.QPixmap("icon/cyan_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon78.addPixmap(QtGui.QPixmap(os.path.join(filePath, "cyan_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.cyan_terracotta.setIcon(icon78)
         self.cyan_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.cyan_terracotta.setChecked(True)
@@ -5764,7 +5774,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon79 = QtGui.QIcon()
-        icon79.addPixmap(QtGui.QPixmap("icon/green_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon79.addPixmap(QtGui.QPixmap(os.path.join(filePath, "green_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.green_terracotta.setIcon(icon79)
         self.green_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.green_terracotta.setChecked(True)
@@ -5953,7 +5963,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon80 = QtGui.QIcon()
-        icon80.addPixmap(QtGui.QPixmap("icon/stripped_warped_hyphae.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon80.addPixmap(QtGui.QPixmap(os.path.join(filePath, "stripped_warped_hyphae.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.stripped_warped_hyphae.setIcon(icon80)
         self.stripped_warped_hyphae.setIconSize(QtCore.QSize(16, 16))
         self.stripped_warped_hyphae.setChecked(True)
@@ -6014,7 +6024,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon81 = QtGui.QIcon()
-        icon81.addPixmap(QtGui.QPixmap("icon/brown_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon81.addPixmap(QtGui.QPixmap(os.path.join(filePath, "brown_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.brown_terracotta.setIcon(icon81)
         self.brown_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.brown_terracotta.setChecked(True)
@@ -6110,7 +6120,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon82 = QtGui.QIcon()
-        icon82.addPixmap(QtGui.QPixmap("icon/magenta_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon82.addPixmap(QtGui.QPixmap(os.path.join(filePath, "magenta_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.magenta_concrete.setIcon(icon82)
         self.magenta_concrete.setIconSize(QtCore.QSize(16, 16))
         self.magenta_concrete.setChecked(True)
@@ -6155,7 +6165,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon83 = QtGui.QIcon()
-        icon83.addPixmap(QtGui.QPixmap("icon/magenta_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon83.addPixmap(QtGui.QPixmap(os.path.join(filePath, "magenta_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.magenta_stained_glass.setIcon(icon83)
         self.magenta_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.magenta_stained_glass.setTristate(False)
@@ -6199,7 +6209,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon84 = QtGui.QIcon()
-        icon84.addPixmap(QtGui.QPixmap("icon/purpur_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon84.addPixmap(QtGui.QPixmap(os.path.join(filePath, "purpur_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.purpur_block.setIcon(icon84)
         self.purpur_block.setIconSize(QtCore.QSize(16, 16))
         self.purpur_block.setTristate(False)
@@ -6245,7 +6255,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon85 = QtGui.QIcon()
-        icon85.addPixmap(QtGui.QPixmap("icon/magenta_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon85.addPixmap(QtGui.QPixmap(os.path.join(filePath, "magenta_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.magenta_wool.setIcon(icon85)
         self.magenta_wool.setIconSize(QtCore.QSize(16, 16))
         self.magenta_wool.setTristate(False)
@@ -6298,7 +6308,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon86 = QtGui.QIcon()
-        icon86.addPixmap(QtGui.QPixmap("icon/lime_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon86.addPixmap(QtGui.QPixmap(os.path.join(filePath, "lime_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.lime_terracotta.setIcon(icon86)
         self.lime_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.lime_terracotta.setChecked(True)
@@ -6354,7 +6364,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon87 = QtGui.QIcon()
-        icon87.addPixmap(QtGui.QPixmap("icon/water.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon87.addPixmap(QtGui.QPixmap(os.path.join(filePath, "water.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.water.setIcon(icon87)
         self.water.setIconSize(QtCore.QSize(16, 16))
         self.water.setChecked(True)
@@ -6408,7 +6418,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon88 = QtGui.QIcon()
-        icon88.addPixmap(QtGui.QPixmap("icon/black_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon88.addPixmap(QtGui.QPixmap(os.path.join(filePath, "black_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.black_concrete.setIcon(icon88)
         self.black_concrete.setIconSize(QtCore.QSize(16, 16))
         self.black_concrete.setChecked(True)
@@ -6453,7 +6463,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon89 = QtGui.QIcon()
-        icon89.addPixmap(QtGui.QPixmap("icon/black_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon89.addPixmap(QtGui.QPixmap(os.path.join(filePath, "black_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.black_wool.setIcon(icon89)
         self.black_wool.setIconSize(QtCore.QSize(16, 16))
         self.black_wool.setTristate(False)
@@ -6497,7 +6507,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon90 = QtGui.QIcon()
-        icon90.addPixmap(QtGui.QPixmap("icon/black_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon90.addPixmap(QtGui.QPixmap(os.path.join(filePath, "black_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.black_stained_glass.setIcon(icon90)
         self.black_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.black_stained_glass.setTristate(False)
@@ -6541,7 +6551,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon91 = QtGui.QIcon()
-        icon91.addPixmap(QtGui.QPixmap("icon/obsidian.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon91.addPixmap(QtGui.QPixmap(os.path.join(filePath, "obsidian.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.obsidian.setIcon(icon91)
         self.obsidian.setIconSize(QtCore.QSize(16, 16))
         self.obsidian.setTristate(False)
@@ -6585,7 +6595,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon92 = QtGui.QIcon()
-        icon92.addPixmap(QtGui.QPixmap("icon/coal_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon92.addPixmap(QtGui.QPixmap(os.path.join(filePath, "coal_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.coal_block.setIcon(icon92)
         self.coal_block.setIconSize(QtCore.QSize(16, 16))
         self.coal_block.setTristate(False)
@@ -6629,7 +6639,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon93 = QtGui.QIcon()
-        icon93.addPixmap(QtGui.QPixmap("icon/polished_basalt.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon93.addPixmap(QtGui.QPixmap(os.path.join(filePath, "polished_basalt.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.polished_basalt.setIcon(icon93)
         self.polished_basalt.setIconSize(QtCore.QSize(16, 16))
         self.polished_basalt.setTristate(False)
@@ -6673,7 +6683,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon94 = QtGui.QIcon()
-        icon94.addPixmap(QtGui.QPixmap("icon/polished_blackstone.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon94.addPixmap(QtGui.QPixmap(os.path.join(filePath, "polished_blackstone.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.polished_blackstone.setIcon(icon94)
         self.polished_blackstone.setIconSize(QtCore.QSize(16, 16))
         self.polished_blackstone.setTristate(False)
@@ -6717,7 +6727,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon95 = QtGui.QIcon()
-        icon95.addPixmap(QtGui.QPixmap("icon/sculk.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon95.addPixmap(QtGui.QPixmap(os.path.join(filePath, "sculk.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.sculk.setIcon(icon95)
         self.sculk.setIconSize(QtCore.QSize(16, 16))
         self.sculk.setTristate(False)
@@ -6776,7 +6786,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon96 = QtGui.QIcon()
-        icon96.addPixmap(QtGui.QPixmap("icon/waxed_copper_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon96.addPixmap(QtGui.QPixmap(os.path.join(filePath, "waxed_copper_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.waxed_copper_block.setIcon(icon96)
         self.waxed_copper_block.setIconSize(QtCore.QSize(16, 16))
         self.waxed_copper_block.setTristate(False)
@@ -6820,7 +6830,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon97 = QtGui.QIcon()
-        icon97.addPixmap(QtGui.QPixmap("icon/smooth_red_sandstone.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon97.addPixmap(QtGui.QPixmap(os.path.join(filePath, "smooth_red_sandstone.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.smooth_red_sandstone.setIcon(icon97)
         self.smooth_red_sandstone.setIconSize(QtCore.QSize(16, 16))
         self.smooth_red_sandstone.setTristate(False)
@@ -6864,7 +6874,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon98 = QtGui.QIcon()
-        icon98.addPixmap(QtGui.QPixmap("icon/orange_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon98.addPixmap(QtGui.QPixmap(os.path.join(filePath, "orange_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.orange_wool.setIcon(icon98)
         self.orange_wool.setIconSize(QtCore.QSize(16, 16))
         self.orange_wool.setTristate(False)
@@ -6908,7 +6918,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon99 = QtGui.QIcon()
-        icon99.addPixmap(QtGui.QPixmap("icon/acacia_planks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon99.addPixmap(QtGui.QPixmap(os.path.join(filePath, "acacia_planks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.acacia_planks.setIcon(icon99)
         self.acacia_planks.setIconSize(QtCore.QSize(16, 16))
         self.acacia_planks.setTristate(False)
@@ -6952,7 +6962,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon100 = QtGui.QIcon()
-        icon100.addPixmap(QtGui.QPixmap("icon/terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon100.addPixmap(QtGui.QPixmap(os.path.join(filePath, "terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.terracotta.setIcon(icon100)
         self.terracotta.setIconSize(QtCore.QSize(16, 16))
         self.terracotta.setTristate(False)
@@ -6996,7 +7006,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon101 = QtGui.QIcon()
-        icon101.addPixmap(QtGui.QPixmap("icon/orange_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon101.addPixmap(QtGui.QPixmap(os.path.join(filePath, "orange_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.orange_stained_glass.setIcon(icon101)
         self.orange_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.orange_stained_glass.setTristate(False)
@@ -7040,7 +7050,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon102 = QtGui.QIcon()
-        icon102.addPixmap(QtGui.QPixmap("icon/honeycomb_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon102.addPixmap(QtGui.QPixmap(os.path.join(filePath, "honeycomb_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.honeycomb_block.setIcon(icon102)
         self.honeycomb_block.setIconSize(QtCore.QSize(16, 16))
         self.honeycomb_block.setTristate(False)
@@ -7088,7 +7098,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon103 = QtGui.QIcon()
-        icon103.addPixmap(QtGui.QPixmap("icon/orange_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon103.addPixmap(QtGui.QPixmap(os.path.join(filePath, "orange_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.orange_concrete.setIcon(icon103)
         self.orange_concrete.setIconSize(QtCore.QSize(16, 16))
         self.orange_concrete.setChecked(True)
@@ -7133,7 +7143,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon104 = QtGui.QIcon()
-        icon104.addPixmap(QtGui.QPixmap("icon/pumpkin.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon104.addPixmap(QtGui.QPixmap(os.path.join(filePath, "pumpkin.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pumpkin.setIcon(icon104)
         self.pumpkin.setIconSize(QtCore.QSize(16, 16))
         self.pumpkin.setTristate(False)
@@ -7319,7 +7329,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon105 = QtGui.QIcon()
-        icon105.addPixmap(QtGui.QPixmap("icon/waxed_weathered_copper.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon105.addPixmap(QtGui.QPixmap(os.path.join(filePath, "waxed_weathered_copper.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.waxed_weathered_copper.setIcon(icon105)
         self.waxed_weathered_copper.setIconSize(QtCore.QSize(16, 16))
         self.waxed_weathered_copper.setTristate(False)
@@ -7367,7 +7377,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon106 = QtGui.QIcon()
-        icon106.addPixmap(QtGui.QPixmap("icon/stripped_warped_stem.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon106.addPixmap(QtGui.QPixmap(os.path.join(filePath, "stripped_warped_stem.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.stripped_warped_stem.setIcon(icon106)
         self.stripped_warped_stem.setIconSize(QtCore.QSize(16, 16))
         self.stripped_warped_stem.setChecked(True)
@@ -7474,7 +7484,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon107 = QtGui.QIcon()
-        icon107.addPixmap(QtGui.QPixmap("icon/gray_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon107.addPixmap(QtGui.QPixmap(os.path.join(filePath, "gray_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.gray_concrete.setIcon(icon107)
         self.gray_concrete.setIconSize(QtCore.QSize(16, 16))
         self.gray_concrete.setChecked(True)
@@ -7519,7 +7529,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon108 = QtGui.QIcon()
-        icon108.addPixmap(QtGui.QPixmap("icon/gray_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon108.addPixmap(QtGui.QPixmap(os.path.join(filePath, "gray_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.gray_stained_glass.setIcon(icon108)
         self.gray_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.gray_stained_glass.setTristate(False)
@@ -7563,7 +7573,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon109 = QtGui.QIcon()
-        icon109.addPixmap(QtGui.QPixmap("icon/tinted_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon109.addPixmap(QtGui.QPixmap(os.path.join(filePath, "tinted_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.tinted_glass.setIcon(icon109)
         self.tinted_glass.setIconSize(QtCore.QSize(16, 16))
         self.tinted_glass.setTristate(False)
@@ -7609,7 +7619,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon110 = QtGui.QIcon()
-        icon110.addPixmap(QtGui.QPixmap("icon/gray_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon110.addPixmap(QtGui.QPixmap(os.path.join(filePath, "gray_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.gray_wool.setIcon(icon110)
         self.gray_wool.setIconSize(QtCore.QSize(16, 16))
         self.gray_wool.setTristate(False)
@@ -7824,7 +7834,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon111 = QtGui.QIcon()
-        icon111.addPixmap(QtGui.QPixmap("icon/birch_planks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon111.addPixmap(QtGui.QPixmap(os.path.join(filePath, "birch_planks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.birch_planks.setIcon(icon111)
         self.birch_planks.setIconSize(QtCore.QSize(16, 16))
         self.birch_planks.setChecked(True)
@@ -7869,7 +7879,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon112 = QtGui.QIcon()
-        icon112.addPixmap(QtGui.QPixmap("icon/smooth_sandstone.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon112.addPixmap(QtGui.QPixmap(os.path.join(filePath, "smooth_sandstone.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.smooth_sandstone.setIcon(icon112)
         self.smooth_sandstone.setIconSize(QtCore.QSize(16, 16))
         self.smooth_sandstone.setChecked(False)
@@ -7914,7 +7924,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon113 = QtGui.QIcon()
-        icon113.addPixmap(QtGui.QPixmap("icon/glowstone.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon113.addPixmap(QtGui.QPixmap(os.path.join(filePath, "glowstone.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.glowstone.setIcon(icon113)
         self.glowstone.setIconSize(QtCore.QSize(16, 16))
         self.glowstone.setTristate(False)
@@ -7958,7 +7968,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon114 = QtGui.QIcon()
-        icon114.addPixmap(QtGui.QPixmap("icon/end_stone.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon114.addPixmap(QtGui.QPixmap(os.path.join(filePath, "end_stone.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.end_stone.setIcon(icon114)
         self.end_stone.setIconSize(QtCore.QSize(16, 16))
         self.end_stone.setTristate(False)
@@ -8002,7 +8012,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon115 = QtGui.QIcon()
-        icon115.addPixmap(QtGui.QPixmap("icon/ochre_froglight_top.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon115.addPixmap(QtGui.QPixmap(os.path.join(filePath, "ochre_froglight_top.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ochre_froglight_top.setIcon(icon115)
         self.ochre_froglight_top.setIconSize(QtCore.QSize(16, 16))
         self.ochre_froglight_top.setTristate(False)
@@ -8055,7 +8065,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon116 = QtGui.QIcon()
-        icon116.addPixmap(QtGui.QPixmap("icon/deepslate.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon116.addPixmap(QtGui.QPixmap(os.path.join(filePath, "deepslate.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.deepslate.setIcon(icon116)
         self.deepslate.setIconSize(QtCore.QSize(16, 16))
         self.deepslate.setChecked(True)
@@ -8132,7 +8142,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon117 = QtGui.QIcon()
-        icon117.addPixmap(QtGui.QPixmap("icon/light_gray_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon117.addPixmap(QtGui.QPixmap(os.path.join(filePath, "light_gray_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.light_gray_concrete.setIcon(icon117)
         self.light_gray_concrete.setIconSize(QtCore.QSize(16, 16))
         self.light_gray_concrete.setChecked(True)
@@ -8181,7 +8191,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon118 = QtGui.QIcon()
-        icon118.addPixmap(QtGui.QPixmap("icon/light_gray_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon118.addPixmap(QtGui.QPixmap(os.path.join(filePath, "light_gray_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.light_gray_wool.setIcon(icon118)
         self.light_gray_wool.setIconSize(QtCore.QSize(16, 16))
         self.light_gray_wool.setTristate(False)
@@ -8225,7 +8235,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon119 = QtGui.QIcon()
-        icon119.addPixmap(QtGui.QPixmap("icon/light_gray_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon119.addPixmap(QtGui.QPixmap(os.path.join(filePath, "light_gray_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.light_gray_stained_glass.setIcon(icon119)
         self.light_gray_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.light_gray_stained_glass.setTristate(False)
@@ -8333,7 +8343,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon120 = QtGui.QIcon()
-        icon120.addPixmap(QtGui.QPixmap("icon/slime_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon120.addPixmap(QtGui.QPixmap(os.path.join(filePath, "slime_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.slime_block.setIcon(icon120)
         self.slime_block.setIconSize(QtCore.QSize(16, 16))
         self.slime_block.setTristate(False)
@@ -8379,7 +8389,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon121 = QtGui.QIcon()
-        icon121.addPixmap(QtGui.QPixmap("icon/grass_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon121.addPixmap(QtGui.QPixmap(os.path.join(filePath, "grass_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.grass_block.setIcon(icon121)
         self.grass_block.setIconSize(QtCore.QSize(16, 16))
         self.grass_block.setChecked(True)
@@ -8434,7 +8444,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon122 = QtGui.QIcon()
-        icon122.addPixmap(QtGui.QPixmap("icon/stripped_crimson_stem.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon122.addPixmap(QtGui.QPixmap(os.path.join(filePath, "stripped_crimson_stem.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.stripped_crimson_stem.setIcon(icon122)
         self.stripped_crimson_stem.setIconSize(QtCore.QSize(16, 16))
         self.stripped_crimson_stem.setChecked(True)
@@ -8488,7 +8498,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon123 = QtGui.QIcon()
-        icon123.addPixmap(QtGui.QPixmap("icon/waxed_oxidized_copper.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon123.addPixmap(QtGui.QPixmap(os.path.join(filePath, "waxed_oxidized_copper.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.waxed_oxidized_copper.setIcon(icon123)
         self.waxed_oxidized_copper.setIconSize(QtCore.QSize(16, 16))
         self.waxed_oxidized_copper.setTristate(False)
@@ -8536,7 +8546,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon124 = QtGui.QIcon()
-        icon124.addPixmap(QtGui.QPixmap("icon/warped_nylium.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon124.addPixmap(QtGui.QPixmap(os.path.join(filePath, "warped_nylium.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.warped_nylium.setIcon(icon124)
         self.warped_nylium.setIconSize(QtCore.QSize(16, 16))
         self.warped_nylium.setChecked(True)
@@ -8677,7 +8687,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon125 = QtGui.QIcon()
-        icon125.addPixmap(QtGui.QPixmap("icon/lime_concrete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon125.addPixmap(QtGui.QPixmap(os.path.join(filePath, "lime_concrete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.lime_concrete.setIcon(icon125)
         self.lime_concrete.setIconSize(QtCore.QSize(16, 16))
         self.lime_concrete.setChecked(True)
@@ -8726,7 +8736,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon126 = QtGui.QIcon()
-        icon126.addPixmap(QtGui.QPixmap("icon/lime_wool.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon126.addPixmap(QtGui.QPixmap(os.path.join(filePath, "lime_wool.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.lime_wool.setIcon(icon126)
         self.lime_wool.setIconSize(QtCore.QSize(16, 16))
         self.lime_wool.setTristate(False)
@@ -8770,7 +8780,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon127 = QtGui.QIcon()
-        icon127.addPixmap(QtGui.QPixmap("icon/lime_stained_glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon127.addPixmap(QtGui.QPixmap(os.path.join(filePath, "lime_stained_glass.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.lime_stained_glass.setIcon(icon127)
         self.lime_stained_glass.setIconSize(QtCore.QSize(16, 16))
         self.lime_stained_glass.setTristate(False)
@@ -8865,7 +8875,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon128 = QtGui.QIcon()
-        icon128.addPixmap(QtGui.QPixmap("icon/gray_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon128.addPixmap(QtGui.QPixmap(os.path.join(filePath, "gray_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.gray_terracotta.setIcon(icon128)
         self.gray_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.gray_terracotta.setChecked(True)
@@ -9167,7 +9177,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon129 = QtGui.QIcon()
-        icon129.addPixmap(QtGui.QPixmap("icon/white_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon129.addPixmap(QtGui.QPixmap(os.path.join(filePath, "white_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.white_terracotta.setIcon(icon129)
         self.white_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.white_terracotta.setChecked(True)
@@ -9216,7 +9226,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon130 = QtGui.QIcon()
-        icon130.addPixmap(QtGui.QPixmap("icon/calcite.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon130.addPixmap(QtGui.QPixmap(os.path.join(filePath, "calcite.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.calcite.setIcon(icon130)
         self.calcite.setIconSize(QtCore.QSize(16, 16))
         self.calcite.setTristate(False)
@@ -9260,7 +9270,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon131 = QtGui.QIcon()
-        icon131.addPixmap(QtGui.QPixmap("icon/cherry_planks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon131.addPixmap(QtGui.QPixmap(os.path.join(filePath, "cherry_planks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.cherry_planks.setIcon(icon131)
         self.cherry_planks.setIconSize(QtCore.QSize(16, 16))
         self.cherry_planks.setTristate(False)
@@ -9479,7 +9489,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon132 = QtGui.QIcon()
-        icon132.addPixmap(QtGui.QPixmap("icon/smooth_stone.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon132.addPixmap(QtGui.QPixmap(os.path.join(filePath, "smooth_stone.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.smooth_stone.setIcon(icon132)
         self.smooth_stone.setIconSize(QtCore.QSize(16, 16))
         self.smooth_stone.setTristate(False)
@@ -9527,7 +9537,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon133 = QtGui.QIcon()
-        icon133.addPixmap(QtGui.QPixmap("icon/polished_andesite.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon133.addPixmap(QtGui.QPixmap(os.path.join(filePath, "polished_andesite.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.polished_andesite.setIcon(icon133)
         self.polished_andesite.setIconSize(QtCore.QSize(16, 16))
         self.polished_andesite.setChecked(True)
@@ -9798,7 +9808,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon134 = QtGui.QIcon()
-        icon134.addPixmap(QtGui.QPixmap("icon/prismarine_bricks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon134.addPixmap(QtGui.QPixmap(os.path.join(filePath, "prismarine_bricks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.prismarine_bricks.setIcon(icon134)
         self.prismarine_bricks.setIconSize(QtCore.QSize(16, 16))
         self.prismarine_bricks.setTristate(False)
@@ -9846,7 +9856,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon135 = QtGui.QIcon()
-        icon135.addPixmap(QtGui.QPixmap("icon/diamond_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon135.addPixmap(QtGui.QPixmap(os.path.join(filePath, "diamond_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.diamond_block.setIcon(icon135)
         self.diamond_block.setIconSize(QtCore.QSize(16, 16))
         self.diamond_block.setChecked(True)
@@ -9985,7 +9995,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon136 = QtGui.QIcon()
-        icon136.addPixmap(QtGui.QPixmap("icon/stripped_cherry_log.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon136.addPixmap(QtGui.QPixmap(os.path.join(filePath, "stripped_cherry_log.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.stripped_cherry_log.setIcon(icon136)
         self.stripped_cherry_log.setIconSize(QtCore.QSize(16, 16))
         self.stripped_cherry_log.setTristate(False)
@@ -10033,7 +10043,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon137 = QtGui.QIcon()
-        icon137.addPixmap(QtGui.QPixmap("icon/pink_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon137.addPixmap(QtGui.QPixmap(os.path.join(filePath, "pink_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pink_terracotta.setIcon(icon137)
         self.pink_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.pink_terracotta.setChecked(True)
@@ -10085,7 +10095,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon138 = QtGui.QIcon()
-        icon138.addPixmap(QtGui.QPixmap("icon/yellow_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon138.addPixmap(QtGui.QPixmap(os.path.join(filePath, "yellow_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.yellow_terracotta.setIcon(icon138)
         self.yellow_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.yellow_terracotta.setChecked(True)
@@ -10139,7 +10149,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon139 = QtGui.QIcon()
-        icon139.addPixmap(QtGui.QPixmap("icon/blue_ice.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon139.addPixmap(QtGui.QPixmap(os.path.join(filePath, "blue_ice.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.blue_ice.setIcon(icon139)
         self.blue_ice.setIconSize(QtCore.QSize(16, 16))
         self.blue_ice.setTristate(False)
@@ -10187,7 +10197,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon140 = QtGui.QIcon()
-        icon140.addPixmap(QtGui.QPixmap("icon/ice.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon140.addPixmap(QtGui.QPixmap(os.path.join(filePath, "ice.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ice.setIcon(icon140)
         self.ice.setIconSize(QtCore.QSize(16, 16))
         self.ice.setChecked(True)
@@ -10313,7 +10323,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon141 = QtGui.QIcon()
-        icon141.addPixmap(QtGui.QPixmap("icon/oak_leaves.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon141.addPixmap(QtGui.QPixmap(os.path.join(filePath, "oak_leaves.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.oak_leaves.setIcon(icon141)
         self.oak_leaves.setIconSize(QtCore.QSize(16, 16))
         self.oak_leaves.setChecked(True)
@@ -10379,7 +10389,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon142 = QtGui.QIcon()
-        icon142.addPixmap(QtGui.QPixmap("icon/light_blue_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon142.addPixmap(QtGui.QPixmap(os.path.join(filePath, "light_blue_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.light_blue_terracotta.setIcon(icon142)
         self.light_blue_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.light_blue_terracotta.setChecked(True)
@@ -10597,7 +10607,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon143 = QtGui.QIcon()
-        icon143.addPixmap(QtGui.QPixmap("icon/iron_block.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon143.addPixmap(QtGui.QPixmap(os.path.join(filePath, "iron_block.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.iron_block.setIcon(icon143)
         self.iron_block.setIconSize(QtCore.QSize(16, 16))
         self.iron_block.setChecked(True)
@@ -10752,7 +10762,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon144 = QtGui.QIcon()
-        icon144.addPixmap(QtGui.QPixmap("icon/light_gray_terracotta.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon144.addPixmap(QtGui.QPixmap(os.path.join(filePath, "light_gray_terracotta.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.light_gray_terracotta.setIcon(icon144)
         self.light_gray_terracotta.setIconSize(QtCore.QSize(16, 16))
         self.light_gray_terracotta.setChecked(True)
@@ -10801,7 +10811,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon145 = QtGui.QIcon()
-        icon145.addPixmap(QtGui.QPixmap("icon/waxed_exposed_copper.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon145.addPixmap(QtGui.QPixmap(os.path.join(filePath, "waxed_exposed_copper.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.waxed_exposed_copper.setIcon(icon145)
         self.waxed_exposed_copper.setIconSize(QtCore.QSize(16, 16))
         self.waxed_exposed_copper.setTristate(False)
@@ -10845,7 +10855,7 @@ class Ui_Bui(object):
 "}\n"
 "")
         icon146 = QtGui.QIcon()
-        icon146.addPixmap(QtGui.QPixmap("icon/mud_bricks.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon146.addPixmap(QtGui.QPixmap(os.path.join(filePath, "mud_bricks.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.mud_bricks.setIcon(icon146)
         self.mud_bricks.setIconSize(QtCore.QSize(16, 16))
         self.mud_bricks.setTristate(False)

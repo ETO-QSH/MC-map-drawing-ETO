@@ -79,8 +79,6 @@ class Ui_Eui(object):
         font.setWeight(50)
         self.PushButton_SF.setFont(font)
         self.PushButton_SF.setObjectName("PushButton_SF")
-        #self.PushButton_SF.clicked.connect(self.createSuccessInfoBar)
-        #self.PushButton_SF.clicked.connect(self.createWarningInfoBar)
         self.verticalLayout_2.addWidget(self.PushButton_SF)
 
         self.retranslateUi(Eui)
@@ -94,7 +92,6 @@ class Ui_Eui(object):
             orient=Qt.Horizontal,
             isClosable=True,
             position=InfoBarPosition.TOP,
-            # position='Custom',   # NOTE: use custom info bar manager
             duration=2500,
             parent=self
         )
@@ -104,7 +101,7 @@ class Ui_Eui(object):
             title='Warning',
             content="无效提交",
             orient=Qt.Horizontal,
-            isClosable=True,   # disable close button
+            isClosable=True,
             position=InfoBarPosition.TOP,
             duration=2500,
             parent=self
@@ -115,7 +112,7 @@ class Ui_Eui(object):
             title='Warning',
             content="重复提交",
             orient=Qt.Horizontal,
-            isClosable=True,   # disable close button
+            isClosable=True,
             position=InfoBarPosition.TOP,
             duration=2500,
             parent=self
@@ -126,7 +123,7 @@ class Ui_Eui(object):
             title='Warning',
             content="请勾选单选框",
             orient=Qt.Horizontal,
-            isClosable=True,   # disable close button
+            isClosable=True,
             position=InfoBarPosition.TOP,
             duration=2500,
             parent=self

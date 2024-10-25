@@ -1,4 +1,5 @@
 
+import os, re
 from enum import Enum
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -12,6 +13,14 @@ from ETO.byETO.Cui import Ui_Cui
 from ETO.byETO.Dui import Ui_Dui
 from ETO.byETO.Eui import Ui_Eui
 from ETO.byETO.Fui import Ui_Fui
+from ETO.byETO.settings.config import cfg
+
+def find_path(filename):
+    for root, dirs, files in os.walk(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))):
+        for file in files:
+            if file.endswith(os.path.splitext(filename)[1]) and file.startswith(os.path.splitext(filename)[0]):
+                return os.path.join(root, file)
+    return None
 
 class Widget(QFrame):
 
@@ -494,67 +503,66 @@ class Ui_Zui(object):
         font.setItalic(False)
         font.setWeight(50)
         self.RadioButton_1.setFont(font)
-        self.RadioButton_1.setStyleSheet(
-"RadioButton {\n"
-"    min-height: 24px;\n"
-"    max-height: 24px;\n"
-"    background-color: transparent;\n"
-"    font: 15px \'萝莉体\';\n"
-"    color: black;\n"
-"}\n"
-"\n"
-"RadioButton::indicator {\n"
-"    width: 9px;\n"
-"    height: 9px;\n"
-"    border-radius: 6px;\n"
-"    border: 2px solid #999999;\n"
-"    background-color: rgba(0, 0, 0, 5);\n"
-"    margin-right: 3px;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:hover {\n"
-"    background-color: rgba(0, 0, 0, 0);\n"
-"}\n"
-"\n"
-"RadioButton::indicator:pressed {\n"
-"    border: 2px solid #bbbbbb;\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:checked {\n"
-"    width: 9px;\n"
-"    height: 9px;\n"
-"    border-radius: 6px;\n"
-"    border: 2px solid #999999;\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:checked:hover {\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:checked:pressed {\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton:disabled {\n"
-"    color: rgba(0, 0, 0, 110);\n"
-"}\n"
-"\n"
-"RadioButton::indicator:disabled {\n"
-"    border: 2px solid #bbbbbb;\n"
-"    background-color: transparent;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:disabled:checked {\n"
-"    border: none;\n"
-"    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,\n"
-"            stop:0 rgb(255, 255, 255),\n"
-"            stop:0.5 rgb(255, 255, 255),\n"
-"            stop:0.6 rgba(0, 0, 0, 0.2169),\n"
-"            stop:1 rgba(0, 0, 0, 0.2169));\n"
-"}\n"
-"")
+        self.RadioButton_1.setStyleSheet(re.sub(r'\*\*\*', cfg.get(cfg.ThemeColor).name(), '''
+RadioButton {
+    min-height: 24px;
+    max-height: 24px;
+    background-color: transparent;
+    font: 15px \'萝莉体\';
+    color: black;
+}
+
+RadioButton::indicator {
+    width: 9px;
+    height: 9px;
+    border-radius: 6px;
+    border: 2px solid #999999;
+    background-color: rgba(0, 0, 0, 5);
+    margin-right: 3px;
+}
+
+RadioButton::indicator:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+RadioButton::indicator:pressed {
+    border: 2px solid #bbbbbb;
+    background-color: ***;
+}
+
+RadioButton::indicator:checked {
+    width: 9px;
+    height: 9px;
+    border-radius: 6px;
+    border: 2px solid #999999;
+    background-color: ***;
+}
+
+RadioButton::indicator:checked:hover {
+    background-color: ***;
+}
+
+RadioButton::indicator:checked:pressed {
+    background-color: ***;
+}
+
+RadioButton:disabled {
+    color: rgba(0, 0, 0, 110);
+}
+
+RadioButton::indicator:disabled {
+    border: 2px solid #bbbbbb;
+    background-color: transparent;
+}
+
+RadioButton::indicator:disabled:checked {
+    border: none;
+    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,
+            stop:0 rgb(255, 255, 255),
+            stop:0.5 rgb(255, 255, 255),
+            stop:0.6 rgba(0, 0, 0, 0.2169),
+            stop:1 rgba(0, 0, 0, 0.2169));
+}'''))
 
         self.RadioButton_1.setObjectName("RadioButton_1")
         self.gridLayout.addWidget(self.RadioButton_1, 0, 0, 1, 2, QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
@@ -594,67 +602,66 @@ class Ui_Zui(object):
         font.setItalic(False)
         font.setWeight(50)
         self.RadioButton_2.setFont(font)
-        self.RadioButton_2.setStyleSheet(
-"RadioButton {\n"
-"    min-height: 24px;\n"
-"    max-height: 24px;\n"
-"    background-color: transparent;\n"
-"    font: 15px \'萝莉体\';\n"
-"    color: black;\n"
-"}\n"
-"\n"
-"RadioButton::indicator {\n"
-"    width: 9px;\n"
-"    height: 9px;\n"
-"    border-radius: 6px;\n"
-"    border: 2px solid #999999;\n"
-"    background-color: rgba(0, 0, 0, 5);\n"
-"    margin-right: 3px;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:hover {\n"
-"    background-color: rgba(0, 0, 0, 0);\n"
-"}\n"
-"\n"
-"RadioButton::indicator:pressed {\n"
-"    border: 2px solid #bbbbbb;\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:checked {\n"
-"    width: 9px;\n"
-"    height: 9px;\n"
-"    border-radius: 6px;\n"
-"    border: 2px solid #999999;\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:checked:hover {\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:checked:pressed {\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton:disabled {\n"
-"    color: rgba(0, 0, 0, 110);\n"
-"}\n"
-"\n"
-"RadioButton::indicator:disabled {\n"
-"    border: 2px solid #bbbbbb;\n"
-"    background-color: transparent;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:disabled:checked {\n"
-"    border: none;\n"
-"    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,\n"
-"            stop:0 rgb(255, 255, 255),\n"
-"            stop:0.5 rgb(255, 255, 255),\n"
-"            stop:0.6 rgba(0, 0, 0, 0.2169),\n"
-"            stop:1 rgba(0, 0, 0, 0.2169));\n"
-"}\n"
-"")
+        self.RadioButton_2.setStyleSheet(re.sub(r'\*\*\*', cfg.get(cfg.ThemeColor).name(), '''
+RadioButton {
+    min-height: 24px;
+    max-height: 24px;
+    background-color: transparent;
+    font: 15px \'萝莉体\';
+    color: black;
+}
+
+RadioButton::indicator {
+    width: 9px;
+    height: 9px;
+    border-radius: 6px;
+    border: 2px solid #999999;
+    background-color: rgba(0, 0, 0, 5);
+    margin-right: 3px;
+}
+
+RadioButton::indicator:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+RadioButton::indicator:pressed {
+    border: 2px solid #bbbbbb;
+    background-color: ***;
+}
+
+RadioButton::indicator:checked {
+    width: 9px;
+    height: 9px;
+    border-radius: 6px;
+    border: 2px solid #999999;
+    background-color: ***;
+}
+
+RadioButton::indicator:checked:hover {
+    background-color: ***;
+}
+
+RadioButton::indicator:checked:pressed {
+    background-color: ***;
+}
+
+RadioButton:disabled {
+    color: rgba(0, 0, 0, 110);
+}
+
+RadioButton::indicator:disabled {
+    border: 2px solid #bbbbbb;
+    background-color: transparent;
+}
+
+RadioButton::indicator:disabled:checked {
+    border: none;
+    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,
+            stop:0 rgb(255, 255, 255),
+            stop:0.5 rgb(255, 255, 255),
+            stop:0.6 rgba(0, 0, 0, 0.2169),
+            stop:1 rgba(0, 0, 0, 0.2169));
+}'''))
 
         self.RadioButton_2.setObjectName("RadioButton_2")
         self.gridLayout_2.addWidget(self.RadioButton_2, 0, 0, 1, 1, QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
@@ -789,7 +796,7 @@ class Ui_Zui(object):
         self.PixmapLabel_2.setMaximumSize(QtCore.QSize(280, 360))
         # 连接 LineEdit_2 的信号到槽函数，以便在文本改变时更新图片
         self.LineEdit_2.textChanged.connect(self.updatePixmap)
-        pixmap = QPixmap("./image/file-format(黑).png")
+        pixmap = QPixmap(find_path("file-format(黑).png"))
         if not pixmap.isNull():
             self.PixmapLabel_2.setPixmap(pixmap.scaled(self.PixmapLabel_2.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
         self.gridLayout_3.addWidget(self.PixmapLabel_2, 4, 2, 1, 1, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
@@ -926,130 +933,128 @@ class Ui_Zui(object):
         currentTheme = qconfig.theme
 
         if currentTheme == Theme.LIGHT:
-            self.updateCheckBoxStyles(
-"RadioButton {\n"
-"    min-height: 24px;\n"
-"    max-height: 24px;\n"
-"    background-color: transparent;\n"
-"    font: 15px \'萝莉体\';\n"
-"    color: black;\n"
-"}\n"
-"\n"
-"RadioButton::indicator {\n"
-"    width: 9px;\n"
-"    height: 9px;\n"
-"    border-radius: 6px;\n"
-"    border: 2px solid #999999;\n"
-"    background-color: rgba(0, 0, 0, 5);\n"
-"    margin-right: 3px;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:hover {\n"
-"    background-color: rgba(0, 0, 0, 0);\n"
-"}\n"
-"\n"
-"RadioButton::indicator:pressed {\n"
-"    border: 2px solid #bbbbbb;\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:checked {\n"
-"    width: 9px;\n"
-"    height: 9px;\n"
-"    border-radius: 6px;\n"
-"    border: 2px solid #999999;\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:checked:hover {\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:checked:pressed {\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton:disabled {\n"
-"    color: rgba(0, 0, 0, 110);\n"
-"}\n"
-"\n"
-"RadioButton::indicator:disabled {\n"
-"    border: 2px solid #bbbbbb;\n"
-"    background-color: transparent;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:disabled:checked {\n"
-"    border: none;\n"
-"    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,\n"
-"            stop:0 rgb(255, 255, 255),\n"
-"            stop:0.5 rgb(255, 255, 255),\n"
-"            stop:0.6 rgba(0, 0, 0, 0.2169),\n"
-"            stop:1 rgba(0, 0, 0, 0.2169));\n"
-"}\n"
-"")
+            self.updateCheckBoxStyles(re.sub(r'\*\*\*', cfg.get(cfg.ThemeColor).name(), '''
+RadioButton {
+    min-height: 24px;
+    max-height: 24px;
+    background-color: transparent;
+    font: 15px \'萝莉体\';
+    color: black;
+}
+
+RadioButton::indicator {
+    width: 9px;
+    height: 9px;
+    border-radius: 6px;
+    border: 2px solid #999999;
+    background-color: rgba(0, 0, 0, 5);
+    margin-right: 3px;
+}
+
+RadioButton::indicator:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+RadioButton::indicator:pressed {
+    border: 2px solid #bbbbbb;
+    background-color: ***;
+}
+
+RadioButton::indicator:checked {
+    width: 9px;
+    height: 9px;
+    border-radius: 6px;
+    border: 2px solid #999999;
+    background-color: ***;
+}
+
+RadioButton::indicator:checked:hover {
+    background-color: ***;
+}
+
+RadioButton::indicator:checked:pressed {
+    background-color: ***;
+}
+
+RadioButton:disabled {
+    color: rgba(0, 0, 0, 110);
+}
+
+RadioButton::indicator:disabled {
+    border: 2px solid #bbbbbb;
+    background-color: transparent;
+}
+
+RadioButton::indicator:disabled:checked {
+    border: none;
+    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,
+            stop:0 rgb(255, 255, 255),
+            stop:0.5 rgb(255, 255, 255),
+            stop:0.6 rgba(0, 0, 0, 0.2169),
+            stop:1 rgba(0, 0, 0, 0.2169));
+}'''))
 
         elif currentTheme == Theme.DARK:
-            self.updateCheckBoxStyles(
-"RadioButton {\n"
-"    min-height: 24px;\n"
-"    max-height: 24px;\n"
-"    background-color: transparent;\n"
-"    font: 15px \'萝莉体\';\n"
-"    color: white;\n"
-"}\n"
-"\n"
-"RadioButton::indicator {\n"
-"    width: 9px;\n"
-"    height: 9px;\n"
-"    border-radius: 6px;\n"
-"    border: 2px solid #999999;\n"
-"    background-color: rgba(0, 0, 0, 5);\n"
-"    margin-right: 3px;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:hover {\n"
-"    background-color: rgba(0, 0, 0, 0);\n"
-"}\n"
-"\n"
-"RadioButton::indicator:pressed {\n"
-"    border: 2px solid #bbbbbb;\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:checked {\n"
-"    width: 9px;\n"
-"    height: 9px;\n"
-"    border-radius: 6px;\n"
-"    border: 2px solid #999999;\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:checked:hover {\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:checked:pressed {\n"
-"    background-color: #ffbfbf;\n"
-"}\n"
-"\n"
-"RadioButton:disabled {\n"
-"    color: rgba(0, 0, 0, 110);\n"
-"}\n"
-"\n"
-"RadioButton::indicator:disabled {\n"
-"    border: 2px solid #bbbbbb;\n"
-"    background-color: transparent;\n"
-"}\n"
-"\n"
-"RadioButton::indicator:disabled:checked {\n"
-"    border: none;\n"
-"    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,\n"
-"            stop:0 rgb(255, 255, 255),\n"
-"            stop:0.5 rgb(255, 255, 255),\n"
-"            stop:0.6 rgba(0, 0, 0, 0.2169),\n"
-"            stop:1 rgba(0, 0, 0, 0.2169));\n"
-"}\n"
-"")
+            self.updateCheckBoxStyles(re.sub(r'\*\*\*', cfg.get(cfg.ThemeColor).name(), '''
+RadioButton {
+    min-height: 24px;
+    max-height: 24px;
+    background-color: transparent;
+    font: 15px \'萝莉体\';
+    color: white;
+}
+
+RadioButton::indicator {
+    width: 9px;
+    height: 9px;
+    border-radius: 6px;
+    border: 2px solid #999999;
+    background-color: rgba(0, 0, 0, 5);
+    margin-right: 3px;
+}
+
+RadioButton::indicator:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+RadioButton::indicator:pressed {
+    border: 2px solid #bbbbbb;
+    background-color: ***;
+}
+
+RadioButton::indicator:checked {
+    width: 9px;
+    height: 9px;
+    border-radius: 6px;
+    border: 2px solid #999999;
+    background-color: ***;
+}
+
+RadioButton::indicator:checked:hover {
+    background-color: ***;
+}
+
+RadioButton::indicator:checked:pressed {
+    background-color: ***;
+}
+
+RadioButton:disabled {
+    color: rgba(0, 0, 0, 110);
+}
+
+RadioButton::indicator:disabled {
+    border: 2px solid #bbbbbb;
+    background-color: transparent;
+}
+
+RadioButton::indicator:disabled:checked {
+    border: none;
+    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,
+            stop:0 rgb(255, 255, 255),
+            stop:0.5 rgb(255, 255, 255),
+            stop:0.6 rgba(0, 0, 0, 0.2169),
+            stop:1 rgba(0, 0, 0, 0.2169));
+}'''))
 
     def updateCheckBoxStyles(self, styleSheet):
         Radio_0 = self.findChildren(RadioButton)

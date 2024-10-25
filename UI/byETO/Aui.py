@@ -1,6 +1,13 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import os
 
+def find_path(filename):
+    for root, dirs, files in os.walk(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))):
+        for file in files:
+            if file.endswith(os.path.splitext(filename)[1]) and file.startswith(os.path.splitext(filename)[0]):
+                return os.path.join(root, file)
+    return None
 
 class Ui_Aui(object):
     def setupUi(self, Aui):
@@ -67,9 +74,13 @@ class Ui_Aui(object):
         self.IconWidget_4.setGeometry(QtCore.QRect(0, 0, 192, 192))
         self.IconWidget_4.setMinimumSize(QtCore.QSize(192, 192))
         self.IconWidget_4.setMaximumSize(QtCore.QSize(192, 192))
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./image/可莉.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.IconWidget_4.setIcon(icon)
+        icon_0 = QtGui.QIcon()
+        icon_0.addPixmap(QtGui.QPixmap(find_path('平面.png')), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon_1 = QtGui.QIcon()
+        icon_1.addPixmap(QtGui.QPixmap(find_path('立体.png')), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon_2 = QtGui.QIcon()
+        icon_2.addPixmap(QtGui.QPixmap(find_path('纯文件.png')), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.IconWidget_4.setIcon(icon_0)
         self.IconWidget_4.setObjectName("IconWidget_4")
         self.verticalLayout.addWidget(self.CardWidget)
         spacerItem4 = QtWidgets.QSpacerItem(0, 8, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -111,7 +122,7 @@ class Ui_Aui(object):
         self.IconWidget_5.setGeometry(QtCore.QRect(0, 0, 192, 192))
         self.IconWidget_5.setMinimumSize(QtCore.QSize(192, 192))
         self.IconWidget_5.setMaximumSize(QtCore.QSize(192, 192))
-        self.IconWidget_5.setIcon(icon)
+        self.IconWidget_5.setIcon(icon_1)
         self.IconWidget_5.setObjectName("IconWidget_5")
         self.verticalLayout_2.addWidget(self.CardWidget_2)
         spacerItem8 = QtWidgets.QSpacerItem(0, 8, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -153,7 +164,7 @@ class Ui_Aui(object):
         self.IconWidget_6.setGeometry(QtCore.QRect(0, 0, 192, 192))
         self.IconWidget_6.setMinimumSize(QtCore.QSize(192, 192))
         self.IconWidget_6.setMaximumSize(QtCore.QSize(192, 192))
-        self.IconWidget_6.setIcon(icon)
+        self.IconWidget_6.setIcon(icon_2)
         self.IconWidget_6.setObjectName("IconWidget_6")
         self.verticalLayout_3.addWidget(self.CardWidget_3)
         spacerItem12 = QtWidgets.QSpacerItem(0, 8, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)

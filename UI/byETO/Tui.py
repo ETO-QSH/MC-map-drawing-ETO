@@ -1,10 +1,10 @@
 
-import ast
 import os
 import re
+import ast
 import shutil
 import subprocess
-from multiprocessing import Pool
+from multiprocessing import Pool, Queue, Process
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QRect, QObject, pyqtSignal, QThread, QSize
@@ -17,35 +17,20 @@ from ETO.byETO.Nui import DIDshow
 
 names = locals()
 
-class Worker(QObject):
-    finished = pyqtSignal()
+def find_path(filename):
+    for root, dirs, files in os.walk(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))):
+        for file in files:
+            if file.endswith(os.path.splitext(filename)[1]) and file.startswith(os.path.splitext(filename)[0]):
+                return os.path.join(root, file)
+    return None
 
-    def __init__(self, source_folder, target_folder):
-        super().__init__()
-        self.source_folder = source_folder
-        self.target_folder = target_folder
-
-    def run(self):
-        # 获取所有PNG文件
-        files = [os.path.join(self.source_folder, f) for f in os.listdir(self.source_folder) if f.lower().endswith('.png')]
-        # 创建进程池并处理文件
-        with Pool(processes=os.cpu_count()) as pool:
-            pool.map(self.process_file, files)
-        # 通知GUI任务完成
-        self.finished.emit()
-
-    @staticmethod
-    def process_file(source_file):
-        # 构建目标文件路径
-        target_file = source_file.replace('spliting', 'split')
-        subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\CIEDE2000.exe', '-i', source_file, '-o', target_file, '-l', './src/colorList.txt', '-n', '4'], shell=True)
-
-
-# class Worker:
-#     def __init__(self, source_folder, target_folder, queue):
+# class Worker(QObject):
+#     finished = pyqtSignal()
+#
+#     def __init__(self, source_folder, target_folder):
+#         super().__init__()
 #         self.source_folder = source_folder
 #         self.target_folder = target_folder
-#         self.queue = queue
 #
 #     def run(self):
 #         # 获取所有PNG文件
@@ -53,13 +38,50 @@ class Worker(QObject):
 #         # 创建进程池并处理文件
 #         with Pool(processes=os.cpu_count()) as pool:
 #             pool.map(self.process_file, files)
-#         # 将完成信号发送到队列
-#         self.queue.put('finished')
+#         # 通知GUI任务完成
+#         self.finished.emit()
 #
-#     def process_file(self, source_file):
+#     @staticmethod
+#     def process_file(source_file):
 #         # 构建目标文件路径
 #         target_file = source_file.replace('spliting', 'split')
 #         subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\CIEDE2000.exe', '-i', source_file, '-o', target_file, '-l', './src/colorList.txt', '-n', '4'], shell=True)
+
+def process_file(source_file, queue):
+    try:
+        # 构建目标文件路径
+        target_file = source_file.replace('spliting', 'split')
+        # 调用外部程序处理文件
+        subprocess.run([find_path('CIEDE2000.exe'), '-i', source_file, '-o', target_file, '-l', './src/colorList.txt', '-n', '4'], shell=True)
+        # 将成功消息放入队列
+        queue.put(f"File {source_file} processed successfully.")
+    except Exception as e:
+        # 将错误消息放入队列
+        queue.put(f"Error processing file {source_file}: {str(e)}")
+
+
+class ProcessManager(QThread):
+    def __init__(self, source_folder):
+        super().__init__()
+        self.source_folder = source_folder
+        self.queue = Queue()  # 创建一个multiprocessing.Queue实例
+
+    def run(self):
+        # 获取所有PNG文件
+        files = [os.path.join(self.source_folder, f) for f in os.listdir(self.source_folder) if f.lower().endswith('.png')]
+        # 创建并启动进程
+        processes = []
+        for file in files:
+            p = Process(target=process_file, args=(file, self.queue))
+            processes.append(p)
+            p.start()
+
+        # 等待所有进程完成
+        for p in processes:
+            p.join()
+
+        # 将完成信号发送到队列
+        self.queue.put('finished')
 
 
 class Worker2(QObject):
@@ -84,7 +106,7 @@ class Worker2(QObject):
             if item["parent"] == 'EDM':
                 child = ['edm'] + [['--serpentine'] if item["Snakes"] == 'True' else []][0] + [item["List"]]
 
-            cmd = [r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\didder.exe', '--in', self.file, '--out', './data/didder/{}.png'.format(item["Flag"]), '--strength', item["Strength"]+'%', '--palette', self.palette]
+            cmd = [find_path('didder.exe'), '--in', self.file, '--out', './data/didder/{}.png'.format(item["Flag"]), '--strength', item["Strength"]+'%', '--palette', self.palette]
 
             [cmd.append(it) for it in child]
 
@@ -103,6 +125,8 @@ class Worker2(QObject):
 
 class Ui_Tui(object):
     def setupUi(self, Tui):
+        self.process_manager = ProcessManager("./data/spliting")
+        self.process_manager.finished.connect(self.on_finished)
         Tui.setObjectName("Tui")
         Tui.resize(1060, 659)
         self.bction_button = PushButton("Next")
@@ -383,7 +407,7 @@ class Ui_Tui(object):
             self.PushButton.deleteLater()
 
             os.makedirs('./data/spliting', exist_ok=True)
-            res = subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe', '-i', self.window.algorithmed['imageFile'].replace('/', '\\'), '-o', './data/spliting/Label', '-m', 'false', '-s', '1.0'], shell=True, capture_output=True, text=True)
+            res = subprocess.run([find_path('ImgTransform.exe'), '-i', self.window.algorithmed['imageFile'].replace('/', '\\'), '-o', './data/spliting/Label', '-m', 'false', '-s', '1.0'], shell=True, capture_output=True, text=True)
             n, m = res.stdout[1:-2].split(',')
 
             self.StateToolTip = ScrollableMovableGridPixmapWidget(int(n)-1, int(m)-1, 480, True)
@@ -392,33 +416,23 @@ class Ui_Tui(object):
             self.StateToolTip.setGeometry(QRect(0, 0, 480, 480))
             self.gridLayout.addWidget(self.StateToolTip, 0, 0, 1, 1, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
-            self.start_processing()
+            self.start_processes()
 
         # 更新布局
         self.gridLayout.update()
 
-    def start_processing(self):
-        # 创建并启动工作进程
-        self.worker = Worker(source_folder="./data/spliting", target_folder="./data/split")
-        self.worker.finished.connect(self.on_finished)
-
-        self.thread = QThread()
-        self.worker.moveToThread(self.thread)
-        self.thread.started.connect(self.worker.run)
-        self.thread.start()
-
     # def start_processing(self):
-    #     print('qweqweqwe')
-    #     self.process = Process(target=self.start_worker)
-    #     self.process.start()
-    #     self.process.join()  # 等待进程结束
+    #     # 创建并启动工作进程
+    #     self.worker = Worker(source_folder="./data/spliting", target_folder="./data/split")
+    #     self.worker.finished.connect(self.on_finished)
     #
-    # def start_worker(self):
-    #     self.worker = Worker(source_folder="./data/spliting", target_folder="./data/split", queue=self.queue)
-    #     self.worker.run()
-    #     result = self.queue.get()  # 等待进程完成信号
-    #     if result == 'finished':
-    #         self.createSuccessInfoBar()
+    #     self.thread = QThread()
+    #     self.worker.moveToThread(self.thread)
+    #     self.thread.started.connect(self.worker.run)
+    #     self.thread.start()
+
+    def start_processes(self):
+        self.process_manager.start()
 
     def start2_processing(self):
         with open('./data/colorList.txt', 'r', encoding="utf-8") as file:
@@ -448,8 +462,8 @@ class Ui_Tui(object):
     def on_finished(self):
         self.createSuccessInfoBar()
         shutil.rmtree('./data/spliting')
-        subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe', '-i', './data/split', '-o', './data/image/ciede.png', '-m', 'none', '-s', '1.0'], shell=True)
-        subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\ImgTransform.exe', '-i', self.window.algorithmed['imageFile'].replace('/', '\\'), '-o', './data/image/contrast.png', '-m', 'true', '-s', '1.0'], shell=True)
+        subprocess.run([find_path('ImgTransform.exe'), '-i', './data/split', '-o', './data/image/ciede.png', '-m', 'none', '-s', '1.0'], shell=True)
+        subprocess.run([find_path('ImgTransform.exe'), '-i', self.window.algorithmed['imageFile'].replace('/', '\\'), '-o', './data/image/contrast.png', '-m', 'true', '-s', '1.0'], shell=True)
 
     def on_StateToolTip_closed(self):
         # 删除 StateToolTip

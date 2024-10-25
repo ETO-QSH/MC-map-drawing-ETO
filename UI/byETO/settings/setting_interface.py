@@ -1,9 +1,7 @@
 
-import re
-from typing import List
+import os, re, requests, pyperclip
 
-import pyperclip
-import requests
+from typing import List
 from PyQt5 import QtWidgets, QtCore
 from requests.exceptions import SSLError
 
@@ -274,8 +272,13 @@ class SettingInterface(ScrollArea):
         self.scrollWidget.setObjectName('scrollWidget')
 
         theme = 'dark' if cfg.get(cfg.themeModeETO) == '暗色主题' else 'light'
-        with open(f'./byETO/settings/resource/qss/{theme}/setting_interface.qss', encoding='utf-8') as f:
-            self.setStyleSheet(f.read())
+
+        try:
+            with open(f'./byETO/settings/resource/qss/{theme}/setting_interface.qss', encoding='utf-8') as f:
+                self.setStyleSheet(f.read())
+        except FileNotFoundError:
+            with open(f'{os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))}/byETO/settings/resource/qss/{theme}/setting_interface.qss', encoding='utf-8') as f:
+                self.setStyleSheet(f.read())
 
     def __showRestartTooltip(self):
         """ show restart tooltip """

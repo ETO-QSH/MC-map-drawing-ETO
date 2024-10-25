@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QHBoxLayout, QWidget
 from ETO.byETO.settings.setting_interface import SettingInterface
 from ETO.byETO.settings.config import *
 
+import os
+
 class UI_Yui(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -16,6 +18,9 @@ class UI_Yui(QWidget):
 
     def setQss(self):
         theme = 'dark' if cfg.get(cfg.themeModeETO) == '暗色主题' else 'light'
-        with open(f'./byETO/settings/resource/qss/{theme}/demo.qss', encoding='utf-8') as f:
-            self.setStyleSheet(f.read())
-
+        try:
+            with open(f'./byETO/settings/resource/qss/{theme}/demo.qss', encoding='utf-8') as f:
+                self.setStyleSheet(f.read())
+        except FileNotFoundError:
+            with open(f'{os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))}/ETO/byETO/settings/resource/qss/{theme}/demo.qss', encoding='utf-8') as f:
+                self.setStyleSheet(f.read())

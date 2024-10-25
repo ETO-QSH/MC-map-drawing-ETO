@@ -1,19 +1,35 @@
 
-import json
+import os, json
 
 from PyQt5.QtGui import QGuiApplication, QFont, QColor
 from qfluentwidgets import (qconfig, QConfig, ConfigItem, OptionsConfigItem, ColorConfigItem,
                             OptionsValidator, RangeConfigItem, RangeValidator, FolderValidator)
 
-class Config(QConfig):
-    """ Config of application """
+def find_path(filename):
+    for root, dirs, files in os.walk(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))):
+        for file in files:
+            if file.endswith(os.path.splitext(filename)[1]) and file.startswith(os.path.splitext(filename)[0]):
+                return os.path.join(root, file)
+    return None
 
+class Config(QConfig):
     try:
-        with open('./byETO/settings/config/config.json', 'r', encoding="utf-8") as file:
+        with open('./config.json', 'r', encoding="utf-8") as file:
            config_data = json.load(file)
         theme_color = config_data["QFluentWidgets"]["ThemeColor"]
     except FileNotFoundError:
-        theme_color = ''
+        try:
+            with open('./byETO/settings/config/config.json', 'r', encoding="utf-8") as file:
+               config_data = json.load(file)
+            theme_color = config_data["QFluentWidgets"]["ThemeColor"]
+        except FileNotFoundError:
+            try:
+                with open(find_path("config.json"), 'r', encoding="utf-8") as file:
+                    config_data = json.load(file)
+                theme_color = config_data["QFluentWidgets"]["ThemeColor"]
+            except FileNotFoundError:
+                print('ConfigFileNotFoundError-byETO')
+                theme_color = ''
 
     downloadFolder = ConfigItem("Folders", "Download", "./Backup", FolderValidator())
 
@@ -56,4 +72,11 @@ class Config(QConfig):
         self.save()
 
 cfg = Config()
-qconfig.load('./byETO/settings/config/config.json', cfg)
+
+try:
+    qconfig.load('./config.json', cfg)
+except FileNotFoundError:
+    try:
+        qconfig.load('./byETO/settings/config/config.json', cfg)
+    except FileNotFoundError:
+        qconfig.load(find_path('config.json'), cfg)

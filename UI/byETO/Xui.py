@@ -1,8 +1,16 @@
 
+import os
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QHBoxLayout
 from qfluentwidgets import SmoothScrollArea, PixmapLabel, isDarkTheme, qconfig
+
+def find_path(filename):
+    for root, dirs, files in os.walk(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))):
+        for file in files:
+            if file.endswith(os.path.splitext(filename)[1]) and file.startswith(os.path.splitext(filename)[0]):
+                return os.path.join(root, file)
+    return None
 
 class Ui_Xui(SmoothScrollArea):
     def __init__(self, parent=None):
@@ -14,17 +22,15 @@ class Ui_Xui(SmoothScrollArea):
                         border: 0px solid #888;
                         border-radius: 0px;
                         padding: 0px;
-                        background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                                          stop: 0 #fff, stop: 0.5 #eee, stop: 1 #fff);
+                        background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #fff, stop: 0.5 #eee, stop: 1 #fff);
                     }
                 """)
 
         self.label = PixmapLabel(self)
-        self.pixmap_light = QPixmap(r'help\help_write.jpeg')
-        self.pixmap_dark = QPixmap(r'help\help_black.jpeg')
+        self.pixmap_light = QPixmap(find_path('help_black.jpeg'))
+        self.pixmap_dark = QPixmap(find_path('help_black.jpeg'))
         self.updatePixmap()
         self.setWidget(self.label)
-
 
     def updatePixmap(self):
         self.pixmap = self.pixmap_dark if isDarkTheme() else self.pixmap_light
