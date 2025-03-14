@@ -13,7 +13,6 @@ from ETO.byETO.Cui import Ui_Cui
 from ETO.byETO.Dui import Ui_Dui
 from ETO.byETO.Eui import Ui_Eui
 from ETO.byETO.Fui import Ui_Fui
-from ETO.byETO.settings.config import cfg
 
 def find_path(filename):
     for root, dirs, files in os.walk(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))):
@@ -503,7 +502,7 @@ class Ui_Zui(object):
         font.setItalic(False)
         font.setWeight(50)
         self.RadioButton_1.setFont(font)
-        self.RadioButton_1.setStyleSheet(re.sub(r'\*\*\*', cfg.get(cfg.ThemeColor).name(), '''
+        self.RadioButton_1.setStyleSheet(re.sub(r'\*\*\*', qconfig.themeColor.value.name(), '''
 RadioButton {
     min-height: 24px;
     max-height: 24px;
@@ -602,7 +601,7 @@ RadioButton::indicator:disabled:checked {
         font.setItalic(False)
         font.setWeight(50)
         self.RadioButton_2.setFont(font)
-        self.RadioButton_2.setStyleSheet(re.sub(r'\*\*\*', cfg.get(cfg.ThemeColor).name(), '''
+        self.RadioButton_2.setStyleSheet(re.sub(r'\*\*\*', qconfig.themeColor.value.name(), '''
 RadioButton {
     min-height: 24px;
     max-height: 24px;
@@ -933,7 +932,7 @@ RadioButton::indicator:disabled:checked {
         currentTheme = qconfig.theme
 
         if currentTheme == Theme.LIGHT:
-            self.updateCheckBoxStyles(re.sub(r'\*\*\*', cfg.get(cfg.ThemeColor).name(), '''
+            self.updateCheckBoxStyles(re.sub(r'\*\*\*', qconfig.themeColor.value.name(), '''
 RadioButton {
     min-height: 24px;
     max-height: 24px;
@@ -995,7 +994,7 @@ RadioButton::indicator:disabled:checked {
 }'''))
 
         elif currentTheme == Theme.DARK:
-            self.updateCheckBoxStyles(re.sub(r'\*\*\*', cfg.get(cfg.ThemeColor).name(), '''
+            self.updateCheckBoxStyles(re.sub(r'\*\*\*', qconfig.themeColor.value.name(), '''
 RadioButton {
     min-height: 24px;
     max-height: 24px;

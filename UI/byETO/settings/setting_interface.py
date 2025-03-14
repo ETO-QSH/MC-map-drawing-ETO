@@ -1,17 +1,19 @@
-
-import os, re, requests, pyperclip
+import re, requests, pyperclip
 
 from typing import List
 from PyQt5 import QtWidgets, QtCore
 from requests.exceptions import SSLError
 
 from ETO.byETO.settings.config import *
-from qfluentwidgets import (PushSettingCard, ScrollArea, ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, setThemeColor,
-                            FluentStyleSheet, MessageBoxBase, SubtitleLabel, StrongBodyLabel, BodyLabel, InfoBarPosition)
+from qfluentwidgets import (PushSettingCard, ScrollArea, ComboBoxSettingCard, ExpandLayout, Theme, InfoBar,
+                            setThemeColor,
+                            FluentStyleSheet, MessageBoxBase, SubtitleLabel, StrongBodyLabel, BodyLabel,
+                            InfoBarPosition, setTheme, PushButton, Flyout, InfoBarIcon, FlyoutAnimationType, MessageBox)
 
 from qfluentwidgets import FluentIcon as FIF
 from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtWidgets import QWidget, QFontDialog, QFileDialog, QColorDialog, QVBoxLayout, QFrame
+from PyQt5.QtWidgets import QWidget, QFontDialog, QFileDialog, QColorDialog, QVBoxLayout, QFrame, QApplication
+
 
 class CustomMessageBox(MessageBoxBase):
     """ Custom message box """
@@ -54,10 +56,10 @@ class CustomMessageBox(MessageBoxBase):
         self.set_font("萝莉体", 10, self.yesButton)
 
         cancelButtonStyle = """
-        QPushButton {
-            font-family: '萝莉体';
-            font-size: 13px;
-        }
+          QPushButton {
+              font-family: '萝莉体';
+              font-size: 13px;
+          }
         """
         self.cancelButton.setStyleSheet(cancelButtonStyle)
 
@@ -114,8 +116,9 @@ class SettingInterface(ScrollArea):
     downloadFolderChanged = pyqtSignal(str)
     savesFolderChanged = pyqtSignal(str)
 
-    def __init__(self, parent=None):
+    def __init__(self, ui_yui_instance, parent=None):
         super().__init__(parent=parent)
+        self.ui_yui = ui_yui_instance  # 保存 UI_Yui 的实例
         self.scrollWidget = QWidget()
         self.expandLayout = ExpandLayout(self.scrollWidget)
         self.setting = parent
@@ -139,7 +142,7 @@ class SettingInterface(ScrollArea):
             self.tr('更  改'),
             FIF.PALETTE,
             self.tr('主题颜色'),
-            cfg.get(cfg.ThemeColor).name().upper(),
+            cfg.get(cfg.ThemeColor).name().lower(),
             parent=self.personalGroup
         )
         self.themeCard = ComboBoxSettingCard(
@@ -154,7 +157,7 @@ class SettingInterface(ScrollArea):
             self.tr('更  改'),
             FIF.FONT,
             self.tr('主体字体'),
-            cfg.get(cfg.deskLyricFontFamily) + ' (不给改就好这萝莉体)',
+            cfg.get(cfg.deskLyricFontFamily) + ' (不给改就好这)',
             parent=self.personalGroup
         )
         self.updateOnStartUpCard = PushSettingCard(
@@ -187,28 +190,28 @@ class SettingInterface(ScrollArea):
     def CardFont(self, Card, mode):
 
         titleLabelStyle = """
-                        QLabel {
-                            font-family: '萝莉体';
-                            font-size: 15px;
-                        }
-                        """
+          QLabel {
+              font-family: '萝莉体';
+              font-size: 15px;
+          }
+          """
         Card.titleLabel.setStyleSheet(titleLabelStyle)
 
         contentLabelStyle = """
-                        QLabel {
-                            font-family: '萝莉体';
-                            font-size: 12px;
-                        }
-                        """
+          QLabel {
+              font-family: '萝莉体';
+              font-size: 12px;
+          }
+          """
         Card.contentLabel.setStyleSheet(contentLabelStyle)
 
         if mode == 0:
             ButtonStyle = """
-                            QPushButton {
-                                font-family: '萝莉体';
-                                font-size: 15px;
-                            }
-                            """
+              QPushButton {
+                  font-family: '萝莉体';
+                  font-size: 15px;
+              }
+              """
             Card.button.setStyleSheet(ButtonStyle)
 
         elif mode == 1:
@@ -271,7 +274,7 @@ class SettingInterface(ScrollArea):
         """ set style sheet """
         self.scrollWidget.setObjectName('scrollWidget')
 
-        theme = 'dark' if cfg.get(cfg.themeModeETO) == '暗色主题' else 'light'
+        theme = 'dark' if qconfig.theme == Theme.DARK else 'light'
 
         try:
             with open(f'./byETO/settings/resource/qss/{theme}/setting_interface.qss', encoding='utf-8') as f:
@@ -280,13 +283,52 @@ class SettingInterface(ScrollArea):
             with open(f'{os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))}/byETO/settings/resource/qss/{theme}/setting_interface.qss', encoding='utf-8') as f:
                 self.setStyleSheet(f.read())
 
+    def set_font(self, font_name, font_size, label):
+        """ 设置指定标签的字体和大小 """
+        font = QFont(font_name, font_size)
+        label.setFont(font)
+
     def __showRestartTooltip(self):
         """ show restart tooltip """
-        InfoBar.warning(
-            '',
-            self.tr('此配置于重启后生效'),
-            parent=self.setting.window()
+        cqw = MessageBox(
+            '提示',
+            '请重启以正常载入样式（已经成屎山了）',
+            self.ui_yui
         )
+        cqw.yesButton.setText('就重启')
+        cqw.cancelButton.setText('勉强看')
+
+        self.set_font("萝莉体", 10, cqw.yesButton)
+
+        titleLabelStyle = """
+          QLabel {
+              font-family: '萝莉体';
+              font-size: 20px;
+          }
+        """
+        cqw.titleLabel.setStyleSheet(titleLabelStyle)
+
+        contentLabelStyle = """
+          QLabel {
+              font-family: '萝莉体';
+              font-size: 16px;
+          }
+        """
+        cqw.contentLabel.setStyleSheet(contentLabelStyle)
+
+        cancelButtonStyle = """
+          QPushButton {
+              font-family: '萝莉体';
+              font-size: 13px;
+          }
+        """
+        cqw.cancelButton.setStyleSheet(cancelButtonStyle)
+
+        if cqw.exec():
+            app = QApplication.instance()
+            if hasattr(app, 'restart'):
+                app.restart()
+
 
     def __onDeskLyricFontCardClicked(self):
         """ desktop lyric font button clicked slot """
@@ -301,8 +343,9 @@ class SettingInterface(ScrollArea):
         for i in range(2):
             if color.isValid():
                 cfg.ThemeColorIT = color
-                self.updateThemeColorCardContent()  # 更新主题颜色卡内容
+                self.updateThemeColorCardContent()
                 cfg.set(cfg.ThemeColor, color)
+        self.__showRestartTooltip()
 
     def __onDownloadFolderCardClicked(self):
         """ download folder card clicked slot """
@@ -320,10 +363,10 @@ class SettingInterface(ScrollArea):
             return
 
         cfg.set(cfg.savesFolder, folder)
+        self.savesFolderCard.setContent(folder)
 
     def __onVersionCardClicked(self):
         """ version card clicked slot """
-
         def search(url):
             try:
                 text = requests.get(url).text
@@ -387,34 +430,51 @@ class SettingInterface(ScrollArea):
 
         searches = search("https://api.github.com/repos/ETO-QSH/DeskpetETO-download/releases/latest")
 
-        if not searches == False:
+        if searches:
             search_url, search_size, search_tag, search_body = searches
             now_tag = cfg.get(cfg.versionControl)
 
-            w = CustomMessageBox(now_tag, search_tag, search_body, self.setting)
-            w.yesButton.setText("点击复制URL")
-            w.cancelButton.setText(f"不浪费{int(search_size/1024/1024)}MB")
+            dlw = CustomMessageBox(now_tag, search_tag, search_body, self.ui_yui)
+            dlw.yesButton.setText("点击复制URL")
+            dlw.cancelButton.setText(f"不浪费{int(search_size/1024/1024)}MB")
 
-            pyperclip.copy(search_url) if w.exec() else False
+            pyperclip.copy(search_url) if dlw.exec() else False
+
+        else:
+            print('???')
 
     def updateThemeColorCardContent(self):
         """ 更新主题颜色卡的内容 """
         content = cfg.get(cfg.ThemeColor).name()  # 获取颜色名称字符串
-        setThemeColor(content)
-        self.themeColorCard.setContent(content.upper())  # 更新 PushSettingCard 的内容
+        setThemeColor(content)  # 让重启后执行，已经成屎山了啊啊啊
+        self.themeColorCard.setContent(content.lower())  # 更新 PushSettingCard 的内容
 
     def updateDeskLyricFontCardContent(self):
         """ 更新主题字体卡的内容 """
         content = cfg.get(cfg.deskLyricFontFamily)
         self.deskLyricFontCard.setContent(content)
 
-    def __onThemeChanged(self, theme: Theme):
+    def __onThemeChanged(self):
+        for i in range(2):
+            theme = cfg.get(cfg.themeModeETO)
+            qconfig.theme = Theme.DARK if theme == "暗色主题" else Theme.LIGHT
+            setTheme(qconfig.theme)
+            cfg.set(cfg.themeModeETO, theme)
+            cfg.save()
         self.__showRestartTooltip()
+
+    # 为毛就是搞不了
+    def __onLoadingChanged(self):
+        for i in range(2):
+            load = cfg.get(cfg.loadingStyle)
+            cfg.loadingStyle.value = load
+            cfg.set(cfg.loadingStyle, load)
+            cfg.save()
 
     def __connectSignalToSlot(self):
         """ connect signal to slot """
-        cfg.appRestartSig.connect(self.__showRestartTooltip)
-        cfg.themeChanged.connect(self.__onThemeChanged)
+        cfg.themeModeETO.valueChanged.connect(self.__onThemeChanged)
+        cfg.loadingStyle.valueChanged.connect(self.__onLoadingChanged)
 
         self.downloadFolderCard.clicked.connect(self.__onDownloadFolderCardClicked)
         self.savesFolderCard.clicked.connect(self.__onSavesFolderCardClicked)

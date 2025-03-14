@@ -4,13 +4,14 @@ import re
 import ast
 import shutil
 import subprocess
-from multiprocessing import Pool, Queue, Process
+from asyncio import as_completed
+from concurrent.futures import ThreadPoolExecutor
+from queue import Queue
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QRect, QObject, pyqtSignal, QThread, QSize
 from PyQt5.QtGui import QPixmap
 
-from ETO.byETO.settings.config import cfg
 from qfluentwidgets import qconfig, InfoBar, InfoBarPosition, Theme
 from ETO.byETO.Mui import ScrollableMovableGridPixmapWidget
 from ETO.byETO.Nui import DIDshow
@@ -24,64 +25,47 @@ def find_path(filename):
                 return os.path.join(root, file)
     return None
 
-# class Worker(QObject):
-#     finished = pyqtSignal()
-#
-#     def __init__(self, source_folder, target_folder):
-#         super().__init__()
-#         self.source_folder = source_folder
-#         self.target_folder = target_folder
-#
-#     def run(self):
-#         # 获取所有PNG文件
-#         files = [os.path.join(self.source_folder, f) for f in os.listdir(self.source_folder) if f.lower().endswith('.png')]
-#         # 创建进程池并处理文件
-#         with Pool(processes=os.cpu_count()) as pool:
-#             pool.map(self.process_file, files)
-#         # 通知GUI任务完成
-#         self.finished.emit()
-#
-#     @staticmethod
-#     def process_file(source_file):
-#         # 构建目标文件路径
-#         target_file = source_file.replace('spliting', 'split')
-#         subprocess.run([r'D:\Work Files\PyQt-Fluent-Widgets-exploit\ETO\exe\CIEDE2000.exe', '-i', source_file, '-o', target_file, '-l', './src/colorList.txt', '-n', '4'], shell=True)
-
 def process_file(source_file, queue):
-    try:
-        # 构建目标文件路径
-        target_file = source_file.replace('spliting', 'split')
-        # 调用外部程序处理文件
-        subprocess.run([find_path('CIEDE2000.exe'), '-i', source_file, '-o', target_file, '-l', './src/colorList.txt', '-n', '4'], shell=True)
-        # 将成功消息放入队列
-        queue.put(f"File {source_file} processed successfully.")
-    except Exception as e:
-        # 将错误消息放入队列
-        queue.put(f"Error processing file {source_file}: {str(e)}")
+    for i in range(3):
+        try:
+            target_file = source_file.replace('spliting', 'split')
+            subprocess.run(
+                [find_path('CIEDE2000.exe'), '-i', source_file, '-o', target_file, '-l', './src/colorList.txt', '-n', '4'],
+                      shell=True, creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
+            queue.put(f"File {source_file} processed successfully.")
+            break
+        except Exception as e:
+            queue.put(f"Error processing file {source_file}: {str(e)}")
 
 
 class ProcessManager(QThread):
+    finished = pyqtSignal()
+
     def __init__(self, source_folder):
         super().__init__()
         self.source_folder = source_folder
-        self.queue = Queue()  # 创建一个multiprocessing.Queue实例
+        self.queue = Queue()  # 线程安全的队列
 
     def run(self):
         # 获取所有PNG文件
-        files = [os.path.join(self.source_folder, f) for f in os.listdir(self.source_folder) if f.lower().endswith('.png')]
-        # 创建并启动进程
-        processes = []
-        for file in files:
-            p = Process(target=process_file, args=(file, self.queue))
-            processes.append(p)
-            p.start()
+        files = [
+            os.path.join(self.source_folder, f)
+            for f in os.listdir(self.source_folder)
+            if f.lower().endswith('.png')
+        ]
 
-        # 等待所有进程完成
-        for p in processes:
-            p.join()
+        # 使用线程池提交任务
+        with ThreadPoolExecutor() as executor:
+            futures = [executor.submit(process_file, file, self.queue) for file in files]
+            for future in futures:
+                try:
+                    future.result()  # 等待任务完成（可处理异常）
+                except Exception as e:
+                    print(f"Error processing file: {e}")
 
-        # 将完成信号发送到队列
+        # 所有任务完成后发送完成信号
         self.queue.put('finished')
+        self.finished.emit()
 
 
 class Worker2(QObject):
@@ -108,19 +92,20 @@ class Worker2(QObject):
 
             cmd = [find_path('didder.exe'), '--in', self.file, '--out', './data/didder/{}.png'.format(item["Flag"]), '--strength', item["Strength"]+'%', '--palette', self.palette]
 
-            [cmd.append(it) for it in child]
-
+            cmd.extend(child)
             cmds.append(cmd)
 
         # 创建进程池并处理文件
-        with Pool(processes=os.cpu_count()) as pool:
-            pool.map(self.turn_img, cmds)
+        with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+            # 使用lambda传递creationflags参数
+            executor.map(lambda c: self.turn_img(c), cmds)
+
         # 通知GUI任务完成
         self.finished2.emit()
 
     @staticmethod
     def turn_img(cmd):
-        subprocess.run(cmd, shell=True)
+        subprocess.run(cmd, shell=True, creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
 
 
 class Ui_Tui(object):
@@ -378,7 +363,7 @@ class Ui_Tui(object):
             self.StateToolTip = StateToolTip(' Working . . .      ', '正在转化中，请耐心等候。。。')
             self.StateToolTip.setObjectName(u"StateToolTip")
             self.StateToolTip.setGeometry(QRect(120, 590, 256, 64))
-            self.StateToolTip.setStyleSheet(re.sub(r'\*\*\*', cfg.get(cfg.ThemeColor).name(), u"StateToolTip,\n"
+            self.StateToolTip.setStyleSheet(re.sub(r'\*\*\*', qconfig.themeColor.value.name(), u"StateToolTip,\n"
 "ToastToolTip {\n"
 "    background-color: ***;\n"
 "    border: none;\n"
@@ -493,7 +478,7 @@ class Ui_Tui(object):
         self.StateToolTip = StateToolTip(' Working . . .      ', '正在转化中，请耐心等候。。。')
         self.StateToolTip.setObjectName(u"StateToolTip")
         self.StateToolTip.setGeometry(QRect(120, 590, 256, 64))
-        self.StateToolTip.setStyleSheet(re.sub(r'\*\*\*', cfg.get(cfg.ThemeColor).name(), u"StateToolTip,\n"
+        self.StateToolTip.setStyleSheet(re.sub(r'\*\*\*', qconfig.themeColor.value.name(), u"StateToolTip,\n"
 "ToastToolTip {\n"
 "    background-color: ***;\n"
 "    border: none;\n"
@@ -546,7 +531,5 @@ class Ui_Tui(object):
             parent=self
         )
         self.infoBar.addWidget(self.bction_button)
-
-
 
 from qfluentwidgets import ImageLabel, PushButton, SimpleCardWidget, TitleLabel, TreeWidget, StateToolTip

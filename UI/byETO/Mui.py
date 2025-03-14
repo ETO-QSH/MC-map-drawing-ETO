@@ -54,7 +54,7 @@ class MovableWidget(QtWidgets.QWidget):
         if t == True:
             # 创建一个定时器，用于定期检查文件夹
             self.checkTimer = QTimer(self)
-            self.checkTimer.setInterval(1000)
+            self.checkTimer.setInterval(100)
             self.checkTimer.timeout.connect(partial(self.checkForNewFiles, folder_path=self.folder_path))
             self.checkTimer.start()
 

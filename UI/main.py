@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
-
+from concurrent.futures import ThreadPoolExecutor
 from enum import Enum
 from pathlib import Path
 from datetime import datetime
 from collections import Counter
-from multiprocessing import Pool
 
 import os, re, ast, sys, json, nbtlib, shutil, zipfile, subprocess; os.system("chcp 65001")
 
 from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtGui import QIcon, QDesktopServices, QFont, QColor, QFontDatabase
-from PyQt5.QtCore import Qt, QUrl, QObject, QSize, QTimer, pyqtSignal, QThread, QRect, pyqtSlot
+from PyQt5.QtCore import Qt, QUrl, QObject, QSize, QTimer, pyqtSignal, QThread, QRect, pyqtSlot, QProcess
 from PyQt5.QtWidgets import QApplication, QFrame, QHBoxLayout, QCheckBox, QAbstractItemView, QWidget, QGraphicsDropShadowEffect
 
 from qfluentwidgets import (NavigationItemPosition, MessageBox, setTheme, MSFluentWindow, SubtitleLabel, theme, Theme,
@@ -25,7 +24,7 @@ from byETO.Xui import UI_Xui
 from byETO.Zui import Ui_Zui
 from byETO.Hui import AHui, BHui
 from byETO.settings.config import cfg
-from byETO.settings.demo import UI_Yui
+from byETO.settings.Yui import UI_Yui
 from byETO.Kui import Ui_Kui, CustomSpinBox
 from qfluentwidgets import FluentIcon as FIF
 
@@ -137,8 +136,10 @@ class Worker3(QObject):
                 item.split('.')[0].split('_')[1], item.split('.')[0].split('_')[2])), '-k', './data/keyValue.json', '-c', './data/colorList.txt', '-n', '4'])
 
         # 创建进程池并处理文件
-        with Pool(processes=os.cpu_count()) as pool:
-            pool.map(self.to_pixivColor, cmds)
+        # with Pool(processes=os.cpu_count()) as pool:
+        #     pool.map(self.to_pixivColor, cmds)
+        with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+            executor.map(self.to_pixivColor, cmds)
 
         res = subprocess.run([find_path('mapKey.exe'), '-i', os.path.join('./data/image/', [item for item in os.listdir('./data/image/') if item != 'contrast.png'][0]), '-p',
                               './data/pixivColor.txt/', '-k', './data/keyValue.json', '-c', './data/colorList.txt', '-n', str(self.mode)], shell=True, capture_output=True, text=True)
@@ -150,7 +151,7 @@ class Worker3(QObject):
 
     @staticmethod
     def to_pixivColor(cmd):
-        subprocess.run(cmd, shell=True)
+        subprocess.run(cmd, shell=True, creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
 
 
 class Worker4(QObject):
@@ -178,14 +179,17 @@ class Worker4(QObject):
         cmds.append([find_path('nbtfile.exe'), '-p', './data/world_dat/idcounts.dat', '-n', str(self.max_x * self.max_y + Data + 1)])
 
         # 创建进程池并处理文件
-        with Pool(processes=os.cpu_count()) as pool:
-            pool.map(self.to_nbtfile, cmds)
+        # with Pool(processes=os.cpu_count()) as pool:
+        #     pool.map(self.to_nbtfile, cmds)
+        with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+            executor.map(self.to_nbtfile, cmds)
+
         # 通知GUI任务完成
         self.finished4.emit(self.a, self.b, self.max_x, self.max_y, self.saves, self.dirName)
 
     @staticmethod
     def to_nbtfile(cmd):
-        subprocess.run(cmd, shell=True)
+        subprocess.run(cmd, shell=True, creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
 
 
 class Worker5(QObject):
@@ -290,7 +294,7 @@ class Bui(Ui_Bui, QWidget):
             checkBox.setStyleSheet(styleSheet_0)
 
     def createWarningInfoBar(self):
-        InfoBar.warning(
+        res = InfoBar.warning(
             title='Warning',
             content="请与上页选择地图画模式",
             orient=Qt.Horizontal,
@@ -299,6 +303,9 @@ class Bui(Ui_Bui, QWidget):
             duration=2500,
             parent=self
         )
+        button = PushButton('立即重启')
+        button.setFixedWidth(120)
+        res.addWidget(button, align=Qt.AlignRight)
 
     @pyqtSlot()
     def handleButtonClicked(self):
@@ -428,7 +435,7 @@ class Dui(Ui_Kui, QWidget):
         self.PushButton_SFR.setObjectName(u"StateToolTip")
         self.PushButton_SFR.setMinimumSize(QtCore.QSize(256, 54))
         self.PushButton_SFR.setMaximumSize(QtCore.QSize(256, 54))
-        self.PushButton_SFR.setStyleSheet(re.sub(r'\*\*\*', cfg.get(cfg.ThemeColor).name(), u"StateToolTip,\n"
+        self.PushButton_SFR.setStyleSheet(re.sub(r'\*\*\*', qconfig.themeColor.value.name(), u"StateToolTip,\n"
         "ToastToolTip {\n"
         "    background-color: ***;\n"
         "    border: none;\n"
@@ -468,7 +475,7 @@ class Dui(Ui_Kui, QWidget):
         self.PushButton_SFR = StateToolTip(' Working . . .      ', '正在转化中，请耐心等候。。。')
         self.PushButton_SFR.setObjectName(u"StateToolTip")
         self.PushButton_SFR.setGeometry(QRect(120, 590, 256, 64))
-        self.PushButton_SFR.setStyleSheet(re.sub(r'\*\*\*', cfg.get(cfg.ThemeColor).name(), u"StateToolTip,\n"
+        self.PushButton_SFR.setStyleSheet(re.sub(r'\*\*\*', qconfig.themeColor.value.name(), u"StateToolTip,\n"
         "ToastToolTip {\n"
         "    background-color: ***;\n"
         "    border: none;\n"
@@ -1275,26 +1282,26 @@ class Window(MSFluentWindow):
         self.set_font("萝莉体", 10, w.yesButton)
 
         titleLabelStyle = """
-        QLabel {
-            font-family: '萝莉体';
-            font-size: 20px;
-        }
+          QLabel {
+              font-family: '萝莉体';
+              font-size: 20px;
+          }
         """
         w.titleLabel.setStyleSheet(titleLabelStyle)
 
         contentLabelStyle = """
-        QLabel {
-            font-family: '萝莉体';
-            font-size: 16px;
-        }
+          QLabel {
+              font-family: '萝莉体';
+              font-size: 16px;
+          }
         """
         w.contentLabel.setStyleSheet(contentLabelStyle)
 
         cancelButtonStyle = """
-        QPushButton {
-            font-family: '萝莉体';
-            font-size: 13px;
-        }
+          QPushButton {
+              font-family: '萝莉体';
+              font-size: 13px;
+          }
         """
         w.cancelButton.setStyleSheet(cancelButtonStyle)
 
@@ -1308,10 +1315,15 @@ class Window(MSFluentWindow):
 
 
 if __name__ == '__main__':
+    from multiprocessing import set_start_method
 
-    shutil.rmtree('./data') if Path('./data').exists() else False
+    set_start_method('spawn')
 
-    for dirs in ['./data/didder', './data/image', './data/pixivColor', './data/split', './data/world_dat', './data/world_mca', './data/Backup']:
+    # 清理并创建目录（根据实际需要保留）
+    shutil.rmtree('./data') if Path('./data').exists() else None
+    for dirs in ['./data/didder', './data/image', './data/pixivColor',
+                 './data/split', './data/world_dat', './data/world_mca',
+                 './data/Backup']:
         os.makedirs(dirs, exist_ok=True)
 
     # 加载字体
@@ -1324,11 +1336,26 @@ if __name__ == '__main__':
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
 
+    # 创建新的QApplication实例
+    app = QApplication(sys.argv)
+    setTheme(qconfig.theme)
+
+    def restart_application(app, window):
+        # 关闭当前应用
+        window.close()
+        app.quit()
+
+        # 启动新进程
+        process = QProcess()
+        process.startDetached(sys.executable, sys.argv)
+        sys.exit(0)
+
+    # 创建主窗口
     MapMod, algorithmed = 0, {'RadioBoxes': 'RadioButton_0'}
 
-    setTheme(Theme.DARK) if cfg.get(cfg.themeModeETO) == '暗色主题' else setTheme(Theme.LIGHT)
-
-    app = QApplication(sys.argv)
     w = Window()
     w.show()
+
+    # 存储重启函数引用
+    app.restart = lambda: restart_application(app, w)
     app.exec_()
